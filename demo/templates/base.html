@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style type="text/css" media="screen">
+        body { font-size: smaller; }
+        table { border-collapse: collapse; }
+        a { text-decoration: none; }
+        td, th { padding: 2px; border: 1px solid #ccc; }
+        th { background-color: #eee; }
+        dt { font-weight: bold; }
+        dd { margin-bottom: .5em; }
+        form table { width: 100% }
+        form table ul { margin: 0; padding: 0;}
+        form table li { list-style-type: none; }
+        form table th { text-align: right; width: 10em; }
+        form tfoot td { text-align: center; background-color: #ccc; }
+        .calendar td, .calendar th { min-width: 8em; width: 8em; }
+    </style>
+    {% block extended_head %}{% endblock %}
+</head>
+<body>
+    <h1><a href="{% url demo-home %}">Swingtime Demo</a></h1>
+    <p>
+        <a href="{% url swingtime-today %}">Daily View</a> &sect; 
+        <a href="{% url swingtime-monthly-view current_datetime.year current_datetime.month %}">Monthly Calendar</a> &sect; 
+        <a href="{% url swingtime-events %}">Event Listing</a>
+    </p>
+    <hr />
+    {% block main_content %}
+    {% endblock %}
+</body>
+</html>

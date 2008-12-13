@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Event: {{ event }}{% endblock %}
+{% block main_content %}
+    <h2>Swingtime Event</h2>
+    <h3>{{ event.title }}</h3>
+    <dl>
+        <dt>Event type:</dt>
+        <dd>{{ event.event_type }}</dd>
+        
+        <dt>Description:</dt>
+        <dd>{{ event.description|default:"No description" }}</dd>
+        
+        <dt>Note(s:)</dt>
+        <dd>
+            {% with event.notes.all as notes %}
+            {% if notes %}
+            <ul>
+                {% for note in notes %}
+                <li>{{ note }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}None
+            {% endif %}
+            {% endwith %}
+        </dd>
+    </dl>
+    <h3>Occurrences</h3>
+    {% if event.occurrence_set.count %}
+    <ol>
+        {% for o in event.occurrence_set.all %}
+        <li>
+            <a href="{% url swingtime-occurrence event.id o.id %}">
+                {{ o.start_time|date:"l, F jS, Y P" }} &ndash; 
+                {{ o.end_time|date:"l, F jS, Y P" }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    {% endif %}
+    
+    <h3>Add Occurrences</h3>
+    <form action="" method="post">
+    <table>
+        <tfoot>
+            <tr>
+                <td colspan="2"><input type="submit" value="Submit" /></td>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% include "swingtime/recurring_form_part.html" %}
+        </tbody>
+    </table>
+
+    </form>
+{% endblock %}

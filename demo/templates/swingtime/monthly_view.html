@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Monthly View{% endblock %}
+{% block extended_head %}
+    <style type="text/css" media="screen">
+        .month-view td { width: 14%; vertical-align: top; height: 10em; min-height: 10em; }
+        .month-view td, .month-view th { min-width: 10em; width: 10em; }
+        .month-view .day-ordinal { font-weight: bold; font-size: 1.1em; text-align: right; }
+        .month-view ul { list-style: none; margin: 1px 2px; padding: 0; }
+        .month-view .today { background-color: #cfc; }
+        
+    </style>
+{% endblock %}
+{% block main_content %}
+    <h2>Monthly View</h2>
+    <h3>
+        <a href="{% url swingtime-monthly-view last_month.year last_month.month %}" 
+           title="Last Month">&larr;</a>
+        {{ this_month|date:"F Y" }}
+        <a href="{% url swingtime-monthly-view next_month.year next_month.month %}" 
+           title="Next Month">&rarr;</a>
+    </h3>
+
+    <table class="month-view">
+        <thead>
+            <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in calendar %}
+            <tr>
+                {% for day,items in row  %}
+                <td{% ifequal day today.day  %} class="today"{% endifequal %}>
+                {% if day %}
+                    <div class="day-ordinal">
+                        <a href="{% url swingtime-daily-view today.year today.month day %}">{{ day }}</a>
+                    </div>
+                    {% if items %}
+                    <ul>
+                        {% for item in items %}
+                        <li>
+                            <a href="{{ item.get_absolute_url }}">
+                                {{ item.title }}</a>
+                            <span class="event_times">{{ item.start_time|time }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
