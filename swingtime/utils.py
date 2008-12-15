@@ -1,108 +1,46 @@
+'''
+Common features and functions for swingtime
+
+'''
 from collections import defaultdict
 from datetime import datetime, date, time, timedelta
 import itertools
 
+from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
-
 from dateutil import rrule
-
-from swingtime.models import EventType, Occurrence
 from swingtime.conf import settings as swingtime_settings
-
-WEEKDAY_SHORT = (
-    (7, 'Sun'),
-    (1, 'Mon'),
-    (2, 'Tue'),
-    (3, 'Wed'),
-    (4, 'Thu'),
-    (5, 'Fri'),
-    (6, 'Sat')
-)
-
-WEEKDAY_LONG = (
-    (7, 'Sunday'),
-    (1, 'Monday'),
-    (2, 'Tuesday'),
-    (3, 'Wednesday'),
-    (4, 'Thursday'),
-    (5, 'Friday'),
-    (6, 'Saturday')
-)
-
-MONTH_LONG = (
-    (1,  'January'),
-    (2,  'February'),
-    (3,  'March'),
-    (4,  'April'),
-    (5,  'May'),
-    (6,  'June'),
-    (7,  'July'),
-    (8,  'August'),
-    (9,  'September'),
-    (10, 'October'),
-    (11, 'November'),
-    (12, 'December'),
-)
-
-
-ORDINAL = (
-    (1,  'first'),
-    (2,  'second'),
-    (3,  'third'),
-    (4,  'fourth'),
-    (-1, 'last')
-)
-
-ISO_WEEKDAYS_MAP = (
-    None,
-    rrule.MO,
-    rrule.TU,
-    rrule.WE,
-    rrule.TH,
-    rrule.FR,
-    rrule.SA,
-    rrule.SU
-)
 
 
 #-------------------------------------------------------------------------------
 def html_mark_safe(func):
+    '''
+    Decorator for functions return strings that should be treated as template
+    safe.
+    
+    '''
     def decorator(*args, **kws):
         return mark_safe(func(*args, **kws))
     return decorator
 
 
 #-------------------------------------------------------------------------------
-def total_seconds(time_delta):
+def time_delta_total_seconds(time_delta):
+    '''
+    Calculate the total number of seconds represented by a 
+    ``datetime.timedelta`` object
+    
+    '''
     return time_delta.days * 3600 + time_delta.seconds
-    
-#-------------------------------------------------------------------------------
-def time_slot_options(
-    interval=swingtime_settings.TIMESLOT_INTERVAL,
-    start_time=swingtime_settings.TIMESLOT_START_TIME,
-    end_delta=swingtime_settings.TIMESLOT_END_TIME_DELTA,
-    fmt=swingtime_settings.TIMESLOT_TIME_FORMAT
-):
-    dt = datetime.combine(date.today(), time(0))
-    dtstart = datetime.combine(dt.date(), start_time)
-    dtend = dtstart + end_delta
-    slots = []
-
-    delta = total_seconds(dtstart - dt)
-    seconds = total_seconds(interval)
-    while dtstart <= dtend:
-        slots.append((delta, dtstart.strftime(fmt)))
-        dtstart += interval
-        delta += seconds
-    
-    return slots    
-
-
-default_time_slot_options = time_slot_options()
 
 
 #-------------------------------------------------------------------------------
 def month_boundaries(dt=None):
+    '''
+    Return a 2-tuple containing the datetime instances for the first and last 
+    dates of the current month or using ``dt`` as a reference. 
+    
+    '''
     import calendar
     dt = dt or date.today()
     wkday, ndays = calendar.monthrange(dt.year, dt.month)
@@ -112,6 +50,12 @@ def month_boundaries(dt=None):
 
 #-------------------------------------------------------------------------------
 def css_class_cycler():
+    '''
+    Return a dictionary keyed by ``EventType`` abbreviations, whose values are an
+    iterable or cycle of CSS class names.
+    
+    '''
+    from swingtime.models import EventType
     return defaultdict(
         lambda: itertools.cycle(('evt-even', 'evt-odd')).next,
         ((e.abbr, itertools.cycle((
@@ -123,39 +67,40 @@ def css_class_cycler():
 
 
 #===============================================================================
-class TimeslotRow(object):
+class BaseOccurrenceProxy(object):
+    '''
+    A simple wrapper class for handling the presentational aspects of an
+    ``Occurrence`` instance.
+    
+    '''
+    #---------------------------------------------------------------------------
+    def __init__(self, occurrence, col):
+        self.column = col
+        self._occurrence = occurrence
+        self.event_class = ''
 
     #---------------------------------------------------------------------------
-    def __init__(self, tm, cols):
-        self.time = tm
-        self.columns = cols
-
+    def __getattr__(self, name):
+        return getattr(self._occurrence, name)
+        
     #---------------------------------------------------------------------------
-    def __iter__(self):
-        return iter(self.columns)
-
-    #---------------------------------------------------------------------------
-    def __repr__(self):
-        return '<TimeslotTable.Row %s>' % self.time
+    def __unicode__(self):
+        return self.title
 
 
 #===============================================================================
-class OccurrenceProxy(object):
+class DefaultOccurrenceProxy(BaseOccurrenceProxy):
 
     #---------------------------------------------------------------------------
-    def __init__(self, occurrence, col):
-        self.col = col
-        self.occurrence = occurrence
-        self.event_type = occurrence.event_type
-        self.event_class = ''
-
+    def __init__(self, *args, **kws):
+        super(DefaultOccurrenceProxy, self).__init__(*args, **kws)
         link = '<a href="%s">%s</a>' % (
-            self.occurrence.get_absolute_url(),
-            self.occurrence.title
+            self.get_absolute_url(),
+            self.title
         )
         
-        self._str = itertools.chain((link,),itertools.repeat('///')).next
-
+        self._str = itertools.chain((link,),itertools.repeat(r'\\\///')).next
+        
     #---------------------------------------------------------------------------
     @html_mark_safe
     def __unicode__(self):
@@ -171,20 +116,53 @@ def create_timeslot_table(
     time_delta=swingtime_settings.TIMESLOT_INTERVAL,
     min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS,
     css_class_cycles=css_class_cycler,
-    proxy_class=OccurrenceProxy
+    proxy_class=DefaultOccurrenceProxy
 ):
+    '''
+    Create a grid-like object representing a sequence of times (rows) and 
+    columns where cells are either empty or reference a wrapper object for 
+    event occasions that overlap a specific time slot.
+    
+    Currently, there is an assumption that if an occurrence has a ``start_time`` 
+    that falls with the temporal scope of the grid, then that ``start_time`` will
+    also match an interval in the sequence of the computed row entries.
+    
+    * ``dt`` - a ``datetime.datetime`` instance or ``None`` to default to now
+    * ``items`` - a queryset or sequence of ``Occurrence`` instances. If 
+      ``None``, default to the daily occurrences for ``dt``
+    * ``start_time`` - a ``datetime.time`` instance 
+    * ``end_time_delta`` - a ``datetime.timedelta`` instance
+    * ``time_delta`` - a ``datetime.timedelta`` instance
+    * ``min_column`` - the minimum number of columns to show in the table
+    * ``css_class_cycles`` - if not ``None``, a callable returning a dictionary 
+      keyed by desired ``EventType`` abbreviations with values that iterate over 
+      progressive CSS class names for the particular abbreviation.
+    * ``proxy_class`` - a wrapper class for accessing an ``Occurrence`` object.
+      This class should also expose ``event_type`` and ``event_type`` attrs, and
+      handle the custom output via its __unicode__ method.
+    
+    '''
+    from swingtime.models import Occurrence
     dt = dt or datetime.now()
     dtstart = datetime.combine(dt.date(), start_time)
     dtend = dtstart + end_time_delta
-    items = items or Occurrence.objects.daily_occurrences(dt).select_related('event')
+    
+    if isinstance(items, QuerySet):
+        items = items._clone()
+    elif not items:
+        items = Occurrence.objects.daily_occurrences(dt).select_related('event')
+
+    # build a mapping of timeslot "buckets"
     timeslots = dict()
     n = dtstart
     while n <= dtend:
         timeslots[n] = {}
         n += time_delta
 
+    # fill the timeslot buckets with occurrence proxies
     for item in sorted(items):
         if item.end_time <= dtstart:
+            # this item began before the start of our schedle constraints
             continue
 
         if item.start_time > dtstart:
@@ -194,10 +172,16 @@ def create_timeslot_table(
 
         timeslot = timeslots.get(rowkey, None)
         if timeslot is None:
+            # TODO fix atypical interval boundry spans
+            # This is rather draconian, we should probably try to find a better
+            # way to indicate that this item actually occurred between 2 intervals
+            # and to account for the fact that this item may be spanning cells
+            # but on weird intervals
             continue
 
         colkey = 0
         while 1:
+            # keep searching for an open column to place this occurrence
             if colkey not in timeslot:
                 proxy = proxy_class(item, colkey)
                 timeslot[colkey] = proxy
@@ -207,32 +191,37 @@ def create_timeslot_table(
                     row = timeslots.get(rowkey, None)
                     if row is None:
                         break
-
+                    
+                    # we might want to put a sanity check in here to ensure that
+                    # we aren't trampling some other entry, but by virtue of 
+                    # sorting all occurrence that shouldn't happen
                     row[colkey] = proxy
                     current += time_delta
                 break
 
             colkey += 1
-
+            
     # determine the number of timeslot columns we should show
     column_lens = [len(x) for x in timeslots.itervalues()]
-    max_column_len = max(column_lens) if column_lens else 0
-    ncol = max((min_columns, max_column_len))
-    colclasses = dict([(i, css_class_cycles()) for i in range(ncol)])
-    empty_cols = ['' for x in range(ncol)]
+    column_count = max((min_columns, max(column_lens) if column_lens else 0))
+    column_range = range(column_count)
+    empty_columns = ['' for x in column_range]
+    
+    if css_class_cycles:
+        column_classes = dict([(i, css_class_cycles()) for i in column_range])
+    else:
+        column_classes = None
 
-    from pprint import pprint
-    # pprint(timeslots)
+    # create the chronological grid layout
     table = []
     for rowkey in sorted(timeslots.keys()):
-        cols = empty_cols[:]
+        cols = empty_columns[:]
         for colkey in timeslots[rowkey]:
             proxy = timeslots[rowkey][colkey]
             cols[colkey] = proxy
-            if not proxy.event_class:
-                proxy.event_class = colclasses[colkey][proxy.event_type.abbr]()
-                # print colkey, proxy.event_class
+            if not proxy.event_class and column_classes:
+                proxy.event_class = column_classes[colkey][proxy.event_type.abbr]()
 
-        table.append(TimeslotRow(rowkey, cols))
+        table.append((rowkey, cols))
 
     return table

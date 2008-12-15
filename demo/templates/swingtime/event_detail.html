@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Event: {{ event }}{% endblock %}
 {% block main_content %}
-    <h2>Swingtime Event</h2>
-    <h3>{{ event.title }}</h3>
-    <dl>
-        <dt>Event type:</dt>
-        <dd>{{ event.event_type }}</dd>
-        
-        <dt>Description:</dt>
-        <dd>{{ event.description|default:"No description" }}</dd>
-        
-        <dt>Note(s:)</dt>
-        <dd>
-            {% with event.notes.all as notes %}
-            {% if notes %}
-            <ul>
-                {% for note in notes %}
-                <li>{{ note }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}None
-            {% endif %}
-            {% endwith %}
-        </dd>
-    </dl>
-    <h3>Occurrences</h3>
+    <h3>Swingtime Event</h3>
+    <h4>Event Details</h4>
+    <form action="" method="post">
+    <table>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="_update" value="Update" />
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+        {% include "swingtime/event_form_part.html" %}
+        </tbody>
+    </table>
+    </form>
+    
+    <h4>Notes</h4>
+    {% with event.notes.all as notes %}
+    {% if notes %}
+    <ul>
+        {% for note in notes %}
+        <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+    {% endwith %}
+
+    <h4>Occurrences</h4>
     {% if event.occurrence_set.count %}
     <ol>
         {% for o in event.occurrence_set.all %}
@@ -38,18 +45,18 @@
     {% else %}
     {% endif %}
     
-    <h3>Add Occurrences</h3>
+    <h4>Add Occurrences</h4>
     <form action="" method="post">
     <table>
         <tfoot>
             <tr>
-                <td colspan="2"><input type="submit" value="Submit" /></td>
+                <td colspan="2"><input type="submit" name="_add" value="Add" /></td>
             </tr>
         </tfoot>
         <tbody>
         {% include "swingtime/recurring_form_part.html" %}
         </tbody>
     </table>
-
+    </form>
     </form>
 {% endblock %}

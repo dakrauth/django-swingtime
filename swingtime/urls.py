@@ -5,31 +5,31 @@ from swingtime import views
 urlpatterns = patterns('',
     url(
         r'^(?:calendar/)?$', 
-        views.view_today, 
+        views.today_view, 
         name='swingtime-today'
     ),
 
     url(
-        r'^calendar/(\d{4})/$', 
-        views.annual_view, 
-        name='swingtime-annual-view'
+        r'^calendar/(?P<year>\d{4})/$', 
+        views.year_view, 
+        name='swingtime-yearly-view'
     ),
 
     url(
         r'^calendar/(\d{4})/(0?[1-9]|1[012])/$', 
-        views.monthly_view, 
+        views.month_view, 
         name='swingtime-monthly-view'
     ),
 
     url(
         r'^calendar/(\d{4})/(0?[1-9]|1[012])/([0-3]?\d)/$', 
-        views.daily_view, 
+        views.day_view, 
         name='swingtime-daily-view'
     ),
 
     url(
         r'^events/$',
-        views.all_events,
+        views.event_listing,
         name='swingtime-events'
     ),
         
@@ -41,13 +41,13 @@ urlpatterns = patterns('',
     
     url(
         r'^events/(\d+)/$', 
-        views.view_event, 
+        views.event_view, 
         name='swingtime-event'
     ),
     
     url(
         r'^events/(\d+)/(\d+)/$', 
-        views.view_occurrence, 
+        views.occurrence_view, 
         name='swingtime-occurrence'
     ),
 )

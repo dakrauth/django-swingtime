@@ -1,27 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Daily View{% endblock %}
-{% block extended_head %}
-    <style type="text/css" media="screen">
-        .evt-work-odd { background-color: #ccf; }
-        .evt-work-even { background-color: #99c; }
-        .evt-play-odd { background-color: #ffc; }
-        .evt-play-even { background-color: #cc9; }
-    </style>
-{% endblock %}
 {% block main_content %}
-    <h2>Daily View</h2>
-    <h3>
+    <h3>Daily View</h3>
+    <h4>
         <a href="{% url swingtime-daily-view prev_day.year prev_day.month prev_day.day %}">&larr;</a>
         {{ day|date:"l, N jS Y" }}
         <a href="{% url swingtime-daily-view next_day.year next_day.month next_day.day %}">&rarr;</a>
-    </h3>
+    </h4>
     <table class="calendar">
-        <tbody>
-            {% for row in timeslots %}
+        <thead>
             <tr>
-                <th><a href="{% url swingtime-add-event %}?dtstart={{ row.time.isoformat }}">{{ row.time|date:"P" }}</a></th>
-                {% for col in row %}
-                <td{% if col.event_class %} class="{{col.event_class}}"{% endif %}>{{ col }}</td>    
+                <th>Time</th>
+                <th>Main Room</th>
+                <th>Private 2</th>
+                <th>Private 3</th>
+                <th colspan="4">Private 4</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tm,cells in timeslots %}
+            <tr>
+                <th><a href="{% url swingtime-add-event %}?dtstart={{ tm.isoformat }}">{{ tm|date:"P" }}</a></th>
+                {% for cell in cells %}
+                <td{% if cell.event_class %} class="{{cell.event_class}}"{% endif %}>{{ cell }}</td>    
                 {% endfor %}
             </tr>
             {% endfor %}

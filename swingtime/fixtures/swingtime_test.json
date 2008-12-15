@@ -1,41 +1,5 @@
 [
     {
-        "pk": 8, 
-        "model": "contenttypes.contenttype", 
-        "fields": {
-            "model": "note", 
-            "name": "note", 
-            "app_label": "swingtime"
-        }
-    }, 
-    {
-        "pk": 11, 
-        "model": "contenttypes.contenttype", 
-        "fields": {
-            "model": "occurrence", 
-            "name": "occurrence", 
-            "app_label": "swingtime"
-        }
-    }, 
-    {
-        "pk": 10, 
-        "model": "contenttypes.contenttype", 
-        "fields": {
-            "model": "event", 
-            "name": "event", 
-            "app_label": "swingtime"
-        }
-    }, 
-    {
-        "pk": 9, 
-        "model": "contenttypes.contenttype", 
-        "fields": {
-            "model": "eventtype", 
-            "name": "event type", 
-            "app_label": "swingtime"
-        }
-    }, 
-    {
         "pk": 2, 
         "model": "swingtime.eventtype", 
         "fields": {

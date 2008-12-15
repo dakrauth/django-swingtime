@@ -3,6 +3,7 @@ import itertools
 from datetime import datetime, timedelta, time
 
 from django import http
+from django.db import models
 from django.template.context import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 
@@ -17,58 +18,115 @@ if swingtime_settings.CALENDAR_FIRST_WEEKDAY is not None:
 
 
 #-------------------------------------------------------------------------------
-def all_events(request, template='swingtime/all_events.html', queryset=None):
-    if queryset:
-        queryset = queryset._clone()
-    else:
-        queryset = Event.objects.all()
+def event_listing(
+    request, 
+    template='swingtime/event_list.html',
+    events=None,
+    **extra_context
+):
+    '''
+    View all ``events``. 
+    
+    If ``events`` is a queryset, clone it. Ff ``None`` default to all ``Event``s.
+    
+    '''
+    if not events:
+        events = Event.objects.all()
+    elif hasattr(events, '_clone'):
+        events = events._clone()
         
     return render_to_response(
         template, 
-        dict(events=queryset),
+        dict(extra_context, events=events),
         context_instance=RequestContext(request)
     )
 
 
 #-------------------------------------------------------------------------------
-def view_event(
+def event_view(
     request, 
     pk, 
     template='swingtime/event_detail.html', 
-    form_class=forms.AddOccurrenceForm
+    event_form_class=forms.EventForm,
+    recurrence_form_class=forms.MultipleOccurrenceForm
 ):
+    '''
+    View an ``Event`` instance and optionally update either the event or its
+    occurrences.
+    
+    '''
     event = get_object_or_404(Event, pk=pk)
+    event_form = recurrence_form = None
     if request.method == 'POST':
-        form = form_class(request.POST)
-        if form.is_valid():
-            form.save(event)
-            return http.HttpResponseRedirect(request.path)
-    else:
-        form = form_class()
+        if '_update' in request.POST:
+            event_form = event_form_class(request.POST, instance=event)
+            if event_form.is_valid():
+                event_form.save(event)
+                return http.HttpResponseRedirect(request.path)
+        elif '_add' in request.POST:
+            recurrence_form = recurrence_form_class(request.POST)
+            if recurrence_form.is_valid():
+                recurrence_form.save(event)
+                return http.HttpResponseRedirect(request.path)
+        else:
+            return http.HttpResponseBadRequest('Bad Request')
+
+    event_form = event_form or event_form_class(instance=event)
+    recurrence_form = recurrence_form or recurrence_form_class()
             
     return render_to_response(
         template, 
-        dict(event=event, form=form),
+        dict(event=event, event_form=event_form, recurrence_form=recurrence_form),
         context_instance=RequestContext(request)
     )
 
 
 #-------------------------------------------------------------------------------
-def view_occurrence(request, event_pk, pk, template='swingtime/occurrence_detail.html'):
+def occurrence_view(
+    request, 
+    event_pk, 
+    pk, 
+    template='swingtime/occurrence_detail.html',
+    form_class=forms.SingleOccurrenceForm
+):
+    '''
+    View a specific occurrence and optionally handle any updates.
+    
+    '''
+    occurrence = get_object_or_404(Occurrence, pk=pk, event__pk=event_pk)
+    if request.method == 'POST':
+        form = form_class(request.POST, instance=occurrence)
+        if form.is_valid():
+            form.save()
+            return http.HttpResponseRedirect(request.path)
+    else:
+        form = form_class(instance=occurrence)
+        
     return render_to_response(
         template,
-        dict(occurrence=get_object_or_404(Occurrence, pk=pk, event__pk=event_pk)),
+        dict(occurrence=occurrence, form=form),
         context_instance=RequestContext(request)
     )
 
 
 #-------------------------------------------------------------------------------
-def add_event(request, template='swingtime/add_event.html', form_class=forms.NewEventForm):
+def add_event(
+    request, 
+    template='swingtime/add_event.html',
+    event_form_class=forms.EventForm,
+    recurrence_form_class=forms.MultipleOccurrenceForm
+):
+    '''
+    Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
+    
+    '''
     dtstart = None
     if request.method == 'POST':
-        form = form_class(request.POST)
-        if form.is_valid():
-            event = form.save()
+        event_form = event_form_class(request.POST)
+        recurrence_form = recurrence_form_class(request.POST)
+        if event_form.is_valid() and recurrence_form.is_valid():
+            event = event_form.save()
+            recurrence_form.save(event)
             return http.HttpResponseRedirect(event.get_absolute_url())
             
     else:
@@ -77,36 +135,38 @@ def add_event(request, template='swingtime/add_event.html', form_class=forms.New
                 dtstart = parser.parse(request.GET['dtstart'])
             except:
                 # TODO A badly formatted date is passed to add_event
-                pass
+                dtstart = datetime.now()
                 
-        dtstart = dtstart or datetime.now()
-        dt = datetime(dtstart.year, dtstart.month, dtstart.day)
-        start_time = dtstart - dt
-        start_time = start_time.days * 3600 + start_time.seconds
-
-        initial = dict(
-            date=dt.date(),
-            start_time=start_time,
-            end_time=start_time + 3600,
-            until=dtstart + timedelta(days=+7)
-        )
-         
-        form = form_class(initial=initial)
+        
+        event_form = event_form_class()
+        recurrence_form = recurrence_form_class(initial=dict(
+            day=dtstart.date(),
+            start_time=dtstart.time(),
+        ))
             
     return render_to_response(
         template,
-        dict(dtstart=dtstart, form=form),
+        dict(dtstart=dtstart, event_form=event_form, recurrence_form=recurrence_form),
         context_instance=RequestContext(request)
     )
 
 
 #-------------------------------------------------------------------------------
-def _datetime_view(request, dt, template):
+def _datetime_view(
+    request, 
+    template, 
+    dt, 
+    timeslot_factory=None, 
+    items=None,
+    params=None
+):
+    timeslot_factory = timeslot_factory or utils.create_timeslot_table
+    params = params or {}
     data = dict(
         day=dt, 
         next_day=dt + timedelta(days=+1),
         prev_day=dt + timedelta(days=-1),
-        timeslots=utils.create_timeslot_table(dt)
+        timeslots=timeslot_factory(dt, items, **params)
     )
     
     return render_to_response(
@@ -117,26 +177,66 @@ def _datetime_view(request, dt, template):
 
 
 #-------------------------------------------------------------------------------
-def daily_view(request, year, month, day, template='swingtime/daily_view.html'):
-    return _datetime_view(
-        request, 
-        datetime(int(year), int(month), int(day)), 
-        template
+def day_view(request, year, month, day, template='swingtime/daily_view.html', **params):
+    '''
+    See documentation for function``_datetime_view``.
+    
+    '''
+    dt = datetime(int(year), int(month), int(day))
+    return _datetime_view(request, template, dt, **params)
+
+
+#-------------------------------------------------------------------------------
+def today_view(request, template='swingtime/daily_view.html', **params):
+    '''
+    See documentation for function``_datetime_view``.
+    
+    '''
+    return _datetime_view(request, template, datetime.now(), **params)
+
+
+#-------------------------------------------------------------------------------
+def year_view(request, year, template='swingtime/yearly_view.html', queryset=None):
+    year = int(year)
+    if queryset:
+        queryset = queryset._clone()
+    else:
+        queryset = Occurrence.objects.select_related()
+        
+    occurrences = queryset.filter(
+        models.Q(start_time__year=year) | models.Q(end_time__year=year)
+    )
+
+    def grouper_key(o):
+        if o.start_time.year == year:
+            return datetime(year, o.start_time.month, 1)
+            
+        return datetime(year, o.end_time.month, 1)
+
+    by_month = [
+        (dt, list(items)) 
+        for dt,items in itertools.groupby(occurrences, grouper_key)
+    ]
+
+    return render_to_response(
+        template, 
+        dict(year=year, by_month=by_month), 
+        context_instance=RequestContext(request),
     )
 
 
 #-------------------------------------------------------------------------------
-def view_today(request, template='swingtime/daily_view.html'):
-    return _datetime_view(request, datetime.now(), template)
-
-
-#-------------------------------------------------------------------------------
-def annual_view(request, year, template='swingtime/annual_view.html'):
-    pass
-
-
-#-------------------------------------------------------------------------------
-def monthly_view(request, year, month, template='swingtime/monthly_view.html'):
+def month_view(
+    request, 
+    year, 
+    month, 
+    template='swingtime/monthly_view.html',
+    queryset=None
+):
+    '''
+    Render a tradional calendar grid view with temporal navigation variables.
+    
+    '''
     year, month = int(year), int(month)
 
     cal = calendar.monthcalendar(year, month)
@@ -146,13 +246,15 @@ def monthly_view(request, year, month, template='swingtime/monthly_view.html'):
 
     # TODO Whether to include those occurrences that started in the previous
     # month but end in this month?
-    occurrences = Occurrence.objects.select_related().filter(
-        start_time__year=year,
-        start_time__month=month
-    )
+    if queryset:
+        queryset = queryset._clone()
+    else:
+        queryset = Occurrence.objects.select_related()
+        
+    occurrences = queryset.filter(start_time__year=year, start_time__month=month)
 
     by_day = dict([
-        (dom,list(items)) 
+        (dom, list(items)) 
         for dom,items in itertools.groupby(occurrences, lambda o: o.start_time.day)
     ])
     
@@ -169,5 +271,4 @@ def monthly_view(request, year, month, template='swingtime/monthly_view.html'):
         data,
         context_instance=RequestContext(request)
     )
-
 

@@ -1,4 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Event Occurrence{% endblock %}
 {% block main_content %}
+     <h3>Swingtime Event Occurrence</h3>
+     <h4><a href="{{ occurrence.event.get_absolute_url }}">{{ occurrence.title }}</a></h4>
+     <dl>
+         <dt>Event type:</dt>
+         <dd>{{ occurrence.event.event_type }}</dd>
+         
+         <dt>Description:</dt>
+         <dd>{{ occurrence.event.description|default:"None" }}</dd>
+         
+         <dt>Note(s:)</dt>
+         <dd>
+             {% with occurrence.event.notes.all as notes %}
+             {% if notes %}
+             <ul>
+                 {% for note in notes %}
+                 <li>{{ note }}</li>
+                 {% endfor %}
+             </ul>
+             {% else %}None
+             {% endif %}
+             {% endwith %}
+         </dd>
+     </dl>
+     
+     <form action="" method="post">
+     <table>
+         <tfoot>
+             <tr>
+                 <td colspan="2"><input type="submit" value="Update" /></td>
+             </tr>
+         </tfoot>
+         <tbody>
+             {{ form }}
+         </tbody>
+     </table>
+     </form>
+
 {% endblock %}

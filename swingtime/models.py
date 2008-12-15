@@ -31,7 +31,7 @@ class EventType(models.Model):
     '''
     Simple ``Event`` classifcation.
     '''
-    abbr = models.CharField(max_length=4, unique=True)
+    abbr = models.CharField(verbose_name='Abbreviation', max_length=4, unique=True)
     label = models.CharField(max_length=50)
 
     #---------------------------------------------------------------------------
@@ -158,7 +158,7 @@ class Occurrence(models.Model):
     '''
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    event = models.ForeignKey(Event)
+    event = models.ForeignKey(Event, editable=False)
     notes = generic.GenericRelation(Note)
 
     objects = OccurrenceManager()

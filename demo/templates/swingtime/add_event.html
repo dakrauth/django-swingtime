@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Add Event{% endblock %}
 {% block main_content %}
-    <h2>Add Event</h2>
-    <p>
-        Got <code>dtstart</code>: {{ dtstart }}
-    </p>
+    <h3>Add Event</h3>
     <form method="post" action="">
     <table>
         <tfoot>
@@ -13,13 +10,7 @@
             </tr>
         </tfoot>
         <tbody>
-        <tr><th>{{ form.event_type.label_tag }}</th>
-            <td>{{ form.event_type }}</td></tr>
-        <tr><th>{{ form.title.label_tag }}</th>
-            <td>{{ form.title }}</td></tr>
-        <tr><th>{{ form.description.label_tag }}</th>
-            <td>{{ form.description }}</td></tr>
-
+        {% include "swingtime/event_form_part.html" %}
         {% include "swingtime/recurring_form_part.html" %}
         </tbody>
     </table>

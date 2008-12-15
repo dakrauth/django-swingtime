@@ -76,11 +76,11 @@ class TableTest(TestCase):
         timefmt = '| %-5s'
         cellfmt = '| %-8s'
         out = StringIO()
-        for row in table:
-            print >> out, timefmt % row.time.strftime('%H:%M'),
-            for cell in row:
-                if hasattr(cell, 'occurrence'):
-                    print >> out, cellfmt % cell.occurrence.event.title,
+        for tm, cells in table:
+            print >> out, timefmt % tm.strftime('%H:%M'),
+            for cell in cells:
+                if cell:
+                    print >> out, cellfmt % cell.event.title,
                 else:
                     print >> out, cellfmt % '',
             print >> out, '|'
@@ -170,7 +170,7 @@ def doc_tests():
         <Event: Hello, world>
         >>> e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
         >>> e.occurrence_set.all()
-        [<Occurrence: 2008-01-01T00:00:00>, <Occurrence: 2009-01-01T00:00:00>, <Occurrence: 2010-01-01T00:00:00>, <Occurrence: 2011-01-01T00:00:00>, <Occurrence: 2012-01-01T00:00:00>, <Occurrence: 2013-01-01T00:00:00>, <Occurrence: 2014-01-01T00:00:00>]
+        [<Occurrence: Hello, world: 2008-01-01T00:00:00>, <Occurrence: Hello, world: 2009-01-01T00:00:00>, <Occurrence: Hello, world: 2010-01-01T00:00:00>, <Occurrence: Hello, world: 2011-01-01T00:00:00>, <Occurrence: Hello, world: 2012-01-01T00:00:00>, <Occurrence: Hello, world: 2013-01-01T00:00:00>, <Occurrence: Hello, world: 2014-01-01T00:00:00>]
         
     '''
     pass

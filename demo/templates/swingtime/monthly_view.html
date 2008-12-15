@@ -1,24 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Monthly View{% endblock %}
-{% block extended_head %}
-    <style type="text/css" media="screen">
-        .month-view td { width: 14%; vertical-align: top; height: 10em; min-height: 10em; }
-        .month-view td, .month-view th { min-width: 10em; width: 10em; }
-        .month-view .day-ordinal { font-weight: bold; font-size: 1.1em; text-align: right; }
-        .month-view ul { list-style: none; margin: 1px 2px; padding: 0; }
-        .month-view .today { background-color: #cfc; }
-        
-    </style>
-{% endblock %}
 {% block main_content %}
-    <h2>Monthly View</h2>
-    <h3>
+    <h3>Monthly View</h3>
+    <h4>
         <a href="{% url swingtime-monthly-view last_month.year last_month.month %}" 
            title="Last Month">&larr;</a>
-        {{ this_month|date:"F Y" }}
+        {{ this_month|date:"F" }}
+        <a title="View {{ this_month.year}}" href="{% url swingtime-yearly-view this_month.year %}">
+            {{ this_month|date:"Y" }}</a>
         <a href="{% url swingtime-monthly-view next_month.year next_month.month %}" 
            title="Next Month">&rarr;</a>
-    </h3>
+    </h4>
 
     <table class="month-view">
         <thead>
