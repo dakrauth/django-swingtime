@@ -112,7 +112,7 @@ def create_timeslot_table(
     dt=None,
     items=None,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
-    end_time_delta=swingtime_settings.TIMESLOT_END_TIME_DELTA,
+    end_time_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION,
     time_delta=swingtime_settings.TIMESLOT_INTERVAL,
     min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS,
     css_class_cycles=css_class_cycler,

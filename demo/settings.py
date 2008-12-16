@@ -1,5 +1,12 @@
 import os
 import sys
+try:
+    import dateutil
+except ImportError:
+    raise ImportError(
+        'django-swingtime requires the "dateutil" package '
+        '(http://labix.org/python-dateutil)'
+    )
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(PROJECT_DIR))
@@ -45,14 +52,9 @@ try:
 except ImportError:
     pass
 else:
-    INSTALLED_APPS = INSTALLED_APPS + ('django_extensions',)
+    INSTALLED_APPS += ('django_extensions',)
 
 # dateutil is an absolute requirement
-try:
-    import dateutil
-except ImportError:
-    sys.stderr.write('\n*** django-swingtime requires the "dateutil" package\n\n')
-    raise
     
 try:
     import local_settings

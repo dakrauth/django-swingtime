@@ -12,8 +12,6 @@ from swingtime.conf import settings as swingtime_settings
 from swingtime import utils
 from swingtime.models import *
 
-
-
 WEEKDAY_SHORT = (
     (7, 'Sun'),
     (1, 'Mon'),
@@ -49,6 +47,21 @@ MONTH_LONG = (
     (12, 'December'),
 )
 
+MONTH_SHORT = (
+    (1,  'Jan'),
+    (2,  'Feb'),
+    (3,  'Mar'),
+    (4,  'Apr'),
+    (5,  'May'),
+    (6,  'Jun'),
+    (7,  'Jul'),
+    (8,  'Aug'),
+    (9,  'Sep'),
+    (10, 'Oct'),
+    (11, 'Nov'),
+    (12, 'Dec'),
+)
+
 
 ORDINAL = (
     (1,  'first'),
@@ -81,12 +94,14 @@ ISO_WEEKDAYS_MAP = (
     rrule.SU
 )
 
+MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
+SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
 
 #-------------------------------------------------------------------------------
 def timeslot_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
-    end_delta=swingtime_settings.TIMESLOT_END_TIME_DELTA,
+    end_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION,
     fmt=swingtime_settings.TIMESLOT_TIME_FORMAT
 ):
     '''
@@ -111,7 +126,7 @@ def timeslot_options(
 def timeslot_offset_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
-    end_delta=swingtime_settings.TIMESLOT_END_TIME_DELTA,
+    end_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION,
     fmt=swingtime_settings.TIMESLOT_TIME_FORMAT
 ):
     '''
@@ -147,13 +162,14 @@ class MultipleIntegerField(forms.MultipleChoiceField):
     '''
     
     #---------------------------------------------------------------------------
-    def __init__(self, choices, size=None, label=None):
-        size = size or len(choices)
+    def __init__(self, choices, size=None, label=None, widget=None):
+        if widget is None:
+            widget = forms.SelectMultiple(attrs={'size' : size or len(choices)})
         super(MultipleIntegerField, self).__init__(
             required=False,
             choices=choices,
             label=label,
-            widget=forms.SelectMultiple(attrs={'size' : size}),
+            widget=widget,
         )
 
     #---------------------------------------------------------------------------
@@ -226,7 +242,7 @@ class MultipleOccurrenceForm(forms.Form):
     freq = forms.IntegerField(
         label='Frequency',
         initial=rrule.WEEKLY,
-        widget=forms.Select(choices=FREQUENCY_CHOICES)
+        widget=forms.RadioSelect(choices=FREQUENCY_CHOICES),
     )
 
     interval = forms.IntegerField(
@@ -236,7 +252,11 @@ class MultipleOccurrenceForm(forms.Form):
     )
     
     # weekly options
-    week_days = MultipleIntegerField(WEEKDAY_LONG, label='Weekly options')
+    week_days = MultipleIntegerField(
+        WEEKDAY_SHORT, 
+        label='Weekly options',
+        widget=forms.CheckboxSelectMultiple
+    )
     
     # monthly  options
     month_option = forms.ChoiceField(
@@ -248,10 +268,18 @@ class MultipleOccurrenceForm(forms.Form):
     
     month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL))
     month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG))
-    each_month_day = MultipleIntegerField([(i,i) for i in range(1,32)], 10)
+    each_month_day = MultipleIntegerField(
+        [(i,i) for i in range(1,32)], 
+        widget=forms.CheckboxSelectMultiple
+    )
     
     # yearly options
-    year_months = MultipleIntegerField(MONTH_LONG, label='Yearly options')
+    year_months = MultipleIntegerField(
+        MONTH_SHORT, 
+        label='Yearly options',
+        widget=forms.CheckboxSelectMultiple
+    )
+    
     is_year_month_ordinal = forms.BooleanField(required=False)
     year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL))
     year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG))
@@ -259,8 +287,31 @@ class MultipleOccurrenceForm(forms.Form):
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
         super(MultipleOccurrenceForm, self).__init__(*args, **kws)
-        # TODO set initial start_time_delta and end_time_delta
-    
+        dtstart = self.initial.get('dtstart', None)
+        if dtstart:
+            dtstart = dtstart.replace(
+                minute=((dtstart.minute // MINUTES_INTERVAL) * MINUTES_INTERVAL),
+                second=0, 
+                microsecond=0
+            )
+
+            weekday = dtstart.isoweekday()
+            ordinal = dtstart.day // 7
+            ordinal = u'%d' % (-1 if ordinal > 3 else ordinal + 1,)
+            
+            self.initial.setdefault('week_days', u'%d' % weekday)
+            self.initial.setdefault('month_ordinal', ordinal)
+            self.initial.setdefault('month_ordinal_day', u'%d' % weekday)
+            self.initial.setdefault('each_month_day', [u'%d' % dtstart.day])
+            self.initial.setdefault('year_months', [u'%d' % dtstart.month])
+            self.initial.setdefault('year_month_ordinal', ordinal)
+            self.initial.setdefault('year_month_ordinal_day', u'%d' % weekday)
+            
+            offset = (dtstart - datetime.combine(dtstart.date(), time(0))).seconds
+            self.initial.setdefault('start_time_delta', u'%d' % offset)
+            self.initial.setdefault('end_time_delta', u'%d' % (offset + SECONDS_INTERVAL,))
+            
+
     #---------------------------------------------------------------------------
     def clean(self):
         day = datetime.combine(self.cleaned_data['day'], time(0))

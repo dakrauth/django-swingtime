@@ -89,7 +89,10 @@ def event_view(
             return http.HttpResponseBadRequest('Bad Request')
 
     event_form = event_form or event_form_class(instance=event)
-    recurrence_form = recurrence_form or recurrence_form_class()
+    if not recurrence_form:
+        recurrence_form = recurrence_form_class(
+            initial=dict(dtstart=datetime.now())
+        )
             
     return render_to_response(
         template, 
@@ -173,12 +176,8 @@ def add_event(
                 # TODO A badly formatted date is passed to add_event
                 dtstart = datetime.now()
                 
-        
         event_form = event_form_class()
-        recurrence_form = recurrence_form_class(initial=dict(
-            day=dtstart.date(),
-            start_time=dtstart.time(),
-        ))
+        recurrence_form = recurrence_form_class(initial=dict(dtstart=dtstart))
             
     return render_to_response(
         template,

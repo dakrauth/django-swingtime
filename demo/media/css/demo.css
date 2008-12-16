@@ -1,4 +1,5 @@
 body { font-size: .625em; background-color: #bba; padding: 2em; }
+img { border: none; }
 .center { text-align : center; }
 #container { padding: 1em 1em 15em; border: 1px solid #999; 
     width: 75em; min-width: 60em; font-size: 1.2em; color: #322; 
@@ -20,6 +21,12 @@ form table { width: 100% }
     form table li { list-style-type: none; }
     form table th { text-align: right; width: 10em; }
     form tfoot td { text-align: center; background-color: #566; }
+.form-indent { margin-left: 2.5em; }
+.horizontal { width: 30em; }
+    .horizontal li { float: left; margin: 0; }
+    .horizontal li label { width: 4em; display: block; float: left; }
+#recurrence-options { float: left; }
+    #recurrence-options li { margin-bottom: 4px; }
 .calendar td, .calendar th { min-width: 10em; width: 10em; }
 .month-view td { vertical-align: top; height: 10em; min-height: 10em; }
     .month-view td, .month-view th { min-width: 10em; width: 10em; }

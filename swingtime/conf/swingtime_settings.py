@@ -19,11 +19,15 @@ TIMESLOT_START_TIME = datetime.time(9)
 # 1:30am (01:30), in which case a value of datetime.timedelta(hours=10.5) 
 # could be specified to indicate that the 1:30 represents the following date's
 # time and not the current date.
-TIMESLOT_END_TIME_DELTA = datetime.timedelta(hours=8)
+TIMESLOT_END_TIME_DURATION = datetime.timedelta(hours=+8)
 
 # Indicates a minimum value for the number grid columns to be shown in the time
 # slot table.
 TIMESLOT_MIN_COLUMNS = 4
+
+# Indicate the default length in time for a new occurrence, specifed by using
+# a datetime.timedelta object
+DEFAULT_OCCURRENCE_DURATION = datetime.timedelta(hours=+1)
 
 # If not None, passed to the calendar module's setfirstweekday function.
 CALENDAR_FIRST_WEEKDAY = 6

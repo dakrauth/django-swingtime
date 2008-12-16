@@ -52,7 +52,7 @@ class EventType(models.Model):
 #===============================================================================
 class Event(models.Model):
     '''
-    Container model general metadata and associated ``Occurrence`` entries.
+    Container model for general metadata and associated ``Occurrence`` entries.
     '''
     title = models.CharField(max_length=32)
     description = models.CharField(max_length=100)
@@ -206,8 +206,8 @@ def create_event(
     title, 
     event_type,
     description='',
-    start_time=None,
-    end_time=None,
+    dtstart=None,
+    dtend=None,
     note=None,
     **rrule_params
 ):
@@ -221,26 +221,19 @@ def create_event(
     * ``event_type`` can be either an ``EventType`` object or 2-tuple of
       (*abbreviation*,*label*), from which an ``EventType`` is either created or
       retrieved.
-    * ``start_time`` will default to the current hour if ``None``
-    * ``end_time`` will default to ``start_time`` plus 1 hour if ``None``
+    * ``dtstart`` will default to the current hour if ``None``
+    * ``dtend`` will default to ``start_time`` plus 1 hour if ``None``
     * ``freq``, ``count``, and the ``rrule_params`` dict follow the ``dateutils``
       API (see http://labix.org/python-dateutil)
     
     '''
+    from swingtime.conf import settings as swingtime_settings
     
     if isinstance(event_type, tuple):
         event_type, created = EventType.objects.get_or_create(
             abbr=event_type[0],
             label=event_type[1]
         )
-    
-    start_time = start_time or datetime.now().replace(
-        minutes=0,
-        seconds=0, 
-        microseconds=0
-    )
-    
-    end_time = end_time or start_time + timedelta(hours=+1)
     
     event = Event.objects.create(
         title=title, 
@@ -250,7 +243,13 @@ def create_event(
 
     if note is not None:
         event.notes.create(note=note)
+
+    dtstart = dtstart or datetime.now().replace(
+        minutes=0,
+        seconds=0, 
+        microseconds=0
+    )
     
-    event.add_occurrences(start_time, end_time, **rrule_params)
-        
+    dtstart = dtstart or dtstart + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
+    event.add_occurrences(dtstart, dtend, **rrule_params)
     return event
