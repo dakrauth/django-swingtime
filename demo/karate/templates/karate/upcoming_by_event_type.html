@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Upcoming {{ event_type }} Events{% endblock %}
+{% block main_content %}
+    <h3>Upcoming {{ event_type }} </h3>
+    <ul>
+        {% for o in occurrences %}
+            <li>
+                {{ o.title }}
+                <a href="{{ o.get_absolute_url }}">{{ o.start_time|date:"D, M jS P" }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

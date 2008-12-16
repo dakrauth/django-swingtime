@@ -6,59 +6,14 @@
     <meta name="keywords" content="django swingtime demo">
     <title>{% block title %}{% endblock %}</title>
     <style type="text/css" media="screen">
-        /* Solely for the purposes of the demo, keep CSS inline */
-        body { font-size: .625em; background-color: #bba; padding: 2em; }
-        #container { padding: 1em 1em 15em; border: 1px solid #999; 
-            width: 75em; min-width: 60em; font-size: 1.2em; color: #322; 
-            background: #fff url(http://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Karatedo.svg/60px-Karatedo.svg.png) bottom center no-repeat; }
-        h1 { font-size: 2.25em; text-align: center; }
-            h2 { color: #543; }
-            h3 { color: #655; font-size: 1.33em; }
-            h4 { color: #877; font-size: 1.33em; }
-        a { text-decoration: none; color: #357; }
-            a:hover { text-decoration: underline; }
-        table { border-collapse: collapse; font-size: 1em; }
-            td, th { padding: 2px; border: 1px solid #ccc; }
-            th { background-color: #bba; }
-            dt { font-weight: bold; }
-        dt { font-weight: bold; }
-            dd { margin-bottom: .5em; }
-        form table { width: 100% }
-            form table ul { margin: 0; padding: 0;}
-            form table li { list-style-type: none; }
-            form table th { text-align: right; width: 10em; }
-            form tfoot td { text-align: center; background-color: #566; }
-        .calendar td, .calendar th { min-width: 10em; width: 10em; }
-        .month-view td { vertical-align: top; height: 10em; min-height: 10em; }
-            .month-view td, .month-view th { min-width: 10em; width: 10em; }
-            .month-view .day-ordinal { font-weight: bold; font-size: 1.1em; 
-                text-align: right; }
-            .month-view ul { list-style: none; margin: 1px 2px; padding: 0; }
-            .month-view .today { background-color: #eed; }
-        .month-divider th, .month-divider td { border-top: 3px double #888; }
-        #belts { list-style-type: none; }
-            #belts a { text-align: center; display: block; padding: 4px; width: 70%; 
-                border: 1px solid #ccc; margin-bottom: .5em; font-weight: bold; }
-                #belts a:hover { font-style: italic; }
-            #white-belt { background-color: #fff; color: #322; }
-                #yellow-belt { background-color: #dd3; color: #322; }
-                #green-belt { background-color: #693; color: #fff; }
-                #brown-belt { background-color: #655; color: #fff; }
-                #black-belt { background-color: #322; color: #fff; }
-        .evt-spc-odd, .evt-spc-even  { background-color: #3b5153; color: #fff; }
-            .evt-spc-odd a, .evt-spc-even a { color: #fff; }
-            .evt-open-even, .evt-open-odd { background-color: #ccd; }
-            .evt-adv-odd, .evt-adv-even { background-color: #cdd; }
-            .evt-bgn-even, .evt-bgn-odd { background-color: #dd8; }
-            .evt-bbc-odd, .evt-bbc-even { background-color: #aaa; }
-            .evt-prv-odd { background-color: #8a9; }
-            .evt-prv-even { background-color: #acb; }
+        @import url(/media/css/demo.css);
     </style>
     {% block extended_head %}{% endblock %}
 </head>
 <body>
     <h1><a href="{% url demo-home %}">Swingtime Demo</a></h1>
     <div id="container">
+    {% block navigation %}
     <h2>The Karate Dojo</h2>
     <p style="font-weight: bold; ">
         <a href="{% url swingtime-today %}">Daily View</a> &sect; 
@@ -68,22 +23,15 @@
         <a href="{% url swingtime-events %}">Event Listing</a>
     </p>
     <hr />
-    {% block main_content %}
-    <h3>Welcome to the Karate Dojo!</h3>
-    <p>Check out upcoming class offerings by selecting from the menu above</p>
-    
-    <h3>Our Belt Classes</h3>
-    <p>
-        Select your belt below to see upcoming events:
-    </p>
-    <ul id="belts">
-        <li><a id="white-belt" href="">White belt</a></li>
-        <li><a id="yellow-belt" href="">Yellow belt</a></li>
-        <li><a id="green-belt" href="">Green belt</a></li>
-        <li><a id="brown-belt" href="">Brown belt</a></li>
-        <li><a id="black-belt" href="">Black belt</a></li>
-    </ul>
-    {% endblock %}
+    {% endblock navigation %}
+    {% block main_content %}{% endblock main_content %}
+    </div>
+    <div style="text-align: center; padding-top: 2em; ">
+        <a href="http://djangopony.com/" 
+            class="ponybadge" title="Magic! Ponies! Django! Whee!">
+                <img src="/media/img/ponybadge.png" 
+                    width="140" height="44" alt="ponybadge" />
+        </a>
     </div>
 </body>
 </html>

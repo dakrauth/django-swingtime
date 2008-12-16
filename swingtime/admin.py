@@ -22,7 +22,8 @@ class OccurrenceInline(admin.TabularInline):
 class EventNoteInline(generic.GenericTabularInline):
     model = Note
     extra = 1
-    
+
+
 #===============================================================================
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'event_type', 'description')

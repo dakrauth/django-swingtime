@@ -8,11 +8,20 @@ from django.conf import settings
 
 from dateutil import rrule
 
+__all__ = (
+    'Note',
+    'EventType',
+    'Event',
+    'Occurrence',
+    'create_event'
+)
+
 #===============================================================================
 class Note(models.Model):
     '''
     A generic model for adding simple, arbitrary notes to other models such as
     ``Event`` or ``Occurrence``.
+    
     '''
     note = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -30,6 +39,7 @@ class Note(models.Model):
 class EventType(models.Model):
     '''
     Simple ``Event`` classifcation.
+    
     '''
     abbr = models.CharField(verbose_name='Abbreviation', max_length=4, unique=True)
     label = models.CharField(max_length=50)

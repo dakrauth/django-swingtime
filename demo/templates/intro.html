@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block extended_head %}
+    <style type="text/css" media="screen">
+        #container { background-image: none; }
+    </style>
+{% endblock extended_head %}
+{% block navigation %}{% endblock navigation %}
+{% block main_content %}
+    <h3 class="center"><a href="{% url karate-home %}">Continue Demo &raquo;</a></h3>
+    <h3 class="center"><a href="/docs/index.html">Swingtime Documentation &raquo;</a></h3>
+    <h3 class="center"><a href="http://code.google.com/p/django-swingtime/source/browse/trunk">Swingtime Source Code &raquo;</a></h3>
+{% endblock main_content %}

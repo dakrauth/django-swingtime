@@ -259,6 +259,7 @@ class MultipleOccurrenceForm(forms.Form):
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
         super(MultipleOccurrenceForm, self).__init__(*args, **kws)
+        # TODO set initial start_time_delta and end_time_delta
     
     #---------------------------------------------------------------------------
     def clean(self):
@@ -294,7 +295,6 @@ class MultipleOccurrenceForm(forms.Form):
         data = self.cleaned_data
         params = dict(
             freq=data['freq'],
-            #dtstart=data['start_time'],
             interval=data['interval'] or 1
         )
         
@@ -328,43 +328,29 @@ class MultipleOccurrenceForm(forms.Form):
 
 
 #===============================================================================
-class NewEventForm(MultipleOccurrenceForm):
-    event_type = forms.ModelChoiceField(EventType.objects)
-    
-    title = forms.CharField(
-        max_length=32,
-        widget=forms.TextInput(attrs=dict(size=32))
-    )
-    
-    description = forms.CharField(
-        label='Description', 
-        required=False, 
-        max_length=100,
-        widget=forms.TextInput(attrs=dict(size=50)),
-    )
-
-    #---------------------------------------------------------------------------
-    def save(self):
-        event = Event.objects.create(
-            title=self.cleaned_data['title'], 
-            event_type=self.cleaned_data['event_type'],
-            description=self.cleaned_data['description']
-        )
-        
-        super(NewEventForm, self).save(self)
-        return event
-
-
-#===============================================================================
 class EventForm(forms.ModelForm):
+    '''
+    A simple form for adding and updating Event attributes
+    
+    '''
     
     #===========================================================================
     class Meta:
         model = Event
+        
+    #---------------------------------------------------------------------------
+    def __init__(self, *args, **kws):
+        super(EventForm, self).__init__(*args, **kws)
+        self.fields['description'].required = False
 
 
 #===============================================================================
 class SingleOccurrenceForm(forms.ModelForm):
+    '''
+    A simple form for adding and updating single Occurrence attributes
+    
+    '''
+
     start_time = forms.DateTimeField(widget=SplitDateTimeWidget)
     end_time = forms.DateTimeField(widget=SplitDateTimeWidget)
     

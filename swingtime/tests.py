@@ -130,7 +130,8 @@ class NewEventFormTest(TestCase):
     
     #---------------------------------------------------------------------------
     def test_new_event_simple(self):
-        from swingtime.forms import NewEventForm
+        from swingtime.forms import EventForm, MultipleOccurrenceForm
+        
         data = dict(
             title='QWERTY',
             event_type='1',
@@ -148,12 +149,15 @@ class NewEventFormTest(TestCase):
             month_ordinal='1'
         )
         
-        form = NewEventForm(data)
-        self.assertTrue(form.is_valid(), form.errors.as_text())
+        evt_form = EventForm(data)
+        occ_form = MultipleOccurrenceForm(data)
+        self.assertTrue(evt_form.is_valid(), evt_form.errors.as_text())
+        self.assertTrue(occ_form.is_valid(), occ_form.errors.as_text())
+        
         self.assertEqual(
-            form.cleaned_data['start_time'],
+            occ_form.cleaned_data['start_time'],
             datetime(2008, 12, 11, 8),
-            'Bad start_time: %s' % pformat(form.cleaned_data)
+            'Bad start_time: %s' % pformat(occ_form.cleaned_data)
         )
 
 #-------------------------------------------------------------------------------

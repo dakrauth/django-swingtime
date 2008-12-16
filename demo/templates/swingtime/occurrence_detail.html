@@ -2,7 +2,14 @@
 {% block title %}Event Occurrence{% endblock %}
 {% block main_content %}
      <h3>Swingtime Event Occurrence</h3>
-     <h4><a href="{{ occurrence.event.get_absolute_url }}">{{ occurrence.title }}</a></h4>
+     <h4>
+         <a href="{{ occurrence.event.get_absolute_url }}">{{ occurrence.title }}</a>
+         &ndash;
+         {% with occurrence.start_time as st  %}
+         <a href="{% url swingtime-daily-view st.year st.month st.day %}">
+            {{ st|date:"l, F jS P" }}</a>
+        </h4>
+        {% endwith %}
      <dl>
          <dt>Event type:</dt>
          <dd>{{ occurrence.event.event_type }}</dd>

@@ -27,8 +27,15 @@ def event_listing(
     '''
     View all ``events``. 
     
-    If ``events`` is a queryset, clone it. Ff ``None`` default to all ``Event``s.
+    If ``events`` is a queryset, clone it. If ``None`` default to all ``Event``s.
     
+    Context parameters:
+    
+    events
+        an iterable of ``Event`` objects
+        
+    ???
+        all values passed in via **extra_context
     '''
     if not events:
         events = Event.objects.all()
@@ -53,7 +60,17 @@ def event_view(
     '''
     View an ``Event`` instance and optionally update either the event or its
     occurrences.
-    
+
+    Context parameters:
+
+    event
+        the event keyed by ``pk``
+        
+    event_form
+        a form object for updating the event
+        
+    recurrence_form
+        a form object for adding occurrences
     '''
     event = get_object_or_404(Event, pk=pk)
     event_form = recurrence_form = None
@@ -92,6 +109,13 @@ def occurrence_view(
     '''
     View a specific occurrence and optionally handle any updates.
     
+    Context parameters:
+    
+    occurrence
+        the occurrence object keyed by ``pk``
+
+    form
+        a form object for updating the occurrence
     '''
     occurrence = get_object_or_404(Occurrence, pk=pk, event__pk=event_pk)
     if request.method == 'POST':
@@ -118,6 +142,18 @@ def add_event(
 ):
     '''
     Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
+    
+    Context parameters:
+    
+    dtstart
+        a datetime.datetime object representing the GET request value if present,
+        otherwise None
+    
+    event_form
+        a form object for updating the event
+
+    recurrence_form
+        a form object for adding occurrences
     
     '''
     dtstart = None
@@ -160,6 +196,25 @@ def _datetime_view(
     items=None,
     params=None
 ):
+    '''
+    Build a time slot grid representation for the given datetime ``dt``. See
+    utils.create_timeslot_table documentation for items and params.
+    
+    Context parameters:
+    
+    day
+        the specified datetime value (dt)
+        
+    next_day
+        day + 1 day
+        
+    prev_day
+        day - 1 day
+        
+    timeslots
+        time slot grid of (time, cells) rows
+        
+    '''
     timeslot_factory = timeslot_factory or utils.create_timeslot_table
     params = params or {}
     data = dict(
@@ -197,6 +252,26 @@ def today_view(request, template='swingtime/daily_view.html', **params):
 
 #-------------------------------------------------------------------------------
 def year_view(request, year, template='swingtime/yearly_view.html', queryset=None):
+    '''
+
+    Context parameters:
+    
+    year
+        an integer value for the year in questin
+        
+    next_year
+        year + 1
+        
+    last_year
+        year - 1
+        
+    by_month
+        a sorted list of (month, occurrences) tuples where month is a 
+        datetime.datetime object for the first day of a month and occurrences
+        is a (potentially empty) list of values for that month. Only months 
+        which have at least 1 occurrence is represented in the list
+        
+    '''
     year = int(year)
     if queryset:
         queryset = queryset._clone()
@@ -220,7 +295,7 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
 
     return render_to_response(
         template, 
-        dict(year=year, by_month=by_month), 
+        dict(year=year, by_month=by_month, next_year=year + 1, last_year=year - 1), 
         context_instance=RequestContext(request),
     )
 
@@ -235,6 +310,25 @@ def month_view(
 ):
     '''
     Render a tradional calendar grid view with temporal navigation variables.
+
+    Context parameters:
+    
+    today
+        the current datetime.datetime value
+        
+    calendar
+        a list of rows containing (day, items) cells, where day is the day of
+        the month integer and items is a (potentially empty) list of occurrence
+        for the day
+        
+    this_month
+        a datetime.datetime representing the first day of the month
+    
+    next_month
+        this_month + 1 month
+    
+    last_month
+        this_month - 1 month
     
     '''
     year, month = int(year), int(month)
@@ -260,7 +354,7 @@ def month_view(
     
     data = dict(
         today=datetime.now(),
-        calendar=[[(d, by_day.get(d, None)) for d in row] for row in cal], 
+        calendar=[[(d, by_day.get(d, [])) for d in row] for row in cal], 
         this_month=dtstart,
         next_month=dtstart + timedelta(days=+last_day),
         last_month=dtstart + timedelta(days=-1),

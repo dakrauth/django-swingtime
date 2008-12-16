@@ -5,6 +5,8 @@ Karate dojo and the database will be pre-populated with some data relative to
 today's date. 
 ================================================================================
 '''
+from django.core.management import call_command
+from django.core.management.base import NoArgsCommand
 from datetime import datetime, date, time, timedelta
 from django.conf import settings
 from django.db.models import signals
@@ -13,7 +15,7 @@ from swingtime import models as swingtime
 
 
 #-------------------------------------------------------------------------------
-def create_sample_data(app, created_models, verbosity, **kwargs):
+def create_sample_data():
     
     # Create the studio's event types
     ets = dict((
@@ -96,5 +98,19 @@ def create_sample_data(app, created_models, verbosity, **kwargs):
     print
 
 
-if settings.DEBUG:
-    signals.post_syncdb.connect(create_sample_data, sender=swingtime)
+
+#===============================================================================
+class Command(NoArgsCommand):
+    help = 'Run the swingtime demo. If an existing demo database exists, it will recreated.'
+    
+    #---------------------------------------------------------------------------
+    def handle_noargs(self, **options):
+        import os
+        dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASE_NAME)
+        if os.path.exists(dbpath):
+            os.remove(dbpath)
+
+        call_command('syncdb', noinput=True)
+        create_sample_data()
+        call_command('runserver')
+        

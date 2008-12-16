@@ -1,7 +1,8 @@
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(PROJECT_DIR))
 
 DEBUG = TEMPLATE_DEBUG = True
 DATABASE_ENGINE = 'sqlite3'
@@ -9,9 +10,9 @@ DATABASE_NAME = 'karate.db'
 TIME_ZONE = 'America/New_York'
 SITE_ID = 1
 USE_I18N = False
-MEDIA_ROOT = ''
-MEDIA_URL = ''
-ADMIN_MEDIA_PREFIX = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
+MEDIA_URL = '/media/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 SECRET_KEY = 'j#_e3y&h=a4)hrmj=)bqo@$6qoz6(hrf9wz@uqq@uy*0uzl#ew'
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
@@ -31,10 +32,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     
     'swingtime',
     'karate',
 )
+
+SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
 
 try:
     import django_extensions
@@ -42,12 +46,17 @@ except ImportError:
     pass
 else:
     INSTALLED_APPS = INSTALLED_APPS + ('django_extensions',)
-    
+
+# dateutil is an absolute requirement
 try:
     import dateutil
 except ImportError:
     sys.stderr.write('\n*** django-swingtime requires the "dateutil" package\n\n')
     raise
     
+try:
+    import local_settings
+except ImportError:
+    pass
 
-SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
+
