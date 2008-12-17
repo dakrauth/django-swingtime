@@ -73,7 +73,7 @@ class Event(models.Model):
         return ('swingtime-event', [str(self.id)])
 
     #---------------------------------------------------------------------------
-    def add_occurrences(self, dtstart, dtend, **rrule_params):
+    def add_occurrences(self, start_time, end_time, **rrule_params):
         '''
         Add one or more occurences to the event using a comparable API to 
         ``dateutil.rrule``. 
@@ -87,15 +87,15 @@ class Event(models.Model):
         
         If both ``count`` and ``until`` entries are missing from ``rrule_params``,
         only a single ``Occurrence`` instance will be created using the exact
-        ``dtstart`` and ``dtend`` values.
+        ``start_time`` and ``end_time`` values.
         '''
         rrule_params.setdefault('freq', rrule.DAILY)
         
         if 'count' not in rrule_params and 'until' not in rrule_params:
-            self.occurrence_set.create(start_time=dtstart, end_time=dtend)
+            self.occurrence_set.create(start_time=start_time, end_time=end_time)
         else:
-            delta = dtend - dtstart
-            for ev in rrule.rrule(dtstart=dtstart, **rrule_params):
+            delta = end_time - start_time
+            for ev in rrule.rrule(dtstart=start_time, **rrule_params):
                 self.occurrence_set.create(start_time=ev, end_time=ev + delta)
 
     #---------------------------------------------------------------------------
@@ -206,8 +206,8 @@ def create_event(
     title, 
     event_type,
     description='',
-    dtstart=None,
-    dtend=None,
+    start_time=None,
+    end_time=None,
     note=None,
     **rrule_params
 ):
@@ -221,8 +221,8 @@ def create_event(
     * ``event_type`` can be either an ``EventType`` object or 2-tuple of
       (*abbreviation*,*label*), from which an ``EventType`` is either created or
       retrieved.
-    * ``dtstart`` will default to the current hour if ``None``
-    * ``dtend`` will default to ``start_time`` plus 1 hour if ``None``
+    * ``start_time`` will default to the current hour if ``None``
+    * ``end_time`` will default to ``start_time`` plus 1 hour if ``None``
     * ``freq``, ``count``, and the ``rrule_params`` dict follow the ``dateutils``
       API (see http://labix.org/python-dateutil)
     
@@ -244,12 +244,12 @@ def create_event(
     if note is not None:
         event.notes.create(note=note)
 
-    dtstart = dtstart or datetime.now().replace(
+    start_time = start_time or datetime.now().replace(
         minute=0,
         second=0, 
         microsecond=0
     )
     
-    dtstart = dtstart or dtstart + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
-    event.add_occurrences(dtstart, dtend, **rrule_params)
+    end_time = start_time or start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
+    event.add_occurrences(start_time, end_time, **rrule_params)
     return event

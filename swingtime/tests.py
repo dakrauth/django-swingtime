@@ -175,11 +175,14 @@ def doc_tests():
         >>> e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
         >>> e.occurrence_set.all()
         [<Occurrence: Hello, world: 2008-01-01T00:00:00>, <Occurrence: Hello, world: 2009-01-01T00:00:00>, <Occurrence: Hello, world: 2010-01-01T00:00:00>, <Occurrence: Hello, world: 2011-01-01T00:00:00>, <Occurrence: Hello, world: 2012-01-01T00:00:00>, <Occurrence: Hello, world: 2013-01-01T00:00:00>, <Occurrence: Hello, world: 2014-01-01T00:00:00>]
+        >>> e = create_event('Bicycle repairman', event_type=evt_types[2])
+        >>> e.occurrence_set.count()
+        1
         >>> e = create_event(
         ...     'Something completely different',
         ...     event_type=evt_types[1],
-        ...     dtstart=datetime(2008,12,1, 12),
-        ...     dtend=datetime(2008,12,1,13),
+        ...     start_time=datetime(2008,12,1, 12),
+        ...     end_time=datetime(2008,12,1,13),
         ...     freq=rrule.WEEKLY,
         ...     byweekday=(rrule.TU, rrule.TH),
         ...     until=datetime(2008,12,31)
