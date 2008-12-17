@@ -245,9 +245,9 @@ def create_event(
         event.notes.create(note=note)
 
     dtstart = dtstart or datetime.now().replace(
-        minutes=0,
-        seconds=0, 
-        microseconds=0
+        minute=0,
+        second=0, 
+        microsecond=0
     )
     
     dtstart = dtstart or dtstart + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
