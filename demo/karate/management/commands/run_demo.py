@@ -112,5 +112,4 @@ class Command(NoArgsCommand):
 
         call_command('syncdb', noinput=True)
         create_sample_data()
-        call_command('runserver')
-        
+
