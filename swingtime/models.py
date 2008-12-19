@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta
 
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.db import models
@@ -23,13 +24,18 @@ class Note(models.Model):
     ``Event`` or ``Occurrence``.
     
     '''
-    note = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
+    note = models.TextField(_('note'))
+    created = models.DateTimeField(_('created'), auto_now_add=True)
 
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
+    object_id = models.PositiveIntegerField(_('object id'))
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
+    #===========================================================================
+    class Meta:
+        verbose_name = _('note')
+        verbose_name_plural = _('notes')
+        
     #---------------------------------------------------------------------------
     def __unicode__(self):
         return self.note
@@ -41,9 +47,14 @@ class EventType(models.Model):
     Simple ``Event`` classifcation.
     
     '''
-    abbr = models.CharField(verbose_name='Abbreviation', max_length=4, unique=True)
-    label = models.CharField(max_length=50)
+    abbr = models.CharField(_(u'abbreviation'), max_length=4, unique=True)
+    label = models.CharField(_('label'), max_length=50)
 
+    #===========================================================================
+    class Meta:
+        verbose_name = _('event type')
+        verbose_name_plural = _('event types')
+        
     #---------------------------------------------------------------------------
     def __unicode__(self):
         return self.label
@@ -54,13 +65,15 @@ class Event(models.Model):
     '''
     Container model for general metadata and associated ``Occurrence`` entries.
     '''
-    title = models.CharField(max_length=32)
-    description = models.CharField(max_length=100)
-    event_type = models.ForeignKey(EventType)
-    notes = generic.GenericRelation(Note)
+    title = models.CharField(_('title'), max_length=32)
+    description = models.CharField(_('description'), max_length=100)
+    event_type = models.ForeignKey(EventType, verbose_name=_('event type'))
+    notes = generic.GenericRelation(Note, verbose_name=_('notes'))
 
     #===========================================================================
     class Meta:
+        verbose_name = _('event')
+        verbose_name_plural = _('events')
         ordering = ('title', )
         
     #---------------------------------------------------------------------------
@@ -166,15 +179,17 @@ class Occurrence(models.Model):
     Represents the start end time for a specific occurrence of a master ``Event``
     object.
     '''
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    event = models.ForeignKey(Event, editable=False)
-    notes = generic.GenericRelation(Note)
+    start_time = models.DateTimeField(_('start time'))
+    end_time = models.DateTimeField(_('end time'))
+    event = models.ForeignKey(Event, verbose_name=_('event')editable=False)
+    notes = generic.GenericRelation(Note, verbose_name=_('notes'))
 
     objects = OccurrenceManager()
 
     #===========================================================================
     class Meta:
+        verbose_name = _('occurrence')
+        verbose_name_plural = _('occurrences')
         ordering = ('start_time', 'end_time')
 
     #---------------------------------------------------------------------------

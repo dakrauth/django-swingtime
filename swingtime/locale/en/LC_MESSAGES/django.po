@@ -1,0 +1,326 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-19 10:20-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: forms.py:17
+msgid "Sun"
+msgstr ""
+
+#: forms.py:18
+msgid "Mon"
+msgstr ""
+
+#: forms.py:19
+msgid "Tue"
+msgstr ""
+
+#: forms.py:20
+msgid "Wed"
+msgstr ""
+
+#: forms.py:21
+msgid "Thu"
+msgstr ""
+
+#: forms.py:22
+msgid "Fri"
+msgstr ""
+
+#: forms.py:23
+msgid "Sat"
+msgstr ""
+
+#: forms.py:27
+msgid "Sunday"
+msgstr ""
+
+#: forms.py:28
+msgid "Monday"
+msgstr ""
+
+#: forms.py:29
+msgid "Tuesday"
+msgstr ""
+
+#: forms.py:30
+msgid "Wednesday"
+msgstr ""
+
+#: forms.py:31
+msgid "Thursday"
+msgstr ""
+
+#: forms.py:32
+msgid "Friday"
+msgstr ""
+
+#: forms.py:33
+msgid "Saturday"
+msgstr ""
+
+#: forms.py:37
+msgid "January"
+msgstr ""
+
+#: forms.py:38
+msgid "February"
+msgstr ""
+
+#: forms.py:39
+msgid "March"
+msgstr ""
+
+#: forms.py:40
+msgid "April"
+msgstr ""
+
+#: forms.py:41 forms.py:56
+msgid "May"
+msgstr ""
+
+#: forms.py:42
+msgid "June"
+msgstr ""
+
+#: forms.py:43
+msgid "July"
+msgstr ""
+
+#: forms.py:44
+msgid "August"
+msgstr ""
+
+#: forms.py:45
+msgid "September"
+msgstr ""
+
+#: forms.py:46
+msgid "October"
+msgstr ""
+
+#: forms.py:47
+msgid "November"
+msgstr ""
+
+#: forms.py:48
+msgid "December"
+msgstr ""
+
+#: forms.py:52
+msgid "Jan"
+msgstr ""
+
+#: forms.py:53
+msgid "Feb"
+msgstr ""
+
+#: forms.py:54
+msgid "Mar"
+msgstr ""
+
+#: forms.py:55
+msgid "Apr"
+msgstr ""
+
+#: forms.py:57
+msgid "Jun"
+msgstr ""
+
+#: forms.py:58
+msgid "Jul"
+msgstr ""
+
+#: forms.py:59
+msgid "Aug"
+msgstr ""
+
+#: forms.py:60
+msgid "Sep"
+msgstr ""
+
+#: forms.py:61
+msgid "Oct"
+msgstr ""
+
+#: forms.py:62
+msgid "Nov"
+msgstr ""
+
+#: forms.py:63
+msgid "Dec"
+msgstr ""
+
+#: forms.py:68
+msgid "first"
+msgstr ""
+
+#: forms.py:69
+msgid "second"
+msgstr ""
+
+#: forms.py:70
+msgid "third"
+msgstr ""
+
+#: forms.py:71
+msgid "fourth"
+msgstr ""
+
+#: forms.py:72
+msgid "last"
+msgstr ""
+
+#: forms.py:76
+msgid "Day(s)"
+msgstr ""
+
+#: forms.py:77
+msgid "Week(s)"
+msgstr ""
+
+#: forms.py:78
+msgid "Month(s)"
+msgstr ""
+
+#: forms.py:79
+msgid "Year(s)"
+msgstr ""
+
+#: forms.py:83
+msgid "By count"
+msgstr ""
+
+#: forms.py:84
+msgid "Until date"
+msgstr ""
+
+#: forms.py:207
+msgid "Date"
+msgstr ""
+
+#: forms.py:213
+msgid "Start time"
+msgstr ""
+
+#: forms.py:218
+msgid "End time"
+msgstr ""
+
+#: forms.py:226
+msgid "Occurrences"
+msgstr ""
+
+#: forms.py:231
+msgid "Total Occurrences"
+msgstr ""
+
+#: forms.py:244
+msgid "Frequency"
+msgstr ""
+
+#: forms.py:258
+msgid "Weekly options"
+msgstr ""
+
+#: forms.py:264
+msgid "On the"
+msgstr ""
+
+#: forms.py:264
+msgid "Each:"
+msgstr ""
+
+#: forms.py:267
+msgid "Monthly options"
+msgstr ""
+
+#: forms.py:280
+msgid "Yearly options"
+msgstr ""
+
+#: forms.py:377
+#, python-format
+msgid "Unknown interval rule %s"
+msgstr ""
+
+#: models.py:27 models.py:36
+msgid "note"
+msgstr ""
+
+#: models.py:28
+msgid "created"
+msgstr ""
+
+#: models.py:30
+msgid "content type"
+msgstr ""
+
+#: models.py:31
+msgid "object id"
+msgstr ""
+
+#: models.py:37 models.py:71 models.py:185
+msgid "notes"
+msgstr ""
+
+#: models.py:50
+msgid "abbreviation"
+msgstr ""
+
+#: models.py:51
+msgid "label"
+msgstr ""
+
+#: models.py:55 models.py:70
+msgid "event type"
+msgstr ""
+
+#: models.py:56
+msgid "event types"
+msgstr ""
+
+#: models.py:68
+msgid "title"
+msgstr ""
+
+#: models.py:69
+msgid "description"
+msgstr ""
+
+#: models.py:75 models.py:184
+msgid "event"
+msgstr ""
+
+#: models.py:76
+msgid "events"
+msgstr ""
+
+#: models.py:182
+msgid "start time"
+msgstr ""
+
+#: models.py:183
+msgid "end time"
+msgstr ""
+
+#: models.py:191
+msgid "occurrence"
+msgstr ""
+
+#: models.py:192
+msgid "occurrences"
+msgstr ""

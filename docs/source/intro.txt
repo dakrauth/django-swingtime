@@ -34,11 +34,11 @@ A fairly simple example::
     >>> for o in evt.occurrence_set.all():
     ...     print o
     ... 
-    TPM Report: 2008-12-01T16:00:00
-    TPM Report: 2008-12-02T16:00:00
-    TPM Report: 2008-12-03T16:00:00
-    TPM Report: 2008-12-04T16:00:00
-    TPM Report: 2008-12-05T16:00:00
+    New TPS Cover Sheet: 2008-12-01T16:00:00
+    New TPS Cover Sheet: 2008-12-02T16:00:00
+    New TPS Cover Sheet: 2008-12-03T16:00:00
+    New TPS Cover Sheet: 2008-12-04T16:00:00
+    New TPS Cover Sheet: 2008-12-05T16:00:00
 
 A bit more elaborate example, using the the convenience function :func:`models.create_event`::
     
@@ -142,7 +142,7 @@ latest version tarball, you run the demo from anywhere by changing to the
 Todo List
 =========
 
-* Add i18n support
+* Add i18n support / translation support in demo
 * Include a setup installer (I'm not doing ``easy_install``!)
 * Add weekly view
 * Import and export .ics files
