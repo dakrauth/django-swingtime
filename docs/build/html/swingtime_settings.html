@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>swingtime_settings &#8212; Configuration Settings &mdash; Swingtime v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.2',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Swingtime v0.2 documentation" href="index.html" />
+    <link rel="next" title="Changes in Swingtime" href="changes.html" />
+    <link rel="prev" title="utils &#8212; Swingtime Utilities" href="utils.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changes in Swingtime"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils &#8212; Swingtime Utilities"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="module-swingtime_settings">
+<h1><tt class="xref docutils literal"><span class="pre">swingtime_settings</span></tt> &#8212; Configuration Settings<a class="headerlink" href="#module-swingtime_settings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="swingtime_settings.TIMESLOT_TIME_FORMAT">
+<!--[swingtime_settings.TIMESLOT_TIME_FORMAT]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">TIMESLOT_TIME_FORMAT</tt><a class="headerlink" href="#swingtime_settings.TIMESLOT_TIME_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>A &#8220;strftime&#8221; string for formatting start and end time selectors in forms.
+The default format is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;%I:%M %p&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.TIMESLOT_INTERVAL">
+<!--[swingtime_settings.TIMESLOT_INTERVAL]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">TIMESLOT_INTERVAL</tt><a class="headerlink" href="#swingtime_settings.TIMESLOT_INTERVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used for creating start and end time form selectors as well as time slot grids.
+Value should be <tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> value representing the incremental
+differences between temporal options. The default is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">``</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mf">15</span><span class="p">)</span><span class="sb">``</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.TIMESLOT_START_TIME">
+<!--[swingtime_settings.TIMESLOT_START_TIME]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">TIMESLOT_START_TIME</tt><a class="headerlink" href="#swingtime_settings.TIMESLOT_START_TIME" title="Permalink to this definition">¶</a></dt>
+<dd><p>A datetime.time value indicting the starting time for time slot grids and form
+selectors. The default is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">``</span><span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="mf">9</span><span class="p">)</span><span class="sb">``</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.TIMESLOT_END_TIME_DURATION">
+<!--[swingtime_settings.TIMESLOT_END_TIME_DURATION]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">TIMESLOT_END_TIME_DURATION</tt><a class="headerlink" href="#swingtime_settings.TIMESLOT_END_TIME_DURATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> value indicating the offset value from
+<tt class="docutils literal"><span class="pre">TIMESLOT_START_TIME</span></tt> for creating time slot grids and form selectors. The
+purpose for using a time delta is that it possible to span dates. For instance,
+one could have a starting time of 3pm (15:00) and wish to indicate a ending value
+1:30am (01:30), in which case a value of <tt class="docutils literal"><span class="pre">datetime.timedelta(hours=10.5)</span></tt>
+could be specified to indicate that the 1:30 represents the following date&#8217;s
+time and not the current date. Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">``</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=+</span><span class="mf">8</span><span class="p">)</span><span class="sb">``</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.TIMESLOT_MIN_COLUMNS">
+<!--[swingtime_settings.TIMESLOT_MIN_COLUMNS]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">TIMESLOT_MIN_COLUMNS</tt><a class="headerlink" href="#swingtime_settings.TIMESLOT_MIN_COLUMNS" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates a minimum value (default: <tt class="docutils literal"><span class="pre">4</span></tt>) for the number grid columns to be
+shown in the time slot table.</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.DEFAULT_OCCURRENCE_DURATION">
+<!--[swingtime_settings.DEFAULT_OCCURRENCE_DURATION]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">DEFAULT_OCCURRENCE_DURATION</tt><a class="headerlink" href="#swingtime_settings.DEFAULT_OCCURRENCE_DURATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicate the default length in time for a new occurrence, specifed by using
+a <tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> object, defaulting to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sb">``</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=+</span><span class="mf">1</span><span class="p">)</span><span class="sb">``</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="swingtime_settings.CALENDAR_FIRST_WEEKDAY">
+<!--[swingtime_settings.CALENDAR_FIRST_WEEKDAY]--><tt class="descclassname">swingtime_settings.</tt><tt class="descname">CALENDAR_FIRST_WEEKDAY</tt><a class="headerlink" href="#swingtime_settings.CALENDAR_FIRST_WEEKDAY" title="Permalink to this definition">¶</a></dt>
+<dd>If not <tt class="xref docutils literal"><span class="pre">None</span></tt>, passed to <tt class="docutils literal"><span class="pre">calendar.setfirstweekday</span></tt> function.
+Default: <tt class="docutils literal"><span class="pre">6</span></tt></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href=""><tt class="docutils literal"><span class="pre">swingtime_settings</span></tt> &#8212; Configuration Settings</a><ul>
+<li><a class="reference external" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="utils.html" title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">utils</span></tt> &#8212; Swingtime Utilities</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="changes.html" title="next chapter">Changes in Swingtime</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/swingtime_settings.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="changes.html" title="Changes in Swingtime"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils &#8212; Swingtime Utilities"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, David Krauth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.
+    </div>
+  </body>
+</html>

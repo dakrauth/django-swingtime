@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>forms &#8212; Swingtime Forms &mdash; Swingtime v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.2',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Swingtime v0.2 documentation" href="index.html" />
+    <link rel="next" title="utils &#8212; Swingtime Utilities" href="utils.html" />
+    <link rel="prev" title="views &#8212; Swingtime Views" href="views.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils &#8212; Swingtime Utilities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="views &#8212; Swingtime Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="module-forms">
+<h1><tt class="xref docutils literal"><span class="pre">forms</span></tt> &#8212; Swingtime Forms<a class="headerlink" href="#module-forms" title="Permalink to this headline">¶</a></h1>
+<p>Convenience forms for adding and updating <tt class="docutils literal"><span class="pre">Event</span></tt> and <tt class="docutils literal"><span class="pre">Occurrence</span></tt> objects.</p>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="timeslot-options">
+<h3><tt class="docutils literal"><span class="pre">timeslot_options</span></tt><a class="headerlink" href="#timeslot-options" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="forms.timeslot_options">
+<!--[forms.timeslot_options]--><tt class="descclassname">forms.</tt><tt class="descname">timeslot_options</tt><big>(</big><span class="optional">[</span><em>interval=swingtime_settings.TIMESLOT_INTERVAL</em>, <em>start_time=swingtime_settings.TIMESLOT_START_TIME</em>, <em>end_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION</em>, <em>fmt=swingtime_settings.TIMESLOT_TIME_FORMAT</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#forms.timeslot_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list of time slot options for use in swingtime forms.</p>
+<p>The list is comprised of 2-tuples containing a 24-hour time value and a
+12-hour temporal representation of that offset.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="timeslot-offset-options">
+<h3><tt class="docutils literal"><span class="pre">timeslot_offset_options</span></tt><a class="headerlink" href="#timeslot-offset-options" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="forms.timeslot_offset_options">
+<!--[forms.timeslot_offset_options]--><tt class="descclassname">forms.</tt><tt class="descname">timeslot_offset_options</tt><big>(</big><span class="optional">[</span><em>interval=swingtime_settings.TIMESLOT_INTERVAL</em>, <em>start_time=swingtime_settings.TIMESLOT_START_TIME</em>, <em>end_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION</em>, <em>fmt=swingtime_settings.TIMESLOT_TIME_FORMAT</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#forms.timeslot_offset_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a list of time slot options for use in swingtime forms.</p>
+<p>The list is comprised of 2-tuples containing the number of seconds since the
+start of the day and a 12-hour temporal representation of that offset.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="default-timeslot-options">
+<h3><tt class="docutils literal"><span class="pre">default_timeslot_options</span></tt><a class="headerlink" href="#default-timeslot-options" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="forms.default_timeslot_options">
+<!--[forms.default_timeslot_options]--><tt class="descclassname">forms.</tt><tt class="descname">default_timeslot_options</tt><a class="headerlink" href="#forms.default_timeslot_options" title="Permalink to this definition">¶</a></dt>
+<dd>defaults to <tt class="docutils literal"><span class="pre">timeslot_options()</span></tt></dd></dl>
+
+</div>
+<div class="section" id="default-timeslot-offset-options">
+<h3><tt class="docutils literal"><span class="pre">default_timeslot_offset_options</span></tt><a class="headerlink" href="#default-timeslot-offset-options" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="forms.default_timeslot_offset_options">
+<!--[forms.default_timeslot_offset_options]--><tt class="descclassname">forms.</tt><tt class="descname">default_timeslot_offset_options</tt><a class="headerlink" href="#forms.default_timeslot_offset_options" title="Permalink to this definition">¶</a></dt>
+<dd>defaults to <tt class="docutils literal"><span class="pre">timeslot_offset_options()</span></tt></dd></dl>
+
+</div>
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="multipleintegerfield">
+<h3><tt class="docutils literal"><span class="pre">MultipleIntegerField</span></tt><a class="headerlink" href="#multipleintegerfield" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="forms.MultipleIntegerField">
+<!--[forms.MultipleIntegerField]-->class <tt class="descclassname">forms.</tt><tt class="descname">MultipleIntegerField</tt><big>(</big><em>django.forms.MultipleChoiceField</em><big>)</big><a class="headerlink" href="#forms.MultipleIntegerField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form field for handling multiple integers.</p>
+<dl class="docutils">
+<dt>def __init__(self, choices, size=None, label=None, widget=None):</dt>
+<dd><dl class="first last docutils">
+<dt>if widget is None:</dt>
+<dd>widget = forms.SelectMultiple(attrs={&#8216;size&#8217; : size or len(choices)})</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="splitdatetimewidget">
+<h3><tt class="docutils literal"><span class="pre">SplitDateTimeWidget</span></tt><a class="headerlink" href="#splitdatetimewidget" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="forms.SplitDateTimeWidget">
+<!--[forms.SplitDateTimeWidget]-->class <tt class="descclassname">forms.</tt><tt class="descname">SplitDateTimeWidget</tt><big>(</big><em>django.forms.MultiWidget</em><big>)</big><a class="headerlink" href="#forms.SplitDateTimeWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Widget that splits datetime input into a SelectDateWidget for dates and
+Select widget for times.</p>
+<dl class="method">
+<dt id="forms.SplitDateTimeWidget.__init__">
+<!--[forms.SplitDateTimeWidget.__init__]--><tt class="descname">__init__</tt><big>(</big><em>attrs=None</em><big>)</big><a class="headerlink" href="#forms.SplitDateTimeWidget.__init__" title="Permalink to this definition">¶</a></dt>
+<dd>uses widgets <tt class="docutils literal"><span class="pre">SelectDateWidget</span></tt> and
+<tt class="docutils literal"><span class="pre">forms.Select(choices=default_timeslot_options</span></tt></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="multipleoccurrenceform">
+<h3><tt class="docutils literal"><span class="pre">MultipleOccurrenceForm</span></tt><a class="headerlink" href="#multipleoccurrenceform" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="forms.MultipleOccurrenceForm">
+<!--[forms.MultipleOccurrenceForm]-->class <tt class="descclassname">forms.</tt><tt class="descname">MultipleOccurrenceForm</tt><big>(</big><em>django.forms.Form</em><big>)</big><a class="headerlink" href="#forms.MultipleOccurrenceForm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.day">
+<!--[forms.MultipleOccurrenceForm.day]--><tt class="descname">day</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.day" title="Permalink to this definition">¶</a></dt>
+<dd>forms.DateField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.start_time_delta">
+<!--[forms.MultipleOccurrenceForm.start_time_delta]--><tt class="descname">start_time_delta</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.start_time_delta" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.end_time_delta">
+<!--[forms.MultipleOccurrenceForm.end_time_delta]--><tt class="descname">end_time_delta</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.end_time_delta" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.repeats">
+<!--[forms.MultipleOccurrenceForm.repeats]--><tt class="descname">repeats</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.repeats" title="Permalink to this definition">¶</a></dt>
+<dd>forms.ChoiceField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.count">
+<!--[forms.MultipleOccurrenceForm.count]--><tt class="descname">count</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.count" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.until">
+<!--[forms.MultipleOccurrenceForm.until]--><tt class="descname">until</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.until" title="Permalink to this definition">¶</a></dt>
+<dd>forms.DateField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.freq">
+<!--[forms.MultipleOccurrenceForm.freq]--><tt class="descname">freq</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.freq" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.interval">
+<!--[forms.MultipleOccurrenceForm.interval]--><tt class="descname">interval</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.interval" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.week_days">
+<!--[forms.MultipleOccurrenceForm.week_days]--><tt class="descname">week_days</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.week_days" title="Permalink to this definition">¶</a></dt>
+<dd>MultipleIntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.month_ordinal">
+<!--[forms.MultipleOccurrenceForm.month_ordinal]--><tt class="descname">month_ordinal</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.month_ordinal" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.month_ordinal_day">
+<!--[forms.MultipleOccurrenceForm.month_ordinal_day]--><tt class="descname">month_ordinal_day</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.month_ordinal_day" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">each_month_day = MultipleIntegerField(</tt></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.year_months">
+<!--[forms.MultipleOccurrenceForm.year_months]--><tt class="descname">year_months</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.year_months" title="Permalink to this definition">¶</a></dt>
+<dd>MultipleIntegerField</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.is_year_month_ordinal">
+<!--[forms.MultipleOccurrenceForm.is_year_month_ordinal]--><tt class="descname">is_year_month_ordinal</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.is_year_month_ordinal" title="Permalink to this definition">¶</a></dt>
+<dd>forms.BooleanField(required=False)</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.year_month_ordinal">
+<!--[forms.MultipleOccurrenceForm.year_month_ordinal]--><tt class="descname">year_month_ordinal</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.year_month_ordinal" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField(widget=forms.Select(choices=ORDINAL))</dd></dl>
+
+<dl class="attribute">
+<dt id="forms.MultipleOccurrenceForm.year_month_ordinal_day">
+<!--[forms.MultipleOccurrenceForm.year_month_ordinal_day]--><tt class="descname">year_month_ordinal_day</tt><a class="headerlink" href="#forms.MultipleOccurrenceForm.year_month_ordinal_day" title="Permalink to this definition">¶</a></dt>
+<dd>forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG))</dd></dl>
+
+<dl class="method">
+<dt id="forms.MultipleOccurrenceForm.__init__">
+<!--[forms.MultipleOccurrenceForm.__init__]--><tt class="descname">__init__</tt><big>(</big><span class="optional">[</span><em>*args</em>, <em>**kws</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#forms.MultipleOccurrenceForm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd>if <tt class="docutils literal"><span class="pre">initial</span></tt> contains <tt class="docutils literal"><span class="pre">dtstart</span></tt> - a <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> instance -
+the appropriate unspecified <tt class="docutils literal"><span class="pre">initial</span></tt> will be defaulted for the
+form.</dd></dl>
+
+<dl class="method">
+<dt id="forms.MultipleOccurrenceForm.clean">
+<!--[forms.MultipleOccurrenceForm.clean]--><tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#forms.MultipleOccurrenceForm.clean" title="Permalink to this definition">¶</a></dt>
+<dd>populates <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> with <tt class="docutils literal"><span class="pre">start_time</span></tt> and <tt class="docutils literal"><span class="pre">end_time</span></tt> values</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">save(event):</tt></dt>
+<dd>Returns an <tt class="docutils literal"><span class="pre">Event</span></tt> object</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="eventform">
+<h3><tt class="docutils literal"><span class="pre">EventForm</span></tt><a class="headerlink" href="#eventform" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="forms.EventForm">
+<!--[forms.EventForm]-->class <tt class="descclassname">forms.</tt><tt class="descname">EventForm</tt><big>(</big><em>django.forms.ModelForm</em><big>)</big><a class="headerlink" href="#forms.EventForm" title="Permalink to this definition">¶</a></dt>
+<dd>A simple form for adding and updating Event attributes</dd></dl>
+
+</div>
+<div class="section" id="singleoccurrenceform">
+<h3><tt class="docutils literal"><span class="pre">SingleOccurrenceForm</span></tt><a class="headerlink" href="#singleoccurrenceform" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="forms.SingleOccurrenceForm">
+<!--[forms.SingleOccurrenceForm]-->class <tt class="descclassname">forms.</tt><tt class="descname">SingleOccurrenceForm</tt><big>(</big><em>django.forms.ModelForm</em><big>)</big><a class="headerlink" href="#forms.SingleOccurrenceForm" title="Permalink to this definition">¶</a></dt>
+<dd>A simple form for adding and updating single Occurrence attributes</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href=""><tt class="docutils literal"><span class="pre">forms</span></tt> &#8212; Swingtime Forms</a><ul>
+<li><a class="reference external" href="#functions">Functions</a><ul>
+<li><a class="reference external" href="#timeslot-options"><tt class="docutils literal"><span class="pre">timeslot_options</span></tt></a></li>
+<li><a class="reference external" href="#timeslot-offset-options"><tt class="docutils literal"><span class="pre">timeslot_offset_options</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#data">Data</a><ul>
+<li><a class="reference external" href="#default-timeslot-options"><tt class="docutils literal"><span class="pre">default_timeslot_options</span></tt></a></li>
+<li><a class="reference external" href="#default-timeslot-offset-options"><tt class="docutils literal"><span class="pre">default_timeslot_offset_options</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#classes">Classes</a><ul>
+<li><a class="reference external" href="#multipleintegerfield"><tt class="docutils literal"><span class="pre">MultipleIntegerField</span></tt></a></li>
+<li><a class="reference external" href="#splitdatetimewidget"><tt class="docutils literal"><span class="pre">SplitDateTimeWidget</span></tt></a></li>
+<li><a class="reference external" href="#multipleoccurrenceform"><tt class="docutils literal"><span class="pre">MultipleOccurrenceForm</span></tt></a></li>
+<li><a class="reference external" href="#eventform"><tt class="docutils literal"><span class="pre">EventForm</span></tt></a></li>
+<li><a class="reference external" href="#singleoccurrenceform"><tt class="docutils literal"><span class="pre">SingleOccurrenceForm</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="views.html" title="previous chapter"><tt class="docutils literal"><span class="pre">views</span></tt> &#8212; Swingtime Views</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="utils.html" title="next chapter"><tt class="docutils literal"><span class="pre">utils</span></tt> &#8212; Swingtime Utilities</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/forms.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="utils &#8212; Swingtime Utilities"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="views &#8212; Swingtime Views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, David Krauth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.
+    </div>
+  </body>
+</html>

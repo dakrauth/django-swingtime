@@ -1,0 +1,9 @@
+.. _changes:
+
+Changes in Swingtime
+====================
+
+Release 0.2 (Decemeber 18, 2008)
+--------------------------------
+
+* First public release.

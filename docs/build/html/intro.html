@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Swingtime v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.2',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Swingtime v0.2 documentation" href="index.html" />
+    <link rel="next" title="models &#8212; Swingtime Object Model Definitions" href="models.html" />
+    <link rel="prev" title="Swingtime documentation contents" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="models &#8212; Swingtime Object Model Definitions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Swingtime documentation contents"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="about-swingtime">
+<h2>About Swingtime<a class="headerlink" href="#about-swingtime" title="Permalink to this headline">¶</a></h2>
+<p>Swingtime is a <a class="reference external" href="http://www.djangoproject.com/">Django</a> application similar to
+stripped down version of
+<a class="reference external" href="http://en.wikipedia.org/wiki/ICal">iCal for Mac OS X</a> or
+<a class="reference external" href="http://www.google.com/intl/en/googlecalendar/tour.html">Google Calendar</a>.
+Swingtime provides  an <a title="models.Event" class="reference external" href="models.html#models.Event"><tt class="xref docutils literal"><span class="pre">Event</span></tt></a> model that act as metadata container
+for one or more <a title="models.Occurrence" class="reference external" href="models.html#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> objects, which describe specific
+start and end times.</p>
+<p>Swingtime relies heavily upon both the <tt class="docutils literal"><span class="pre">datetime</span></tt> standard library package and
+the <tt class="docutils literal"><span class="pre">dateutil</span></tt> package, featuring direct support for the <tt class="docutils literal"><span class="pre">dateutil.rrule</span></tt>
+interface to create occurrences.</p>
+<p>A fairly simple example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">swingtime</span> <span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">swingtime</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">et</span> <span class="o">=</span> <span class="n">swingtime</span><span class="o">.</span><span class="n">EventType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">abbr</span><span class="o">=</span><span class="s">&#39;work&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Work Related Events&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evt</span> <span class="o">=</span> <span class="n">swingtime</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">title</span><span class="o">=</span><span class="s">&#39;New TPS Cover Sheet&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="o">=</span><span class="s">&#39;Kiss off, Lumbergh!&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">event_type</span><span class="o">=</span><span class="n">et</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evt</span><span class="o">.</span><span class="n">add_occurrences</span><span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mf">2008</span><span class="p">,</span><span class="mf">12</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">16</span><span class="p">),</span> <span class="n">datetime</span><span class="p">(</span><span class="mf">2008</span><span class="p">,</span><span class="mf">12</span><span class="p">,</span><span class="mf">1</span><span class="p">,</span><span class="mf">16</span><span class="p">,</span><span class="mf">15</span><span class="p">),</span> <span class="n">count</span><span class="o">=</span><span class="mf">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">evt</span><span class="o">.</span><span class="n">occurrence_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">o</span>
+<span class="gp">...</span>
+<span class="go">TPM Report: 2008-12-01T16:00:00</span>
+<span class="go">TPM Report: 2008-12-02T16:00:00</span>
+<span class="go">TPM Report: 2008-12-03T16:00:00</span>
+<span class="go">TPM Report: 2008-12-04T16:00:00</span>
+<span class="go">TPM Report: 2008-12-05T16:00:00</span>
+</pre></div>
+</div>
+<p>A bit more elaborate example, using the the convenience function <a title="models.create_event" class="reference external" href="models.html#models.create_event"><tt class="xref docutils literal"><span class="pre">models.create_event()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># pay day is the last Friday of the month at 5pm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evt</span> <span class="o">=</span> <span class="n">swingtime</span><span class="o">.</span><span class="n">create_event</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s">&#39;Pay day&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s">&#39;pay&#39;</span><span class="p">,</span> <span class="s">&#39;Payroll&#39;</span><span class="p">),</span> <span class="c"># alternate means to add EventType on the fly</span>
+<span class="gp">... </span>    <span class="n">freq</span><span class="o">=</span><span class="n">rrule</span><span class="o">.</span><span class="n">MONTHLY</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">byweekday</span><span class="o">=</span><span class="n">rrule</span><span class="o">.</span><span class="n">FR</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">until</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mf">2009</span><span class="p">,</span><span class="mf">4</span><span class="p">,</span><span class="mf">1</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">start_time</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mf">2008</span><span class="p">,</span><span class="mf">12</span><span class="p">,</span><span class="mf">25</span><span class="p">,</span><span class="mf">17</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">evt</span><span class="o">.</span><span class="n">occurrence_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">o</span>
+<span class="gp">...</span>
+<span class="go">Pay day: 2008-12-26T17:00:00</span>
+<span class="go">Pay day: 2009-01-30T17:00:00</span>
+<span class="go">Pay day: 2009-02-27T17:00:00</span>
+<span class="go">Pay day: 2009-03-27T17:00:00</span>
+</pre></div>
+</div>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Support for adding complex event occurrences via <tt class="docutils literal"><span class="pre">dateutil</span></tt></li>
+<li>Ready-made <a title="forms.MultipleOccurrenceForm" class="reference external" href="forms.html#forms.MultipleOccurrenceForm"><tt class="xref docutils literal"><span class="pre">MultipleOccurrenceForm</span></tt></a> for handling complex input</li>
+<li>Daily, monthly, and annual view functions</li>
+<li>Grid-based daily view generator, complete with alternating or sequential
+<a title="models.EventType" class="reference external" href="models.html#models.EventType"><tt class="xref docutils literal"><span class="pre">EventType</span></tt></a> CSS-class handling</li>
+<li>Slightly better than average documentation, a few test cases, and commented code</li>
+<li>Active support (I have to eat my own dogfood)</li>
+<li>Built-in demo project / application</li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://www.djangoproject.com/download/">Django 1.0+</a></li>
+<li>Python 2.5+ (yeah, sorry, Swingtime won&#8217;t work with 2.3 or 2.4, but I use
+2.5+ exclusively; however, should anyone like to contribute the necessary
+backward compatible patches that don&#8217;t hamstring any of 2.5+ features, I
+more than willing to include them).</li>
+<li>The <tt class="docutils literal"><span class="pre">dateutil</span></tt> <a class="reference external" href="http://labix.org/python-dateutil">package</a>.</li>
+</ul>
+</div>
+<div class="section" id="get-swingtime">
+<h3>Get Swingtime<a class="headerlink" href="#get-swingtime" title="Permalink to this headline">¶</a></h3>
+<p>Options:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://code.google.com/p/django-swingtime/source/checkout">Swingtime source code</a></li>
+<li><a class="reference external" href="http://code.google.com/p/django-swingtime/downloads/list">Gzipped tarball</a></li>
+</ul>
+</div>
+<div class="section" id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h3>
+<p>Swingtime has it&#8217;s settings module (<tt class="docutils literal"><span class="pre">conf/swingtime_settings.py</span></tt>) that
+simulates how each Django project&#8217;s <tt class="docutils literal"><span class="pre">setting.py</span></tt> file functions. You can
+overwrite any or all of the configuration parameters described in
+<a title="" class="reference external" href="swingtime_settings.html#module-swingtime_settings"><tt class="xref docutils literal"><span class="pre">swingtime_settings</span></tt></a> by creating a file in your own project and referencing
+that file in your project settings using the name <tt class="xref docutils literal"><span class="pre">SWINGTIME_SETTINGS_MODULE</span></tt>.</p>
+<p>For example, from the demo&#8217;s configuration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SWINGTIME_SETTINGS_MODULE</span> <span class="o">=</span> <span class="s">&#39;demo.swingtime_settings&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<p>Swingtime comes with its own demo project and application. The demo is themed as
+a Karate studio&#8217;s website and allows you see and interact with the Swingtime
+application.</p>
+<p>A live demo can be found at <a class="reference external" href="http://swingtime.gorgeofeternalperil.com">http://swingtime.gorgeofeternalperil.com</a> or run
+locally using the <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port">built-in Django development server</a>.</p>
+<div class="section" id="templates">
+<h3>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h3>
+<p>Currently, Swingtime does not include any templates of its own. The demo project
+provides some sample templates to use as a guide or starting point.</p>
+</div>
+<div class="section" id="sample-data">
+<h3>Sample data<a class="headerlink" href="#sample-data" title="Permalink to this headline">¶</a></h3>
+<p>Within the Swingtime demo is an app named <tt class="docutils literal"><span class="pre">karate</span></tt>, which defines the custom
+management command <tt class="docutils literal"><span class="pre">loaddemo</span></tt>. This command will pre-populate your
+initial database with some events and occurrences based upon the current date and
+time.</p>
+</div>
+<div class="section" id="running-the-demo">
+<h3>Running the demo<a class="headerlink" href="#running-the-demo" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;ve checked out from directly from the trunk directory or exploded the
+latest version tarball, you run the demo from anywhere by changing to the
+<tt class="docutils literal"><span class="pre">demo</span></tt> directory and running:</p>
+<div class="highlight-python"><pre>$ python manage.py loaddemo
+$ python manage.py runserver</pre>
+</div>
+</div>
+</div>
+<div class="section" id="todo-list">
+<h2>Todo List<a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Add i18n support</li>
+<li>Include a setup installer (I&#8217;m not doing <tt class="docutils literal"><span class="pre">easy_install</span></tt>!)</li>
+<li>Add weekly view</li>
+<li>Import and export .ics files</li>
+<li>Add <a title="models.Note" class="reference external" href="models.html#models.Note"><tt class="xref docutils literal"><span class="pre">Note</span></tt></a> support to demo</li>
+<li>Add more tests</li>
+<li>Port over to github</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Introduction</a><ul>
+<li><a class="reference external" href="#about-swingtime">About Swingtime</a><ul>
+<li><a class="reference external" href="#features">Features</a></li>
+<li><a class="reference external" href="#requirements">Requirements</a></li>
+<li><a class="reference external" href="#get-swingtime">Get Swingtime</a></li>
+<li><a class="reference external" href="#settings">Settings</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#demo">Demo</a><ul>
+<li><a class="reference external" href="#templates">Templates</a></li>
+<li><a class="reference external" href="#sample-data">Sample data</a></li>
+<li><a class="reference external" href="#running-the-demo">Running the demo</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#todo-list">Todo List</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html" title="previous chapter">Swingtime documentation contents</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="models.html" title="next chapter"><tt class="docutils literal"><span class="pre">models</span></tt> &#8212; Swingtime Object Model Definitions</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/intro.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="models &#8212; Swingtime Object Model Definitions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Swingtime documentation contents"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, David Krauth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.
+    </div>
+  </body>
+</html>
