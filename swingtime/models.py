@@ -218,13 +218,21 @@ def create_event(
      
     Returns the newly created ``Event`` instance.
     
-    * ``event_type`` can be either an ``EventType`` object or 2-tuple of
-      (*abbreviation*,*label*), from which an ``EventType`` is either created or
-      retrieved.
-    * ``start_time`` will default to the current hour if ``None``
-    * ``end_time`` will default to ``start_time`` plus 1 hour if ``None``
-    * ``freq``, ``count``, and the ``rrule_params`` dict follow the ``dateutils``
-      API (see http://labix.org/python-dateutil)
+    Parameters
+    
+    ``event_type``
+        can be either an ``EventType`` object or 2-tuple of ``(abbreviation,label)``, 
+        from which an ``EventType`` is either created or retrieved.
+    
+    ``start_time`` 
+        will default to the current hour if ``None``
+    
+    ``end_time`` 
+        will default to ``start_time`` plus swingtime_settings.DEFAULT_OCCURRENCE_DURATION
+        hour if ``None``
+    
+    ``freq``, ``count``, ``rrule_params``
+        follow the ``dateutils`` API (see http://labix.org/python-dateutil)
     
     '''
     from swingtime.conf import settings as swingtime_settings
@@ -250,6 +258,6 @@ def create_event(
         microsecond=0
     )
     
-    end_time = start_time or start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
+    end_time = end_time or start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
     event.add_occurrences(start_time, end_time, **rrule_params)
     return event

@@ -1,6 +1,7 @@
 import os
 import sys
 try:
+    # dateutil is an absolute requirement
     import dateutil
 except ImportError:
     raise ImportError(
@@ -54,8 +55,6 @@ except ImportError:
 else:
     INSTALLED_APPS += ('django_extensions',)
 
-# dateutil is an absolute requirement
-    
 try:
     from local_settings import *
 except ImportError:

@@ -180,14 +180,23 @@ def doc_tests():
         1
         >>> e = create_event(
         ...     'Something completely different',
-        ...     event_type=evt_types[1],
+        ...     event_type=('abbr', 'Abbreviation'),
         ...     start_time=datetime(2008,12,1, 12),
-        ...     end_time=datetime(2008,12,1,13),
         ...     freq=rrule.WEEKLY,
         ...     byweekday=(rrule.TU, rrule.TH),
         ...     until=datetime(2008,12,31)
         ... )
-        >>> e.occurrence_set.count()
-        9
+        >>> for o in e.occurrence_set.all():
+        ...     print o.start_time, o.end_time
+        ... 
+        2008-12-02 12:00:00 2008-12-02 13:00:00
+        2008-12-04 12:00:00 2008-12-04 13:00:00
+        2008-12-09 12:00:00 2008-12-09 13:00:00
+        2008-12-11 12:00:00 2008-12-11 13:00:00
+        2008-12-16 12:00:00 2008-12-16 13:00:00
+        2008-12-18 12:00:00 2008-12-18 13:00:00
+        2008-12-23 12:00:00 2008-12-23 13:00:00
+        2008-12-25 12:00:00 2008-12-25 13:00:00
+        2008-12-30 12:00:00 2008-12-30 13:00:00
     '''
     pass

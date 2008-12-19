@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.static import serve
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 
 admin.autodiscover()
 doc_root = os.path.join(os.path.dirname(settings.PROJECT_DIR), 'docs/build/html')
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     (r'^karate/', include('karate.urls')),
     (r'^admin/docs/', include('django.contrib.admindocs.urls')),
     (r'^admin/(.*)', admin.site.root),
+    (r'^docs/?$', redirect_to, dict(url='/docs/index.html')),
     (r'^docs/(?P<path>.*)$', serve, dict(document_root=doc_root, show_indexes=False))
 )
 
