@@ -111,8 +111,8 @@ Swingtime comes with its own demo project and application. The demo is themed as
 a Karate studio's website and allows you see and interact with the Swingtime
 application.
 
-A live demo can be found at http://swingtime.gorgeofeternalperil.com or run
-locally using the `built-in Django development server <http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>`_.
+Run locally using the `built-in Django development server 
+<http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>`_.
 
 Templates
 ---------
