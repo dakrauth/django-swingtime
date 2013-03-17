@@ -11,7 +11,6 @@
         <a href="{% url swingtime-monthly-view next_month.year next_month.month %}" 
            title="Next Month">&rarr;</a>
     </h4>
-
     <table class="month-view">
         <thead>
             <tr>
@@ -31,9 +30,8 @@
                     <ul>
                         {% for item in items %}
                         <li>
-                            <a href="{{ item.get_absolute_url }}">
-                                {{ item.title }}</a>
-                            <span class="event_times">{{ item.start_time|time }}</span>
+                            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                            <em class="event-times">{{ item.start_time|time }}</em>
                         </li>
                         {% endfor %}
                     </ul>

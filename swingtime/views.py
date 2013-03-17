@@ -37,15 +37,10 @@ def event_listing(
     ???
         all values passed in via **extra_context
     '''
-    if not events:
-        events = Event.objects.all()
-    elif hasattr(events, '_clone'):
-        events = events._clone()
-        
-    return render_to_response(
-        template, 
-        dict(extra_context, events=events),
-        context_instance=RequestContext(request)
+    return utils.render(
+        request,
+        template,
+        dict(extra_context, events=events or Event.objects.all())
     )
 
 
@@ -88,17 +83,12 @@ def event_view(
         else:
             return http.HttpResponseBadRequest('Bad Request')
 
-    event_form = event_form or event_form_class(instance=event)
-    if not recurrence_form:
-        recurrence_form = recurrence_form_class(
-            initial=dict(dtstart=datetime.now())
-        )
-            
-    return render_to_response(
-        template, 
-        dict(event=event, event_form=event_form, recurrence_form=recurrence_form),
-        context_instance=RequestContext(request)
-    )
+    data = {
+        'event': event,
+        'event_form': event_form or event_form_class(instance=event),
+        'recurrence_form': recurrence_form or recurrence_form_class(initial={'dtstart': datetime.now()})
+    }
+    return utils.render(request, template, data)
 
 
 #-------------------------------------------------------------------------------
@@ -129,11 +119,7 @@ def occurrence_view(
     else:
         form = form_class(instance=occurrence)
         
-    return render_to_response(
-        template,
-        dict(occurrence=occurrence, form=form),
-        context_instance=RequestContext(request)
-    )
+    return utils.render(request, template, {'occurrence': occurrence, 'form': form})
 
 
 #-------------------------------------------------------------------------------
@@ -174,15 +160,16 @@ def add_event(
                 dtstart = parser.parse(request.GET['dtstart'])
             except:
                 # TODO A badly formatted date is passed to add_event
-                dtstart = datetime.now()
-                
+                pass
+        
+        dtstart = dtstart or datetime.now()
         event_form = event_form_class()
-        recurrence_form = recurrence_form_class(initial=dict(dtstart=dtstart))
+        recurrence_form = recurrence_form_class(initial={'dtstart': dtstart})
             
-    return render_to_response(
+    return utils.render(
+        request,
         template,
-        dict(dtstart=dtstart, event_form=event_form, recurrence_form=recurrence_form),
-        context_instance=RequestContext(request)
+        {'dtstart': dtstart, 'event_form': event_form, 'recurrence_form': recurrence_form}
     )
 
 
@@ -216,18 +203,13 @@ def _datetime_view(
     '''
     timeslot_factory = timeslot_factory or utils.create_timeslot_table
     params = params or {}
-    data = dict(
-        day=dt, 
-        next_day=dt + timedelta(days=+1),
-        prev_day=dt + timedelta(days=-1),
-        timeslots=timeslot_factory(dt, items, **params)
-    )
     
-    return render_to_response(
-        template,
-        data,
-        context_instance=RequestContext(request)
-    )
+    return utils.render(request, template, {
+        'day':       dt, 
+        'next_day':  dt + timedelta(days=+1),
+        'prev_day':  dt + timedelta(days=-1),
+        'timeslots': timeslot_factory(dt, items, **params)
+    })
 
 
 #-------------------------------------------------------------------------------
@@ -272,31 +254,26 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
         
     '''
     year = int(year)
-    if queryset:
-        queryset = queryset._clone()
-    else:
-        queryset = Occurrence.objects.select_related()
-        
+    queryset = queryset._clone() if queryset else Occurrence.objects.select_related()
     occurrences = queryset.filter(
-        models.Q(start_time__year=year) | models.Q(end_time__year=year)
+        models.Q(start_time__year=year) |
+        models.Q(end_time__year=year)
     )
 
-    def grouper_key(o):
-        if o.start_time.year == year:
-            return datetime(year, o.start_time.month, 1)
-            
-        return datetime(year, o.end_time.month, 1)
+    def group_key(o):
+        return datetime(
+            year,
+            o.start_time.month if o.start_time.year == year else o.end_time.month,
+            1
+        )
 
-    by_month = [
-        (dt, list(items)) 
-        for dt,items in itertools.groupby(occurrences, grouper_key)
-    ]
-
-    return render_to_response(
-        template, 
-        dict(year=year, by_month=by_month, next_year=year + 1, last_year=year - 1), 
-        context_instance=RequestContext(request),
-    )
+    return utils.render(request, template, {
+        'year': year,
+        'by_month': [(dt, list(o)) for dt,o in itertools.groupby(occurrences, group_key)],
+        'next_year': year + 1,
+        'last_year': year - 1
+        
+    })
 
 
 #-------------------------------------------------------------------------------
@@ -331,37 +308,27 @@ def month_view(
     
     '''
     year, month = int(year), int(month)
-
-    cal = calendar.monthcalendar(year, month)
-    dtstart = datetime(year, month, 1)
-    last_day = max(cal[-1])
-    dtend = datetime(year, month, last_day)
+    cal         = calendar.monthcalendar(year, month)
+    dtstart     = datetime(year, month, 1)
+    last_day    = max(cal[-1])
+    dtend       = datetime(year, month, last_day)
 
     # TODO Whether to include those occurrences that started in the previous
     # month but end in this month?
-    if queryset:
-        queryset = queryset._clone()
-    else:
-        queryset = Occurrence.objects.select_related()
-        
+    queryset = queryset._clone() if queryset else Occurrence.objects.select_related()
     occurrences = queryset.filter(start_time__year=year, start_time__month=month)
 
-    by_day = dict([
-        (dom, list(items)) 
-        for dom,items in itertools.groupby(occurrences, lambda o: o.start_time.day)
-    ])
+    def start_day(o):
+        return o.start_time.day
     
-    data = dict(
-        today=datetime.now(),
-        calendar=[[(d, by_day.get(d, [])) for d in row] for row in cal], 
-        this_month=dtstart,
-        next_month=dtstart + timedelta(days=+last_day),
-        last_month=dtstart + timedelta(days=-1),
-    )
+    by_day = dict([(dt, list(o)) for dt,o in itertools.groupby(occurrences, start_day)])
+    data = {
+        'today':      datetime.now(),
+        'calendar':   [[(d, by_day.get(d, [])) for d in row] for row in cal], 
+        'this_month': dtstart,
+        'next_month': dtstart + timedelta(days=+last_day),
+        'last_month': dtstart + timedelta(days=-1),
+    }
 
-    return render_to_response(
-        template, 
-        data,
-        context_instance=RequestContext(request)
-    )
+    return utils.render(request, template, data)
 

@@ -13,8 +13,13 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(PROJECT_DIR))
 
 DEBUG = TEMPLATE_DEBUG = True
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = 'karate.db'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'karate.db',
+    }
+}
+
 TIME_ZONE = 'America/New_York'
 SITE_ID = 1
 USE_I18N = True
@@ -44,6 +49,13 @@ INSTALLED_APPS = (
     
     'swingtime',
     'karate',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 )
 
 SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'

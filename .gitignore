@@ -1,0 +1,4 @@
+*.log
+*.pot
+*.pyc
+karate.db

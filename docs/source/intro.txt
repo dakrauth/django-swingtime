@@ -8,10 +8,9 @@ About Swingtime
 Welcome
 -------
 
-Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to 
-stripped down version of
-`iCal for Mac OS X <http://en.wikipedia.org/wiki/ICal>`_ or 
-`Google Calendar <http://www.google.com/intl/en/googlecalendar/tour.html>`_.
+Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to
+a stripped-down version of `iCal for Mac OS X <http://en.wikipedia.org/wiki/ICal>`_
+or `Google Calendar <http://www.google.com/intl/en/googlecalendar/tour.html>`_.
 Swingtime provides  an :class:`~models.Event` model that act as metadata container
 for one or more :class:`~models.Occurrence` objects, which describe specific
 start and end times.

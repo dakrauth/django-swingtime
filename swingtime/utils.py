@@ -8,8 +8,21 @@ import itertools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
+from django.template.context import RequestContext
+from django.shortcuts import render_to_response
+
+
 from dateutil import rrule
 from swingtime.conf import settings as swingtime_settings
+
+
+#-------------------------------------------------------------------------------
+def render(request, template, data=None):
+    return render_to_response(
+        template, 
+        data or {},
+        context_instance=RequestContext(request)
+    )
 
 
 #-------------------------------------------------------------------------------

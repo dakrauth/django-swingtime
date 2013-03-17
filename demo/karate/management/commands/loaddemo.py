@@ -106,8 +106,10 @@ class Command(NoArgsCommand):
     #---------------------------------------------------------------------------
     def handle_noargs(self, **options):
         import os
-        dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASE_NAME)
+        
+        dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASES['default']['NAME'])
         if os.path.exists(dbpath):
+            print 'Removing', dbpath
             os.remove(dbpath)
 
         call_command('syncdb', noinput=True)

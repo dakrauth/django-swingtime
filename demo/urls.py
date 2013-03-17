@@ -9,11 +9,11 @@ admin.autodiscover()
 doc_root = os.path.join(os.path.dirname(settings.PROJECT_DIR), 'docs/build/html')
 
 urlpatterns = patterns('',
-    url(r'^$', direct_to_template, { 'template': 'intro.html'}, name='demo-home'),
-    (r'^karate/', include('karate.urls')),
-    (r'^admin/docs/', include('django.contrib.admindocs.urls')),
-    (r'^admin/(.*)', admin.site.root),
-    (r'^docs/?$', redirect_to, dict(url='/docs/index.html')),
+    url(r'^$',               direct_to_template, { 'template': 'intro.html'}, name='demo-home'),
+    (r'^karate/',            include('karate.urls')),
+    (r'^admin/docs/',        include('django.contrib.admindocs.urls')),
+    (r'^admin/',             include(admin.site.urls)),
+    (r'^docs/?$',            redirect_to, dict(url='/docs/index.html')),
     (r'^docs/(?P<path>.*)$', serve, dict(document_root=doc_root, show_indexes=False))
 )
 

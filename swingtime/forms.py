@@ -299,7 +299,9 @@ class MultipleOccurrenceForm(forms.Form):
             weekday = dtstart.isoweekday()
             ordinal = dtstart.day // 7
             ordinal = u'%d' % (-1 if ordinal > 3 else ordinal + 1,)
+            offset = (dtstart - datetime.combine(dtstart.date(), time(0))).seconds
             
+            self.initial.setdefault('day', dtstart)
             self.initial.setdefault('week_days', u'%d' % weekday)
             self.initial.setdefault('month_ordinal', ordinal)
             self.initial.setdefault('month_ordinal_day', u'%d' % weekday)
@@ -307,11 +309,8 @@ class MultipleOccurrenceForm(forms.Form):
             self.initial.setdefault('year_months', [u'%d' % dtstart.month])
             self.initial.setdefault('year_month_ordinal', ordinal)
             self.initial.setdefault('year_month_ordinal_day', u'%d' % weekday)
-            
-            offset = (dtstart - datetime.combine(dtstart.date(), time(0))).seconds
             self.initial.setdefault('start_time_delta', u'%d' % offset)
             self.initial.setdefault('end_time_delta', u'%d' % (offset + SECONDS_INTERVAL,))
-            
 
     #---------------------------------------------------------------------------
     def clean(self):
