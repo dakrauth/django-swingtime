@@ -9,7 +9,7 @@ img { border: none; }
     color: #222;
 }
 #main { 
-    padding-left: 60px;
+    padding: 1em 60px 60px 60px;
     border: 1px solid #999;
     background: #fff url(/media/img/karatedo.png) no-repeat left 10px;
 }
