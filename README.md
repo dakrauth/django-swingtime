@@ -54,18 +54,17 @@ Features
 --------
 
 * Support for adding complex event occurrences via `dateutil`
-* Ready-made :class:`~forms.MultipleOccurrenceForm` for handling complex input
+* Ready-made `MultipleOccurrenceForm` for handling complex input
 * Daily, monthly, and annual view functions
 * Grid-based daily view generator, complete with alternating or sequential 
   `EventType` CSS-class handling
 * Slightly better than average documentation, a few test cases, and commented code
-* Active support (I have to eat my own dogfood)
 * Built-in demo project / application
 
 Requirements
 ------------
 
-* Django 1.0+
-* Python 2.5+ 
+* Django 1.4
+* Python 2.7 
 * [dateutil](http://labix.org/python-dateutil)
 
