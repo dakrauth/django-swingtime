@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load url from future %}
 {% block extended_head %}
     <style type="text/css" media="screen">
         #container { background-image: none; }
@@ -20,16 +21,21 @@
         The purpose of this site is to showcase some of the Swingtime's features
         and allow some simple interaction. The theme for the demo is a Karate dojo.
     </p>
+    
+    <p>
+        Quick start: View today's calendar and <a href="{% url 'swingtime-today' %}">
+            add a new event by clicking a time slot &raquo;</a>
+    </p>
+    
     <hr />
-    <h3><a href="{% url karate-home %}">
+    <h3><a href="{% url 'karate-home' %}">
         Continue Demo &raquo;</a>
     </h3>
     <h3>
         <a href="/docs/index.html">Swingtime Documentation &raquo;</a>
     </h3>
     <h3>
-        <a href="http://code.google.com/p/django-swingtime/source/browse/trunk">
-            Swingtime Source Code &raquo;</a>
+        <a href="https://github.com/dakrauth/django-swingtime">Swingtime Source Code &raquo;</a>
     </h3>
     </div>
 {% endblock main_content %}

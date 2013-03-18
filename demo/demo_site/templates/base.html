@@ -1,3 +1,4 @@
+{% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +13,17 @@
 </head>
 <body>
     <div class="container">
-        <h1><a href="{% url demo-home %}">Swingtime Demo</a></h1>
+        <h1><a href="{% url 'demo-home' %}">Swingtime Demo</a></h1>
     </div>
     <div class="container" id="main">
         {% block navigation %}
         <h2>The Karate Dojo</h2>
         <p style="font-weight: bold; ">
-            <a href="{% url swingtime-today %}">Daily View</a> &sect; 
-            <a href="{% url swingtime-monthly-view current_datetime.year current_datetime.month %}">
+            <a href="{% url 'swingtime-today' %}">Daily View</a> &sect; 
+            <a href="{% url 'swingtime-monthly-view' current_datetime.year current_datetime.month %}">
                 Monthly View</a> &sect; 
-            <a href="{% url swingtime-yearly-view current_datetime.year %}">Yearly View</a> &sect; 
-            <a href="{% url swingtime-events %}">Event Listing</a>
+            <a href="{% url 'swingtime-yearly-view' current_datetime.year %}">Yearly View</a> &sect; 
+            <a href="{% url 'swingtime-events' %}">Event Listing</a>
         </p>
         <hr />
         {% endblock navigation %}

@@ -6,7 +6,8 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView, RedirectView
 
 admin.autodiscover()
-doc_root = os.path.join(os.path.dirname(settings.PROJECT_DIR), 'docs/build/html')
+site_dir = os.path.dirname(settings.PROJECT_DIR)
+doc_root = os.path.join(os.path.dirname(site_dir), 'docs/build/html')
 
 urlpatterns = patterns('',
     url(r'^$',               TemplateView.as_view(template_name='intro.html'), name='demo-home'),
