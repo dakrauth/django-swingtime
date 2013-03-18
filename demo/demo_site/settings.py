@@ -10,7 +10,10 @@ except ImportError:
     )
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(PROJECT_DIR))
+sys.path.extend([
+    os.path.abspath('..'),    # relative path to karate app
+    os.path.abspath('../..'), # relative location of swingtime app
+])
 
 DEBUG = TEMPLATE_DEBUG = True
 DATABASES = {
@@ -23,22 +26,23 @@ DATABASES = {
 TIME_ZONE = 'America/New_York'
 SITE_ID = 1
 USE_I18N = True
+
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 MEDIA_URL = '/media/'
 
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+STATIC_URL = '/static/'
 
-
-ADMIN_MEDIA_PREFIX = '/media/admin/'
 SECRET_KEY = 'j#_e3y&h=a4)hrmj=)bqo@$6qoz6(hrf9wz@uqq@uy*0uzl#ew'
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.auth',
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
+    'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'swingtime.context_processors.current_datetime',
 )
 
-ROOT_URLCONF = 'demo.urls'
+ROOT_URLCONF = 'demo_site.urls'
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates'),
 )
@@ -65,7 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
+SWINGTIME_SETTINGS_MODULE = 'demo_site.swingtime_settings'
 
 try:
     import django_extensions
