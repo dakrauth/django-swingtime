@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 from distutils.core import setup
 
-VERSION = '0.2.2' 
+# Dynamically calculate the version based on swingtime.VERSION.
+VERSION = __import__('swingtime').get_version()
 
 setup(
     name='django-swingtime',

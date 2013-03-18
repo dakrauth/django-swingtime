@@ -1,9 +1,6 @@
 About Swingtime
 ===============
 
-Welcome
--------
-
 `Swingtime` is a [Django](http://www.djangoproject.com/) application similar to a
 stripped-down version of iCal for Mac OS X or Google Calendar. `Swingtime` provides  an 
 `Event` model that acts as a metadata container for one or more `Occurrence` objects,
@@ -72,60 +69,3 @@ Requirements
 * Python 2.5+ 
 * [dateutil](http://labix.org/python-dateutil)
 
-
-Settings
---------
-
-Swingtime has it's settings module (`conf/swingtime_settings.py`) that 
-simulates how each Django project's `setting.py` file functions. You can 
-overwrite any or all of the configuration parameters described in 
-`swingtime_settings` by creating a file in your own project and referencing
-that file in your project settings using the name `SWINGTIME_SETTINGS_MODULE`.
-
-For example, from the demo's configuration:
-
-    SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
-
-
-Demo
-====
-
-Swingtime comes with its own demo project and application. The demo is themed as 
-a Karate studio's website and allows you see and interact with the Swingtime
-application.
-
-Run locally using the [built-in Django development server](http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>).
-
-Templates
----------
-
-Currently, Swingtime does not include any templates of its own. The demo project
-provides some sample templates to use as a guide or starting point.
-
-Sample data
------------
-
-Within the Swingtime demo is an app named `karate`, which defines the custom
-management command `loaddemo`. This command will pre-populate your 
-initial database with some events and occurrences based upon the current date and
-time.
-
-Running the demo
-----------------
-
-If you've checked out from directly from the trunk directory or exploded the 
-latest version tarball, you run the demo from anywhere by changing to the 
-`demo` directory and running::
-
-    $ python manage.py loaddemo
-    $ python manage.py runserver
-
-
-Todo List
-=========
-
-* Add i18n support / translation support in demo
-* Add weekly view
-* Import and export .ics files
-* Add `Note` support to demo
-* Add more tests
