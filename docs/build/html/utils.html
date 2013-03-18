@@ -1,26 +1,33 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>utils &#8212; Swingtime Utilities &mdash; Swingtime v0.2 documentation</title>
+    <title>utils — Swingtime Utilities &mdash; Swingtime 0.3 documentation</title>
+    
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-          URL_ROOT:    '',
-          VERSION:     '0.2',
-          COLLAPSE_MODINDEX: false,
-          FILE_SUFFIX: '.html'
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Swingtime v0.2 documentation" href="index.html" />
-    <link rel="next" title="swingtime_settings &#8212; Configuration Settings" href="swingtime_settings.html" />
-    <link rel="prev" title="forms &#8212; Swingtime Forms" href="forms.html" /> 
+    <link rel="top" title="Swingtime 0.3 documentation" href="index.html" />
+    <link rel="next" title="swingtime_settings — Configuration Settings" href="swingtime_settings.html" />
+    <link rel="prev" title="forms — Swingtime Forms" href="forms.html" /> 
   </head>
   <body>
     <div class="related">
@@ -30,25 +37,25 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
-          <a href="swingtime_settings.html" title="swingtime_settings &#8212; Configuration Settings"
+          <a href="swingtime_settings.html" title="swingtime_settings — Configuration Settings"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="forms.html" title="forms &#8212; Swingtime Forms"
+          <a href="forms.html" title="forms — Swingtime Forms"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Swingtime 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
+
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body">
             
-  
   <div class="section" id="module-utils">
-<h1><tt class="xref docutils literal"><span class="pre">utils</span></tt> &#8212; Swingtime Utilities<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h1>
+<span id="utils-swingtime-utilities"></span><h1><a class="reference internal" href="#module-utils" title="utils"><tt class="xref py py-mod docutils literal"><span class="pre">utils</span></tt></a> &#8212; Swingtime Utilities<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h1>
 <p>Common features and functions for swingtime</p>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
@@ -56,43 +63,47 @@
 <h3><tt class="docutils literal"><span class="pre">html_mark_safe</span></tt><a class="headerlink" href="#html-mark-safe" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="utils.html_mark_safe">
-<!--[utils.html_mark_safe]--><tt class="descclassname">utils.</tt><tt class="descname">html_mark_safe</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#utils.html_mark_safe" title="Permalink to this definition">¶</a></dt>
-<dd>Decorator for functions return strings that should be treated as template
-safe.</dd></dl>
+<tt class="descclassname">utils.</tt><tt class="descname">html_mark_safe</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#utils.html_mark_safe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for functions return strings that should be treated as template
+safe.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="time-delta-total-seconds">
 <h3><tt class="docutils literal"><span class="pre">time_delta_total_seconds</span></tt><a class="headerlink" href="#time-delta-total-seconds" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="utils.time_delta_total_seconds">
-<!--[utils.time_delta_total_seconds]--><tt class="descclassname">utils.</tt><tt class="descname">time_delta_total_seconds</tt><big>(</big><em>time_delta</em><big>)</big><a class="headerlink" href="#utils.time_delta_total_seconds" title="Permalink to this definition">¶</a></dt>
-<dd>Calculate the total number of seconds represented by a
-<tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> object</dd></dl>
+<tt class="descclassname">utils.</tt><tt class="descname">time_delta_total_seconds</tt><big>(</big><em>time_delta</em><big>)</big><a class="headerlink" href="#utils.time_delta_total_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the total number of seconds represented by a
+<tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> object</p>
+</dd></dl>
 
 </div>
 <div class="section" id="month-boundaries">
 <h3><tt class="docutils literal"><span class="pre">month_boundaries</span></tt><a class="headerlink" href="#month-boundaries" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="utils.month_boundaries">
-<!--[utils.month_boundaries]--><tt class="descclassname">utils.</tt><tt class="descname">month_boundaries</tt><big>(</big><span class="optional">[</span><em>dt=None</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#utils.month_boundaries" title="Permalink to this definition">¶</a></dt>
-<dd>Return a 2-tuple containing the datetime instances for the first and last
-dates of the current month or using <tt class="docutils literal"><span class="pre">dt</span></tt> as a reference.</dd></dl>
+<tt class="descclassname">utils.</tt><tt class="descname">month_boundaries</tt><big>(</big><span class="optional">[</span><em>dt=None</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#utils.month_boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a 2-tuple containing the datetime instances for the first and last
+dates of the current month or using <tt class="docutils literal"><span class="pre">dt</span></tt> as a reference.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="css-class-cycler">
 <h3><tt class="docutils literal"><span class="pre">css_class_cycler</span></tt><a class="headerlink" href="#css-class-cycler" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="utils.css_class_cycler">
-<!--[utils.css_class_cycler]--><tt class="descclassname">utils.</tt><tt class="descname">css_class_cycler</tt><big>(</big><big>)</big><a class="headerlink" href="#utils.css_class_cycler" title="Permalink to this definition">¶</a></dt>
-<dd>Return a dictionary keyed by <a title="models.EventType" class="reference external" href="models.html#models.EventType"><tt class="xref docutils literal"><span class="pre">EventType</span></tt></a> abbreviations, whose
-values are an iterable or cycle of CSS class names.</dd></dl>
+<tt class="descclassname">utils.</tt><tt class="descname">css_class_cycler</tt><big>(</big><big>)</big><a class="headerlink" href="#utils.css_class_cycler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary keyed by <a class="reference internal" href="models.html#models.EventType" title="models.EventType"><tt class="xref py py-class docutils literal"><span class="pre">EventType</span></tt></a> abbreviations, whose
+values are an iterable or cycle of CSS class names.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="create-timeslot-table">
 <h3><tt class="docutils literal"><span class="pre">create_timeslot_table</span></tt><a class="headerlink" href="#create-timeslot-table" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="utils.create_timeslot_table">
-<!--[utils.create_timeslot_table]--><tt class="descclassname">utils.</tt><tt class="descname">create_timeslot_table</tt><big>(</big><span class="optional">[</span><em>dt=None</em>, <em>items=None</em>, <em>start_time=swingtime_settings.TIMESLOT_START_TIME</em>, <em>end_time_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION</em>, <em>time_delta=swingtime_settings.TIMESLOT_INTERVAL</em>, <em>min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS</em>, <em>css_class_cycles=css_class_cycler</em>, <em>proxy_class=DefaultOccurrenceProxy</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#utils.create_timeslot_table" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">utils.</tt><tt class="descname">create_timeslot_table</tt><big>(</big><span class="optional">[</span><em>dt=None</em>, <em>items=None</em>, <em>start_time=swingtime_settings.TIMESLOT_START_TIME</em>, <em>end_time_delta=swingtime_settings.TIMESLOT_END_TIME_DURATION</em>, <em>time_delta=swingtime_settings.TIMESLOT_INTERVAL</em>, <em>min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS</em>, <em>css_class_cycles=css_class_cycler</em>, <em>proxy_class=DefaultOccurrenceProxy</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#utils.create_timeslot_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a grid-like object representing a sequence of times (rows) and
 columns where cells are either empty or reference a wrapper object for
 event occasions that overlap a specific time slot.</p>
@@ -101,32 +112,32 @@ that falls with the temporal scope of the grid, then that <tt class="docutils li
 also match an interval in the sequence of the computed row entries.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">dt</span></tt></dt>
-<dd>a <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> instance or <tt class="xref docutils literal"><span class="pre">None</span></tt> to default to now</dd>
+<dd>a <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> instance or <tt class="docutils literal"><span class="pre">None</span></tt> to default to now</dd>
 <dt><tt class="docutils literal"><span class="pre">items</span></tt></dt>
-<dd>a queryset or sequence of <a title="models.Occurrence" class="reference external" href="models.html#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> instances. If <tt class="xref docutils literal"><span class="pre">None</span></tt>,
+<dd>a queryset or sequence of <a class="reference internal" href="models.html#models.Occurrence" title="models.Occurrence"><tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt></a> instances. If <tt class="docutils literal"><span class="pre">None</span></tt>,
 default to the daily occurrences for <tt class="docutils literal"><span class="pre">dt</span></tt></dd>
 <dt><tt class="docutils literal"><span class="pre">start_time</span></tt></dt>
 <dd>a <tt class="docutils literal"><span class="pre">datetime.time</span></tt> instance, defaulting to
-<a title="swingtime_settings.TIMESLOT_START_TIME" class="reference external" href="swingtime_settings.html#swingtime_settings.TIMESLOT_START_TIME"><tt class="xref docutils literal"><span class="pre">swingtime_settings.TIMESLOT_START_TIME</span></tt></a></dd>
+<a class="reference internal" href="swingtime_settings.html#swingtime_settings.TIMESLOT_START_TIME" title="swingtime_settings.TIMESLOT_START_TIME"><tt class="xref py py-const docutils literal"><span class="pre">swingtime_settings.TIMESLOT_START_TIME</span></tt></a></dd>
 <dt><tt class="docutils literal"><span class="pre">end_time_delta</span></tt></dt>
 <dd>a <tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> instance, defaulting to
-<a title="swingtime_settings.TIMESLOT_END_TIME_DURATION" class="reference external" href="swingtime_settings.html#swingtime_settings.TIMESLOT_END_TIME_DURATION"><tt class="xref docutils literal"><span class="pre">swingtime_settings.TIMESLOT_END_TIME_DURATION</span></tt></a></dd>
+<a class="reference internal" href="swingtime_settings.html#swingtime_settings.TIMESLOT_END_TIME_DURATION" title="swingtime_settings.TIMESLOT_END_TIME_DURATION"><tt class="xref py py-const docutils literal"><span class="pre">swingtime_settings.TIMESLOT_END_TIME_DURATION</span></tt></a></dd>
 <dt><tt class="docutils literal"><span class="pre">time_delta</span></tt></dt>
 <dd>a <tt class="docutils literal"><span class="pre">datetime.timedelta</span></tt> instance, defaulting to
-<a title="swingtime_settings.TIMESLOT_INTERVAL" class="reference external" href="swingtime_settings.html#swingtime_settings.TIMESLOT_INTERVAL"><tt class="xref docutils literal"><span class="pre">swingtime_settings.TIMESLOT_INTERVAL</span></tt></a></dd>
+<a class="reference internal" href="swingtime_settings.html#swingtime_settings.TIMESLOT_INTERVAL" title="swingtime_settings.TIMESLOT_INTERVAL"><tt class="xref py py-const docutils literal"><span class="pre">swingtime_settings.TIMESLOT_INTERVAL</span></tt></a></dd>
 <dt><tt class="docutils literal"><span class="pre">min_column</span></tt></dt>
 <dd>the minimum number of columns to show in the table, defaulting to
-<a title="swingtime_settings.TIMESLOT_MIN_COLUMNS" class="reference external" href="swingtime_settings.html#swingtime_settings.TIMESLOT_MIN_COLUMNS"><tt class="xref docutils literal"><span class="pre">swingtime_settings.TIMESLOT_MIN_COLUMNS</span></tt></a></dd>
+<a class="reference internal" href="swingtime_settings.html#swingtime_settings.TIMESLOT_MIN_COLUMNS" title="swingtime_settings.TIMESLOT_MIN_COLUMNS"><tt class="xref py py-const docutils literal"><span class="pre">swingtime_settings.TIMESLOT_MIN_COLUMNS</span></tt></a></dd>
 <dt><tt class="docutils literal"><span class="pre">css_class_cycles</span></tt></dt>
-<dd>if not <tt class="xref docutils literal"><span class="pre">None</span></tt>, a callable returning a dictionary keyed by desired
-<tt class="xref docutils literal"><span class="pre">EventType</span></tt> abbreviations with values that iterate over progressive
+<dd>if not <tt class="docutils literal"><span class="pre">None</span></tt>, a callable returning a dictionary keyed by desired
+<tt class="xref py py-class docutils literal"><span class="pre">EventType</span></tt> abbreviations with values that iterate over progressive
 CSS class names for the particular abbreviation; defaults to
-<a title="utils.css_class_cycler" class="reference internal" href="#utils.css_class_cycler"><tt class="xref docutils literal"><span class="pre">css_class_cycler()</span></tt></a></dd>
+<a class="reference internal" href="#utils.css_class_cycler" title="utils.css_class_cycler"><tt class="xref py py-func docutils literal"><span class="pre">css_class_cycler()</span></tt></a></dd>
 <dt><tt class="docutils literal"><span class="pre">proxy_class</span></tt></dt>
-<dd>a wrapper class for accessing an <tt class="xref docutils literal"><span class="pre">Occurrence</span></tt> object, which
+<dd>a wrapper class for accessing an <tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt> object, which
 should also expose <tt class="docutils literal"><span class="pre">event_type</span></tt> and <tt class="docutils literal"><span class="pre">event_class</span></tt> attrs, and handle
 the custom output via its __unicode__ method; defaults to
-<a title="utils.DefaultOccurrenceProxy" class="reference internal" href="#utils.DefaultOccurrenceProxy"><tt class="xref docutils literal"><span class="pre">DefaultOccurrenceProxy</span></tt></a></dd>
+<a class="reference internal" href="#utils.DefaultOccurrenceProxy" title="utils.DefaultOccurrenceProxy"><tt class="xref py py-class docutils literal"><span class="pre">DefaultOccurrenceProxy</span></tt></a></dd>
 </dl>
 </dd></dl>
 
@@ -138,19 +149,21 @@ the custom output via its __unicode__ method; defaults to
 <h3><tt class="docutils literal"><span class="pre">BaseOccurrenceProxy</span></tt><a class="headerlink" href="#baseoccurrenceproxy" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="utils.BaseOccurrenceProxy">
-<!--[utils.BaseOccurrenceProxy]-->class <tt class="descclassname">utils.</tt><tt class="descname">BaseOccurrenceProxy</tt><big>(</big><em>object</em><big>)</big><a class="headerlink" href="#utils.BaseOccurrenceProxy" title="Permalink to this definition">¶</a></dt>
-<dd>A simple wrapper class for handling the representational aspects of an
-<a title="models.Occurrence" class="reference external" href="models.html#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> instance.</dd></dl>
+<em class="property">class </em><tt class="descclassname">utils.</tt><tt class="descname">BaseOccurrenceProxy</tt><big>(</big><em>object</em><big>)</big><a class="headerlink" href="#utils.BaseOccurrenceProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple wrapper class for handling the representational aspects of an
+<a class="reference internal" href="models.html#models.Occurrence" title="models.Occurrence"><tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt></a> instance.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="defaultoccurrenceproxy">
 <h3><tt class="docutils literal"><span class="pre">DefaultOccurrenceProxy</span></tt><a class="headerlink" href="#defaultoccurrenceproxy" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="utils.DefaultOccurrenceProxy">
-<!--[utils.DefaultOccurrenceProxy]-->class <tt class="descclassname">utils.</tt><tt class="descname">DefaultOccurrenceProxy</tt><big>(</big><em>BaseOccurrenceProxy</em><big>)</big><a class="headerlink" href="#utils.DefaultOccurrenceProxy" title="Permalink to this definition">¶</a></dt>
-<dd>Through the <tt class="docutils literal"><span class="pre">__unicode__</span></tt> method, outputs a <strong>safe</strong> string anchor tag
-for the <a title="models.Occurrence" class="reference external" href="models.html#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> instance, followed by simple token placeholders
-to represent additional slot fillings.</dd></dl>
+<em class="property">class </em><tt class="descclassname">utils.</tt><tt class="descname">DefaultOccurrenceProxy</tt><big>(</big><em>BaseOccurrenceProxy</em><big>)</big><a class="headerlink" href="#utils.DefaultOccurrenceProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Through the <tt class="docutils literal"><span class="pre">__unicode__</span></tt> method, outputs a <strong>safe</strong> string anchor tag
+for the <a class="reference internal" href="models.html#models.Occurrence" title="models.Occurrence"><tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt></a> instance, followed by simple token placeholders
+to represent additional slot fillings.</p>
+</dd></dl>
 
 </div>
 </div>
@@ -162,40 +175,50 @@ to represent additional slot fillings.</dd></dl>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href=""><tt class="docutils literal"><span class="pre">utils</span></tt> &#8212; Swingtime Utilities</a><ul>
-<li><a class="reference external" href="#functions">Functions</a><ul>
-<li><a class="reference external" href="#html-mark-safe"><tt class="docutils literal"><span class="pre">html_mark_safe</span></tt></a></li>
-<li><a class="reference external" href="#time-delta-total-seconds"><tt class="docutils literal"><span class="pre">time_delta_total_seconds</span></tt></a></li>
-<li><a class="reference external" href="#month-boundaries"><tt class="docutils literal"><span class="pre">month_boundaries</span></tt></a></li>
-<li><a class="reference external" href="#css-class-cycler"><tt class="docutils literal"><span class="pre">css_class_cycler</span></tt></a></li>
-<li><a class="reference external" href="#create-timeslot-table"><tt class="docutils literal"><span class="pre">create_timeslot_table</span></tt></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">utils</span></tt> &#8212; Swingtime Utilities</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#html-mark-safe"><tt class="docutils literal"><span class="pre">html_mark_safe</span></tt></a></li>
+<li><a class="reference internal" href="#time-delta-total-seconds"><tt class="docutils literal"><span class="pre">time_delta_total_seconds</span></tt></a></li>
+<li><a class="reference internal" href="#month-boundaries"><tt class="docutils literal"><span class="pre">month_boundaries</span></tt></a></li>
+<li><a class="reference internal" href="#css-class-cycler"><tt class="docutils literal"><span class="pre">css_class_cycler</span></tt></a></li>
+<li><a class="reference internal" href="#create-timeslot-table"><tt class="docutils literal"><span class="pre">create_timeslot_table</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#classes">Classes</a><ul>
-<li><a class="reference external" href="#baseoccurrenceproxy"><tt class="docutils literal"><span class="pre">BaseOccurrenceProxy</span></tt></a></li>
-<li><a class="reference external" href="#defaultoccurrenceproxy"><tt class="docutils literal"><span class="pre">DefaultOccurrenceProxy</span></tt></a></li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#baseoccurrenceproxy"><tt class="docutils literal"><span class="pre">BaseOccurrenceProxy</span></tt></a></li>
+<li><a class="reference internal" href="#defaultoccurrenceproxy"><tt class="docutils literal"><span class="pre">DefaultOccurrenceProxy</span></tt></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="forms.html" title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">forms</span></tt> &#8212; Swingtime Forms</a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="swingtime_settings.html" title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">swingtime_settings</span></tt> &#8212; Configuration Settings</a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/utils.txt">Show Source</a></li>
-            </ul>
-          <h3>Quick search</h3>
-            <form class="search" action="search.html" method="get">
-              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
-              <input type="hidden" name="check_keywords" value="yes" />
-              <input type="hidden" name="area" value="default" />
-            </form>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="forms.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">forms</span></tt> &#8212; Swingtime Forms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="swingtime_settings.html"
+                        title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">swingtime_settings</span></tt> &#8212; Configuration Settings</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/utils.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -205,22 +228,22 @@ to represent additional slot fillings.</dd></dl>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+             >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
-          <a href="swingtime_settings.html" title="swingtime_settings &#8212; Configuration Settings"
-             accesskey="N">next</a> |</li>
+          <a href="swingtime_settings.html" title="swingtime_settings — Configuration Settings"
+             >next</a> |</li>
         <li class="right" >
-          <a href="forms.html" title="forms &#8212; Swingtime Forms"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+          <a href="forms.html" title="forms — Swingtime Forms"
+             >previous</a> |</li>
+        <li><a href="index.html">Swingtime 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2008, David Krauth.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.
+        &copy; Copyright 2008, David Krauth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

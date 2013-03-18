@@ -1,25 +1,32 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>models &#8212; Swingtime Object Model Definitions &mdash; Swingtime v0.2 documentation</title>
+    <title>models — Swingtime Object Model Definitions &mdash; Swingtime 0.3 documentation</title>
+    
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-          URL_ROOT:    '',
-          VERSION:     '0.2',
-          COLLAPSE_MODINDEX: false,
-          FILE_SUFFIX: '.html'
+        URL_ROOT:    '',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Swingtime v0.2 documentation" href="index.html" />
-    <link rel="next" title="views &#8212; Swingtime Views" href="views.html" />
+    <link rel="top" title="Swingtime 0.3 documentation" href="index.html" />
+    <link rel="next" title="views — Swingtime Views" href="views.html" />
     <link rel="prev" title="Introduction" href="intro.html" /> 
   </head>
   <body>
@@ -30,50 +37,50 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
-          <a href="views.html" title="views &#8212; Swingtime Views"
+          <a href="views.html" title="views — Swingtime Views"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Swingtime 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
+
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body">
             
-  
   <div class="section" id="module-models">
-<h1><tt class="xref docutils literal"><span class="pre">models</span></tt> &#8212; Swingtime Object Model Definitions<a class="headerlink" href="#module-models" title="Permalink to this headline">¶</a></h1>
+<span id="models-swingtime-object-model-definitions"></span><h1><a class="reference internal" href="#module-models" title="models"><tt class="xref py py-mod docutils literal"><span class="pre">models</span></tt></a> &#8212; Swingtime Object Model Definitions<a class="headerlink" href="#module-models" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="create-event">
 <h3><tt class="docutils literal"><span class="pre">create_event</span></tt><a class="headerlink" href="#create-event" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="models.create_event">
-<!--[models.create_event]--><tt class="descclassname">models.</tt><tt class="descname">create_event</tt><big>(</big><em>title</em>, <em>event_type</em><span class="optional">[</span>, <em>description</em>, <em>start_time</em>, <em>end_time</em>, <em>note</em>, <em>**rrule_params</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.create_event" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience function to create an <a title="models.Event" class="reference internal" href="#models.Event"><tt class="xref docutils literal"><span class="pre">Event</span></tt></a>, optionally create an
-<a title="models.EventType" class="reference internal" href="#models.EventType"><tt class="xref docutils literal"><span class="pre">EventType</span></tt></a>, and associated <a title="models.Occurrence" class="reference internal" href="#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> instances.
-<a title="models.Occurrence" class="reference internal" href="#models.Occurrence"><tt class="xref docutils literal"><span class="pre">Occurrence</span></tt></a> creation rules match those for <a title="models.Event.add_occurrences" class="reference internal" href="#models.Event.add_occurrences"><tt class="xref docutils literal"><span class="pre">Event.add_occurrences()</span></tt></a>.</p>
-<p>Returns the newly created <a title="models.Event" class="reference internal" href="#models.Event"><tt class="xref docutils literal"><span class="pre">Event</span></tt></a> instance.</p>
+<tt class="descclassname">models.</tt><tt class="descname">create_event</tt><big>(</big><em>title</em>, <em>event_type</em><span class="optional">[</span>, <em>description</em>, <em>start_time</em>, <em>end_time</em>, <em>note</em>, <em>**rrule_params</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.create_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to create an <a class="reference internal" href="#models.Event" title="models.Event"><tt class="xref py py-class docutils literal"><span class="pre">Event</span></tt></a>, optionally create an
+<a class="reference internal" href="#models.EventType" title="models.EventType"><tt class="xref py py-class docutils literal"><span class="pre">EventType</span></tt></a>, and associated <a class="reference internal" href="#models.Occurrence" title="models.Occurrence"><tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt></a> instances.
+<a class="reference internal" href="#models.Occurrence" title="models.Occurrence"><tt class="xref py py-class docutils literal"><span class="pre">Occurrence</span></tt></a> creation rules match those for <a class="reference internal" href="#models.Event.add_occurrences" title="models.Event.add_occurrences"><tt class="xref py py-meth docutils literal"><span class="pre">Event.add_occurrences()</span></tt></a>.</p>
+<p>Returns the newly created <a class="reference internal" href="#models.Event" title="models.Event"><tt class="xref py py-class docutils literal"><span class="pre">Event</span></tt></a> instance.</p>
 <p>Parameters</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">event_type</span></tt></dt>
-<dd>can be either an <a title="models.EventType" class="reference internal" href="#models.EventType"><tt class="xref docutils literal"><span class="pre">EventType</span></tt></a> object or 2-tuple of <tt class="docutils literal"><span class="pre">(abbreviation,label)</span></tt>,
-from which an <a title="models.EventType" class="reference internal" href="#models.EventType"><tt class="xref docutils literal"><span class="pre">EventType</span></tt></a> is either created or retrieved.</dd>
+<dd>can be either an <a class="reference internal" href="#models.EventType" title="models.EventType"><tt class="xref py py-class docutils literal"><span class="pre">EventType</span></tt></a> object or 2-tuple of <tt class="docutils literal"><span class="pre">(abbreviation,label)</span></tt>,
+from which an <a class="reference internal" href="#models.EventType" title="models.EventType"><tt class="xref py py-class docutils literal"><span class="pre">EventType</span></tt></a> is either created or retrieved.</dd>
 <dt><tt class="docutils literal"><span class="pre">description</span></tt></dt>
-<dd>sets the event&#8217;s description if not <tt class="xref docutils literal"><span class="pre">None</span></tt></dd>
+<dd>sets the event&#8217;s description if not <tt class="docutils literal"><span class="pre">None</span></tt></dd>
 <dt><tt class="docutils literal"><span class="pre">start_time</span></tt></dt>
-<dd>will default to the current hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd>
+<dd>will default to the current hour if <tt class="docutils literal"><span class="pre">None</span></tt></dd>
 <dt><tt class="docutils literal"><span class="pre">end_time</span></tt></dt>
-<dd>will default to <tt class="docutils literal"><span class="pre">start_time</span></tt> plus <a title="swingtime_settings.DEFAULT_OCCURRENCE_DURATION" class="reference external" href="swingtime_settings.html#swingtime_settings.DEFAULT_OCCURRENCE_DURATION"><tt class="xref docutils literal"><span class="pre">swingtime_settings.DEFAULT_OCCURRENCE_DURATION</span></tt></a>
-hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd>
+<dd>will default to <tt class="docutils literal"><span class="pre">start_time</span></tt> plus <a class="reference internal" href="swingtime_settings.html#swingtime_settings.DEFAULT_OCCURRENCE_DURATION" title="swingtime_settings.DEFAULT_OCCURRENCE_DURATION"><tt class="xref py py-const docutils literal"><span class="pre">swingtime_settings.DEFAULT_OCCURRENCE_DURATION</span></tt></a>
+hour if <tt class="docutils literal"><span class="pre">None</span></tt></dd>
 <dt><tt class="docutils literal"><span class="pre">note</span></tt></dt>
-<dd>if not <tt class="xref docutils literal"><span class="pre">None</span></tt>, add a <tt class="docutils literal"><span class="pre">Note</span></tt> instance to the new event</dd>
+<dd>if not <tt class="docutils literal"><span class="pre">None</span></tt>, add a <tt class="docutils literal"><span class="pre">Note</span></tt> instance to the new event</dd>
 <dt><tt class="docutils literal"><span class="pre">rrule_params</span></tt></dt>
 <dd>follows the <tt class="docutils literal"><span class="pre">dateutils</span></tt> API (see <a class="reference external" href="http://labix.org/python-dateutil">http://labix.org/python-dateutil</a>)</dd>
 </dl>
@@ -86,8 +93,8 @@ hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd
     <span class="s">&#39;Beginner Class&#39;</span><span class="p">,</span>
     <span class="p">(</span><span class="s">&#39;bgn&#39;</span><span class="p">,</span> <span class="s">&#39;Beginner Classes&#39;</span><span class="p">),</span>
     <span class="n">description</span><span class="o">=</span><span class="s">&#39;Open to all beginners&#39;</span><span class="p">,</span>
-    <span class="n">start_time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">time</span><span class="p">(</span><span class="mf">19</span><span class="p">)),</span>
-    <span class="n">count</span><span class="o">=</span><span class="mf">6</span><span class="p">,</span>
+    <span class="n">start_time</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">time</span><span class="p">(</span><span class="mi">19</span><span class="p">)),</span>
+    <span class="n">count</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
     <span class="n">byweekday</span><span class="o">=</span><span class="p">(</span><span class="n">rrule</span><span class="o">.</span><span class="n">MO</span><span class="p">,</span> <span class="n">rrule</span><span class="o">.</span><span class="n">WE</span><span class="p">,</span> <span class="n">rrule</span><span class="o">.</span><span class="n">FR</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
@@ -102,18 +109,20 @@ hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd
 <h3><tt class="docutils literal"><span class="pre">Note</span></tt><a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="models.Note">
-<!--[models.Note]-->class <tt class="descclassname">models.</tt><tt class="descname">Note</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Note" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">Note</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Note" title="Permalink to this definition">¶</a></dt>
 <dd><p>A generic model for adding simple, arbitrary notes to other models such as
 <tt class="docutils literal"><span class="pre">Event</span></tt> or <tt class="docutils literal"><span class="pre">Occurrence</span></tt>.</p>
 <dl class="attribute">
 <dt id="models.Note.note">
-<!--[models.Note.note]--><tt class="descname">note</tt><a class="headerlink" href="#models.Note.note" title="Permalink to this definition">¶</a></dt>
-<dd>models.TextField</dd></dl>
+<tt class="descname">note</tt><a class="headerlink" href="#models.Note.note" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.TextField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Note.created">
-<!--[models.Note.created]--><tt class="descname">created</tt><a class="headerlink" href="#models.Note.created" title="Permalink to this definition">¶</a></dt>
-<dd>models.DateTimeField</dd></dl>
+<tt class="descname">created</tt><a class="headerlink" href="#models.Note.created" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.DateTimeField</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -122,17 +131,19 @@ hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd
 <h3><tt class="docutils literal"><span class="pre">EventType</span></tt><a class="headerlink" href="#eventtype" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="models.EventType">
-<!--[models.EventType]-->class <tt class="descclassname">models.</tt><tt class="descname">EventType</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.EventType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">EventType</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.EventType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple <tt class="docutils literal"><span class="pre">Event</span></tt> classifcation.</p>
 <dl class="attribute">
 <dt id="models.EventType.abbr">
-<!--[models.EventType.abbr]--><tt class="descname">abbr</tt><a class="headerlink" href="#models.EventType.abbr" title="Permalink to this definition">¶</a></dt>
-<dd>models.CharField</dd></dl>
+<tt class="descname">abbr</tt><a class="headerlink" href="#models.EventType.abbr" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.CharField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.EventType.label">
-<!--[models.EventType.label]--><tt class="descname">label</tt><a class="headerlink" href="#models.EventType.label" title="Permalink to this definition">¶</a></dt>
-<dd>models.CharField</dd></dl>
+<tt class="descname">label</tt><a class="headerlink" href="#models.EventType.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.CharField</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -141,36 +152,41 @@ hour if <tt class="xref docutils literal"><span class="pre">None</span></tt></dd
 <h3><tt class="docutils literal"><span class="pre">Event</span></tt><a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="models.Event">
-<!--[models.Event]-->class <tt class="descclassname">models.</tt><tt class="descname">Event</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Event" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">Event</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Event" title="Permalink to this definition">¶</a></dt>
 <dd><p>Container model for general metadata and associated <tt class="docutils literal"><span class="pre">Occurrence</span></tt> entries.</p>
 <dl class="attribute">
 <dt id="models.Event.title">
-<!--[models.Event.title]--><tt class="descname">title</tt><a class="headerlink" href="#models.Event.title" title="Permalink to this definition">¶</a></dt>
-<dd>models.CharField</dd></dl>
+<tt class="descname">title</tt><a class="headerlink" href="#models.Event.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.CharField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Event.description">
-<!--[models.Event.description]--><tt class="descname">description</tt><a class="headerlink" href="#models.Event.description" title="Permalink to this definition">¶</a></dt>
-<dd>models.CharField</dd></dl>
+<tt class="descname">description</tt><a class="headerlink" href="#models.Event.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.CharField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Event.event_type">
-<!--[models.Event.event_type]--><tt class="descname">event_type</tt><a class="headerlink" href="#models.Event.event_type" title="Permalink to this definition">¶</a></dt>
-<dd>models.ForeignKey for <tt class="docutils literal"><span class="pre">EventType</span></tt></dd></dl>
+<tt class="descname">event_type</tt><a class="headerlink" href="#models.Event.event_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.ForeignKey for <tt class="docutils literal"><span class="pre">EventType</span></tt></p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Event.notes">
-<!--[models.Event.notes]--><tt class="descname">notes</tt><a class="headerlink" href="#models.Event.notes" title="Permalink to this definition">¶</a></dt>
-<dd>generic.GenericRelation for <tt class="docutils literal"><span class="pre">Note</span></tt></dd></dl>
+<tt class="descname">notes</tt><a class="headerlink" href="#models.Event.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>generic.GenericRelation for <tt class="docutils literal"><span class="pre">Note</span></tt></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Event.get_absolute_url">
-<!--[models.Event.get_absolute_url]--><tt class="descname">get_absolute_url</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.get_absolute_url" title="Permalink to this definition">¶</a></dt>
-<dd>return (&#8216;swingtime-event&#8217;, [str(self.id)])</dd></dl>
+<tt class="descname">get_absolute_url</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>return (&#8216;swingtime-event&#8217;, [str(self.id)])</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Event.add_occurrences">
-<!--[models.Event.add_occurrences]--><tt class="descname">add_occurrences</tt><big>(</big><em>start_time</em>, <em>end_time</em><span class="optional">[</span>, <em>**rrule_params</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.Event.add_occurrences" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">add_occurrences</tt><big>(</big><em>start_time</em>, <em>end_time</em><span class="optional">[</span>, <em>**rrule_params</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.Event.add_occurrences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add one or more occurences to the event using a comparable API to
 <tt class="docutils literal"><span class="pre">dateutil.rrule</span></tt>.</p>
 <p>If <tt class="docutils literal"><span class="pre">rrule_params</span></tt> does not contain a <tt class="docutils literal"><span class="pre">freq</span></tt>, one will be defaulted
@@ -185,20 +201,23 @@ only a single <tt class="docutils literal"><span class="pre">Occurrence</span></
 
 <dl class="method">
 <dt id="models.Event.upcoming_occurrences">
-<!--[models.Event.upcoming_occurrences]--><tt class="descname">upcoming_occurrences</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.upcoming_occurrences" title="Permalink to this definition">¶</a></dt>
-<dd>Return all occurrences that are set to start on or after the current
-time.</dd></dl>
+<tt class="descname">upcoming_occurrences</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.upcoming_occurrences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all occurrences that are set to start on or after the current
+time.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Event.next_occurrence">
-<!--[models.Event.next_occurrence]--><tt class="descname">next_occurrence</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.next_occurrence" title="Permalink to this definition">¶</a></dt>
-<dd>Return the single occurrence set to start on or after the current time
-if available, otherwise <tt class="xref docutils literal"><span class="pre">None</span></tt>.</dd></dl>
+<tt class="descname">next_occurrence</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Event.next_occurrence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the single occurrence set to start on or after the current time
+if available, otherwise <tt class="docutils literal"><span class="pre">None</span></tt>.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Event.daily_occurrences">
-<!--[models.Event.daily_occurrences]--><tt class="descname">daily_occurrences</tt><big>(</big><span class="optional">[</span><em>dt</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.Event.daily_occurrences" title="Permalink to this definition">¶</a></dt>
-<dd>Convenience method wrapping <tt class="docutils literal"><span class="pre">Occurrence.objects.daily_occurrences</span></tt>.</dd></dl>
+<tt class="descname">daily_occurrences</tt><big>(</big><span class="optional">[</span><em>dt</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.Event.daily_occurrences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method wrapping <tt class="docutils literal"><span class="pre">Occurrence.objects.daily_occurrences</span></tt>.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -207,17 +226,17 @@ if available, otherwise <tt class="xref docutils literal"><span class="pre">None
 <h3><tt class="docutils literal"><span class="pre">OccurrenceManager</span></tt><a class="headerlink" href="#occurrencemanager" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="models.OccurrenceManager">
-<!--[models.OccurrenceManager]-->class <tt class="descclassname">models.</tt><tt class="descname">OccurrenceManager</tt><big>(</big><em>models.Manager</em><big>)</big><a class="headerlink" href="#models.OccurrenceManager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">OccurrenceManager</tt><big>(</big><em>models.Manager</em><big>)</big><a class="headerlink" href="#models.OccurrenceManager" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="models.OccurrenceManager.daily_occurrences">
-<!--[models.OccurrenceManager.daily_occurrences]--><tt class="descname">daily_occurrences</tt><big>(</big><span class="optional">[</span><em>dt</em>, <em>event</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.OccurrenceManager.daily_occurrences" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">daily_occurrences</tt><big>(</big><span class="optional">[</span><em>dt</em>, <em>event</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#models.OccurrenceManager.daily_occurrences" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a queryset of for instances that have any overlap with a
 particular day.</p>
 <p>Parameters</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">dt</span></tt></dt>
-<dd>may be either a datetime.datetime, datetime.date object, or <tt class="xref docutils literal"><span class="pre">None</span></tt>.
-If <tt class="xref docutils literal"><span class="pre">None</span></tt>, default to the current day</dd>
+<dd>may be either a datetime.datetime, datetime.date object, or <tt class="docutils literal"><span class="pre">None</span></tt>.
+If <tt class="docutils literal"><span class="pre">None</span></tt>, default to the current day</dd>
 <dt><tt class="docutils literal"><span class="pre">event</span></tt></dt>
 <dd>can be an <tt class="docutils literal"><span class="pre">Event</span></tt> instance for further filtering</dd>
 </dl>
@@ -230,48 +249,56 @@ If <tt class="xref docutils literal"><span class="pre">None</span></tt>, default
 <h3><tt class="docutils literal"><span class="pre">Occurrence</span></tt><a class="headerlink" href="#occurrence" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="models.Occurrence">
-<!--[models.Occurrence]-->class <tt class="descclassname">models.</tt><tt class="descname">Occurrence</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Occurrence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents the start end time for a specific occurrence of a master <a title="models.Event" class="reference internal" href="#models.Event"><tt class="xref docutils literal"><span class="pre">Event</span></tt></a>
+<em class="property">class </em><tt class="descclassname">models.</tt><tt class="descname">Occurrence</tt><big>(</big><em>django.db.models.Model</em><big>)</big><a class="headerlink" href="#models.Occurrence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents the start end time for a specific occurrence of a master <a class="reference internal" href="#models.Event" title="models.Event"><tt class="xref py py-class docutils literal"><span class="pre">Event</span></tt></a>
 object.</p>
 <dl class="attribute">
 <dt id="models.Occurrence.start_time">
-<!--[models.Occurrence.start_time]--><tt class="descname">start_time</tt><a class="headerlink" href="#models.Occurrence.start_time" title="Permalink to this definition">¶</a></dt>
-<dd>models.DateTimeField</dd></dl>
+<tt class="descname">start_time</tt><a class="headerlink" href="#models.Occurrence.start_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.DateTimeField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Occurrence.end_time">
-<!--[models.Occurrence.end_time]--><tt class="descname">end_time</tt><a class="headerlink" href="#models.Occurrence.end_time" title="Permalink to this definition">¶</a></dt>
-<dd>models.DateTimeField</dd></dl>
+<tt class="descname">end_time</tt><a class="headerlink" href="#models.Occurrence.end_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.DateTimeField</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Occurrence.event">
-<!--[models.Occurrence.event]--><tt class="descname">event</tt><a class="headerlink" href="#models.Occurrence.event" title="Permalink to this definition">¶</a></dt>
-<dd>models.ForeignKey - a non-editable Event object</dd></dl>
+<tt class="descname">event</tt><a class="headerlink" href="#models.Occurrence.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>models.ForeignKey - a non-editable Event object</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Occurrence.notes">
-<!--[models.Occurrence.notes]--><tt class="descname">notes</tt><a class="headerlink" href="#models.Occurrence.notes" title="Permalink to this definition">¶</a></dt>
-<dd>generic.GenericRelation <tt class="docutils literal"><span class="pre">Note</span></tt></dd></dl>
+<tt class="descname">notes</tt><a class="headerlink" href="#models.Occurrence.notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>generic.GenericRelation <tt class="docutils literal"><span class="pre">Note</span></tt></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Occurrence.get_absolute_url">
-<!--[models.Occurrence.get_absolute_url]--><tt class="descname">get_absolute_url</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Occurrence.get_absolute_url" title="Permalink to this definition">¶</a></dt>
-<dd>&#8216;swingtime-occurrence&#8217;, [str(self.event.id), str(self.id)])</dd></dl>
+<tt class="descname">get_absolute_url</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Occurrence.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8216;swingtime-occurrence&#8217;, [str(self.event.id), str(self.id)])</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="models.Occurrence.__cmp__">
-<!--[models.Occurrence.__cmp__]--><tt class="descname">__cmp__</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Occurrence.__cmp__" title="Permalink to this definition">¶</a></dt>
-<dd>Compare two <tt class="docutils literal"><span class="pre">Occurrence</span></tt> start times</dd></dl>
+<tt class="descname">__cmp__</tt><big>(</big><big>)</big><a class="headerlink" href="#models.Occurrence.__cmp__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two <tt class="docutils literal"><span class="pre">Occurrence</span></tt> start times</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Occurrence.title">
-<!--[models.Occurrence.title]--><tt class="descname">title</tt><a class="headerlink" href="#models.Occurrence.title" title="Permalink to this definition">¶</a></dt>
-<dd>Shortcut for the occurrence&#8217;s <tt class="docutils literal"><span class="pre">Event.title</span></tt></dd></dl>
+<tt class="descname">title</tt><a class="headerlink" href="#models.Occurrence.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for the occurrence&#8217;s <tt class="docutils literal"><span class="pre">Event.title</span></tt></p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="models.Occurrence.event_type">
-<!--[models.Occurrence.event_type]--><tt class="descname">event_type</tt><a class="headerlink" href="#models.Occurrence.event_type" title="Permalink to this definition">¶</a></dt>
-<dd>Shortcut for the occurrence&#8217;s <tt class="docutils literal"><span class="pre">EventType</span></tt></dd></dl>
+<tt class="descname">event_type</tt><a class="headerlink" href="#models.Occurrence.event_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut for the occurrence&#8217;s <tt class="docutils literal"><span class="pre">EventType</span></tt></p>
+</dd></dl>
 
 </dd></dl>
 
@@ -285,39 +312,49 @@ object.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href=""><tt class="docutils literal"><span class="pre">models</span></tt> &#8212; Swingtime Object Model Definitions</a><ul>
-<li><a class="reference external" href="#functions">Functions</a><ul>
-<li><a class="reference external" href="#create-event"><tt class="docutils literal"><span class="pre">create_event</span></tt></a></li>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">models</span></tt> &#8212; Swingtime Object Model Definitions</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#create-event"><tt class="docutils literal"><span class="pre">create_event</span></tt></a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#classes">Classes</a><ul>
-<li><a class="reference external" href="#note"><tt class="docutils literal"><span class="pre">Note</span></tt></a></li>
-<li><a class="reference external" href="#eventtype"><tt class="docutils literal"><span class="pre">EventType</span></tt></a></li>
-<li><a class="reference external" href="#event"><tt class="docutils literal"><span class="pre">Event</span></tt></a></li>
-<li><a class="reference external" href="#occurrencemanager"><tt class="docutils literal"><span class="pre">OccurrenceManager</span></tt></a></li>
-<li><a class="reference external" href="#occurrence"><tt class="docutils literal"><span class="pre">Occurrence</span></tt></a></li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#note"><tt class="docutils literal"><span class="pre">Note</span></tt></a></li>
+<li><a class="reference internal" href="#eventtype"><tt class="docutils literal"><span class="pre">EventType</span></tt></a></li>
+<li><a class="reference internal" href="#event"><tt class="docutils literal"><span class="pre">Event</span></tt></a></li>
+<li><a class="reference internal" href="#occurrencemanager"><tt class="docutils literal"><span class="pre">OccurrenceManager</span></tt></a></li>
+<li><a class="reference internal" href="#occurrence"><tt class="docutils literal"><span class="pre">Occurrence</span></tt></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="intro.html" title="previous chapter">Introduction</a></p>
-            <h4>Next topic</h4>
-            <p class="topless"><a href="views.html" title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">views</span></tt> &#8212; Swingtime Views</a></p>
-            <h3>This Page</h3>
-            <ul class="this-page-menu">
-              <li><a href="_sources/models.txt">Show Source</a></li>
-            </ul>
-          <h3>Quick search</h3>
-            <form class="search" action="search.html" method="get">
-              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
-              <input type="hidden" name="check_keywords" value="yes" />
-              <input type="hidden" name="area" value="default" />
-            </form>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="views.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">views</span></tt> &#8212; Swingtime Views</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -327,22 +364,22 @@ object.</p>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+             >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
-          <a href="views.html" title="views &#8212; Swingtime Views"
-             accesskey="N">next</a> |</li>
+          <a href="views.html" title="views — Swingtime Views"
+             >next</a> |</li>
         <li class="right" >
           <a href="intro.html" title="Introduction"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Swingtime v0.2 documentation</a> &raquo;</li> 
+             >previous</a> |</li>
+        <li><a href="index.html">Swingtime 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-      &copy; Copyright 2008, David Krauth.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.
+        &copy; Copyright 2008, David Krauth.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

@@ -5,11 +5,13 @@ Introduction
 About Swingtime
 ===============
 
-Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to 
-stripped down version of
-`iCal for Mac OS X <http://en.wikipedia.org/wiki/ICal>`_ or 
-`Google Calendar <http://www.google.com/intl/en/googlecalendar/tour.html>`_.
-Swingtime provides  an :class:`~models.Event` model that act as metadata container
+Welcome
+-------
+
+Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to
+a stripped-down version of `iCal for Mac OS X <http://en.wikipedia.org/wiki/ICal>`_
+or `Google Calendar <http://www.google.com/intl/en/googlecalendar/tour.html>`_.
+Swingtime provides a :class:`~models.Event` model that acts as metadata container
 for one or more :class:`~models.Occurrence` objects, which describe specific
 start and end times.
 
@@ -27,15 +29,15 @@ A fairly simple example::
     ...     description='Kiss off, Lumbergh!',
     ...     event_type=et
     ... )
-    >>> evt.add_occurrences(datetime(2008,12,1,16), datetime(2008,12,1,16,15), count=5)
+    >>> evt.add_occurrences(datetime(2013,4,1,16), datetime(2013,4,1,16,15), count=5)
     >>> for o in evt.occurrence_set.all():
     ...     print o
     ... 
-    TPM Report: 2008-12-01T16:00:00
-    TPM Report: 2008-12-02T16:00:00
-    TPM Report: 2008-12-03T16:00:00
-    TPM Report: 2008-12-04T16:00:00
-    TPM Report: 2008-12-05T16:00:00
+    New TPS Cover Sheet: 2013-04-01T16:00:00
+    New TPS Cover Sheet: 2013-04-02T16:00:00
+    New TPS Cover Sheet: 2013-04-03T16:00:00
+    New TPS Cover Sheet: 2013-04-04T16:00:00
+    New TPS Cover Sheet: 2013-04-05T16:00:00
 
 A bit more elaborate example, using the the convenience function :func:`models.create_event`::
     
@@ -45,16 +47,16 @@ A bit more elaborate example, using the the convenience function :func:`models.c
     ...     ('pay', 'Payroll'), # alternate means to add EventType on the fly
     ...     freq=rrule.MONTHLY,
     ...     byweekday=rrule.FR(-1),
-    ...     until=datetime(2009,4,1),
-    ...     start_time=datetime(2008,12,25,17)
+    ...     until=datetime(2013,8,1),
+    ...     start_time=datetime(2013,4,1,17)
     ... )
     >>> for o in evt.occurrence_set.all():
     ...     print o
     ... 
-    Pay day: 2008-12-26T17:00:00
-    Pay day: 2009-01-30T17:00:00
-    Pay day: 2009-02-27T17:00:00
-    Pay day: 2009-03-27T17:00:00
+    Pay day: 2013-04-26T17:00:00
+    Pay day: 2013-05-31T17:00:00
+    Pay day: 2013-06-28T17:00:00
+    Pay day: 2013-07-26T17:00:00
  
 
 Features
@@ -72,11 +74,8 @@ Features
 Requirements
 ------------
 
-* `Django 1.0+ <http://www.djangoproject.com/download/>`_
-* Python 2.5+ (yeah, sorry, Swingtime won't work with 2.3 or 2.4, but I use
-  2.5+ exclusively; however, should anyone like to contribute the necessary
-  backward compatible patches that don't hamstring any of 2.5+ features, I
-  more than willing to include them).
+* `Django 1.4+ <http://www.djangoproject.com/download/>`_
+* Python 2.7
 * The ``dateutil`` `package <http://labix.org/python-dateutil>`_.
 
 Get Swingtime
@@ -84,8 +83,8 @@ Get Swingtime
 
 Options:
 
-* `Swingtime source code <http://code.google.com/p/django-swingtime/source/checkout>`_
-* `Gzipped tarball <http://code.google.com/p/django-swingtime/downloads/list>`_
+* `Swingtime source code <https://github.com/dakrauth/django-swingtime>`_
+* ``pip install django-swingtime``
 
 Settings
 --------
@@ -108,8 +107,8 @@ Swingtime comes with its own demo project and application. The demo is themed as
 a Karate studio's website and allows you see and interact with the Swingtime
 application.
 
-A live demo can be found at http://swingtime.gorgeofeternalperil.com or run
-locally using the `built-in Django development server <http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>`_.
+Run locally using the `built-in Django development server 
+<http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>`_.
 
 Templates
 ---------
@@ -139,7 +138,7 @@ latest version tarball, you run the demo from anywhere by changing to the
 Todo List
 =========
 
-* Add i18n support
+* Add i18n support / translation support in demo
 * Include a setup installer (I'm not doing ``easy_install``!)
 * Add weekly view
 * Import and export .ics files
