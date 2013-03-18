@@ -117,7 +117,6 @@ class DefaultOccurrenceProxy(BaseOccurrenceProxy):
     #---------------------------------------------------------------------------
     @html_mark_safe
     def __unicode__(self):
-        print self.title
         return self._str()
 
 
