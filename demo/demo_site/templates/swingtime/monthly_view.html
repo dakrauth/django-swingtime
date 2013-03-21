@@ -31,8 +31,9 @@
                     <ul>
                         {% for item in items %}
                         <li>
-                            <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
-                            <em class="event-times">{{ item.start_time|time }}</em>
+                            <a href="{{ item.get_absolute_url }}">
+                                <span class="event-times">{{ item.start_time|time }}</span>
+                                {{ item.title }}</a>
                         </li>
                         {% endfor %}
                     </ul>

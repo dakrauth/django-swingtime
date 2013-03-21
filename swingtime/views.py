@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, time
 from django import http
 from django.db import models
 from django.template.context import RequestContext
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render
 
 from swingtime.models import Event, Occurrence
 from swingtime import utils, forms
@@ -37,7 +37,7 @@ def event_listing(
     ???
         all values passed in via **extra_context
     '''
-    return utils.render(
+    return render(
         request,
         template,
         dict(extra_context, events=events or Event.objects.all())
@@ -88,7 +88,7 @@ def event_view(
         'event_form': event_form or event_form_class(instance=event),
         'recurrence_form': recurrence_form or recurrence_form_class(initial={'dtstart': datetime.now()})
     }
-    return utils.render(request, template, data)
+    return render(request, template, data)
 
 
 #-------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ def occurrence_view(
     else:
         form = form_class(instance=occurrence)
         
-    return utils.render(request, template, {'occurrence': occurrence, 'form': form})
+    return render(request, template, {'occurrence': occurrence, 'form': form})
 
 
 #-------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ def add_event(
         event_form = event_form_class()
         recurrence_form = recurrence_form_class(initial={'dtstart': dtstart})
             
-    return utils.render(
+    return render(
         request,
         template,
         {'dtstart': dtstart, 'event_form': event_form, 'recurrence_form': recurrence_form}
@@ -204,7 +204,7 @@ def _datetime_view(
     timeslot_factory = timeslot_factory or utils.create_timeslot_table
     params = params or {}
     
-    return utils.render(request, template, {
+    return render(request, template, {
         'day':       dt, 
         'next_day':  dt + timedelta(days=+1),
         'prev_day':  dt + timedelta(days=-1),
@@ -267,7 +267,7 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
             1
         )
 
-    return utils.render(request, template, {
+    return render(request, template, {
         'year': year,
         'by_month': [(dt, list(o)) for dt,o in itertools.groupby(occurrences, group_key)],
         'next_year': year + 1,
@@ -330,5 +330,5 @@ def month_view(
         'last_month': dtstart + timedelta(days=-1),
     }
 
-    return utils.render(request, template, data)
+    return render(request, template, data)
 
