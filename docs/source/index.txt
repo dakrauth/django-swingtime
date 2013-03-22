@@ -10,6 +10,7 @@ Table of Contents
    :maxdepth: 3
 
    intro
+   installation
    models
    views
    forms

@@ -3,3 +3,4 @@
 *.pyc
 karate.db
 demo/django
+docs/build

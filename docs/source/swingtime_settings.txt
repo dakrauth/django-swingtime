@@ -3,8 +3,20 @@
 
 .. module:: swingtime_settings
 
+
 Settings
 --------
+
+Swingtime has it's settings module (:file:`conf/swingtime_settings.py`) that 
+simulates how each Django project's :file:`setting.py` file functions. You can 
+overwrite any or all of the configuration parameters described in 
+:mod:`swingtime_settings` by creating a file in your own project and referencing
+that file in your project settings using the name :data:`SWINGTIME_SETTINGS_MODULE`.
+
+For example, from the demo's configuration::
+
+    SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
+
 
 .. data:: TIMESLOT_TIME_FORMAT
  

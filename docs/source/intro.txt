@@ -78,62 +78,6 @@ Requirements
 * Python 2.7
 * The ``dateutil`` `package <http://labix.org/python-dateutil>`_.
 
-Get Swingtime
--------------
-
-Options:
-
-* `Swingtime source code <https://github.com/dakrauth/django-swingtime>`_
-* ``pip install django-swingtime``
-
-Settings
---------
-
-Swingtime has it's settings module (:file:`conf/swingtime_settings.py`) that 
-simulates how each Django project's :file:`setting.py` file functions. You can 
-overwrite any or all of the configuration parameters described in 
-:mod:`swingtime_settings` by creating a file in your own project and referencing
-that file in your project settings using the name :data:`SWINGTIME_SETTINGS_MODULE`.
-
-For example, from the demo's configuration::
-
-    SWINGTIME_SETTINGS_MODULE = 'demo.swingtime_settings'
-
-
-Demo
-====
-
-Swingtime comes with its own demo project and application. The demo is themed as 
-a Karate studio's website and allows you see and interact with the Swingtime
-application.
-
-Run locally using the `built-in Django development server 
-<http://docs.djangoproject.com/en/dev/ref/django-admin/#runserver-optional-port-number-or-ipaddr-port>`_.
-
-Templates
----------
-
-Currently, Swingtime does not include any templates of its own. The demo project
-provides some sample templates to use as a guide or starting point.
-
-Sample data
------------
-
-Within the Swingtime demo is an app named ``karate``, which defines the custom
-management command ``loaddemo``. This command will pre-populate your 
-initial database with some events and occurrences based upon the current date and
-time.
-
-Running the demo
-----------------
-
-If you've checked out from directly from the trunk directory or exploded the 
-latest version tarball, you run the demo from anywhere by changing to the 
-``demo`` directory and running::
-
-    $ python manage.py loaddemo
-    $ python manage.py runserver
-
 
 Todo List
 =========
