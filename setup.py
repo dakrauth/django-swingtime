@@ -17,4 +17,8 @@ setup(
         'swingtime',
         'swingtime.conf'
     ],
+    install_requires=[
+        'python-dateutil',
+        'django',
+    ]
 )
