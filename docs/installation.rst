@@ -51,10 +51,8 @@ following (please note that for the following commands you have already installe
 
     $ cd django-swingtime-master/demo
     $ mkvirtualenv swingtime_demo
-    $ pip install django>=1.4
-    $ pip install DateUtils
-    $ pip install django-extensions  # <-- optional
-    $ pip install Sphinx             # <-- optional
+    $ pip install -r requirements.txt
+    $ pip install django-extensions Sphinx # <-- optional
 
 
 And, finally::

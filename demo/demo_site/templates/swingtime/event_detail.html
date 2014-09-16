@@ -37,9 +37,14 @@
     <ol>
         {% for o in event.occurrence_set.all %}
         <li>
+            {% if o.start_time.date == o.end_time.date %}
+            <a href="{% url 'swingtime-occurrence' event.id o.id %}">
+                {{ o.start_time|date:"l, F jS, Y" }} {{ o.start_time|date:"P" }} &ndash; {{ o.end_time|date:"P" }}</a>
+            {% else %}
             <a href="{% url 'swingtime-occurrence' event.id o.id %}">
                 {{ o.start_time|date:"l, F jS, Y P" }} &ndash; 
                 {{ o.end_time|date:"l, F jS, Y P" }}</a>
+            {% endif %}
         </li>
         {% endfor %}
     </ol>

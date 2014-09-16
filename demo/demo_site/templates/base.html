@@ -1,40 +1,39 @@
-{% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="keywords" content="django swingtime demo">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ MEDIA_URL }}css/demo.css" type="text/css" media="screen">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="/media/css/demo.css" type="text/css" media="screen">
-    <!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     {% block extended_head %}{% endblock %}
 </head>
 <body>
-    <div class="container">
+<div class="container">
+    <header role="banner">
         <h1><a href="{% url 'demo-home' %}">Swingtime Demo</a></h1>
-    </div>
-    <div class="container" id="main">
+    </header>
+    <main role="main">
         {% block navigation %}
         <h2>The Karate Dojo</h2>
-        <p style="font-weight: bold; ">
-            <a href="{% url 'swingtime-today' %}">Daily View</a> &sect; 
+        <nav>
+            <a href="{% url 'karate-home' %}">Home</a> &middot;
+            <a href="{% url 'swingtime-today' %}">Daily View</a> &middot; 
             <a href="{% url 'swingtime-monthly-view' current_datetime.year current_datetime.month %}">
-                Monthly View</a> &sect; 
-            <a href="{% url 'swingtime-yearly-view' current_datetime.year %}">Yearly View</a> &sect; 
+                Monthly View</a> &middot; 
+            <a href="{% url 'swingtime-yearly-view' current_datetime.year %}">Yearly View</a> &middot; 
             <a href="{% url 'swingtime-events' %}">Event Listing</a>
-        </p>
-        <hr />
+        </nav>
         {% endblock navigation %}
         {% block main_content %}{% endblock main_content %}
-    </div>
-    <div style="text-align: center; padding-top: 2em; ">
-        <a href="http://djangopony.com/" 
-            class="ponybadge" title="Magic! Ponies! Django! Whee!">
-                <img src="/media/img/ponybadge.png" 
-                    width="140" height="44" alt="ponybadge" />
-        </a>
-    </div>
+    </main>
+    <footer role="contentinfo"></footer>
+</div>
 </body>
 </html>

@@ -1,15 +1,17 @@
 '''
-================================================================================
-Welcome to the django-swingtime demo project. This project's' is theme is a
-Karate dojo and the database will be pre-populated with some data relative to
-today's date. 
-================================================================================
+#---------------------------------------------------------------------------------+
+| Welcome to the swingtime demo project. This project's is theme is a Karate dojo |
+| and the database will be pre-populated with some data relative to today's date. |
+#---------------------------------------------------------------------------------+
 '''
+import os
 from django.core.management import call_command
 from django.core.management.base import NoArgsCommand
+from django.contrib.auth.models import User
 from datetime import datetime, date, time, timedelta
 from django.conf import settings
 from django.db.models import signals
+from django.core.management.color import color_style
 from dateutil import rrule
 from swingtime import models as swingtime
 
@@ -94,9 +96,7 @@ def create_sample_data():
         count=6,
         byweekday=(rrule.SU)
     )
-    print 'Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count())
-    print
-
+    print 'Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count())
 
 
 #===============================================================================
@@ -105,13 +105,16 @@ class Command(NoArgsCommand):
     
     #---------------------------------------------------------------------------
     def handle_noargs(self, **options):
-        import os
-        
         dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASES['default']['NAME'])
         if os.path.exists(dbpath):
-            print 'Removing', dbpath
+            print 'Removing old database', dbpath
             os.remove(dbpath)
+        print 'Creating database', dbpath
 
-        call_command('syncdb', noinput=True)
+        call_command('syncdb', noinput=True, load_initial_data=False, interactive=False)
+        User.objects.create_superuser('admin', 'admin@example.com', 'password')
+        
+        print 'Done.\n\nCreating sample data...'
         create_sample_data()
+        print 'Done\n'
 
