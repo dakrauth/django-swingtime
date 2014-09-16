@@ -388,6 +388,7 @@ class EventForm(forms.ModelForm):
     #===========================================================================
     class Meta:
         model = Event
+        fields = "__all__"
         
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
@@ -408,5 +409,6 @@ class SingleOccurrenceForm(forms.ModelForm):
     #===========================================================================
     class Meta:
         model = Occurrence
+        fields = "__all__"
         
 

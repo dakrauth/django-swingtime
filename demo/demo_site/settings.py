@@ -37,7 +37,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
     'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
     'swingtime.context_processors.current_datetime',
 )
 
@@ -50,11 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
-    #'django.contrib.sites',
     'django.contrib.admin',
-    'django.contrib.staticfiles',
-    
     'swingtime',
     'karate',
 )

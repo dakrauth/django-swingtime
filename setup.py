@@ -19,6 +19,6 @@ setup(
     ],
     install_requires=[
         'python-dateutil',
-        'django',
+        'django>=1.6',
     ]
 )

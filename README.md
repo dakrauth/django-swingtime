@@ -64,7 +64,7 @@ Features
 Requirements
 ------------
 
-* Django 1.4
+* Django 1.6
 * Python 2.7 
 * [dateutil](http://labix.org/python-dateutil)
 

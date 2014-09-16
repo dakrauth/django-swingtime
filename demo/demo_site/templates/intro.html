@@ -24,9 +24,10 @@
         Quick start: View today's calendar and <a href="{% url 'swingtime-today' %}">
             add a new event by clicking a time slot &raquo;</a>
     </p>
-    
-    <hr>
-    <h3 class="center"><a href="{% url 'karate-home' %}">Continue Demo &raquo;</a></h3>
-    <h3 class="center"><a href="/docs/index.html">Swingtime Documentation &raquo;</a></h3>
-    <h3 class="center"><a href="https://github.com/dakrauth/django-swingtime">Swingtime Source Code &raquo;</a></h3>
+
+    <nav>
+        <a class="btn" href="{% url 'karate-home' %}">Continue Demo &raquo;</a>
+        <a class="btn" href="/docs/index.html">Swingtime Documentation &raquo;</a>
+        <a class="btn" href="https://github.com/dakrauth/django-swingtime">Swingtime Source Code &raquo;</a>
+    </nav>
 {% endblock main_content %}

@@ -52,7 +52,7 @@ following (please note that for the following commands you have already installe
     $ cd django-swingtime-master/demo
     $ mkvirtualenv swingtime_demo
     $ pip install -r requirements.txt
-    $ pip install django-extensions Sphinx # <-- optional
+    $ pip install pytz django-extensions Sphinx # <-- optional
 
 
 And, finally::
