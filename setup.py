@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 # Dynamically calculate the version based on swingtime.VERSION.
 VERSION = __import__('swingtime').get_version()

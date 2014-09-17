@@ -4,3 +4,5 @@
 karate.db
 demo/django
 docs/build
+MANIFEST
+dist
