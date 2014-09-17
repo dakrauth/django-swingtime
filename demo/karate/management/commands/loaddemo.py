@@ -5,16 +5,24 @@
 #---------------------------------------------------------------------------------+
 '''
 import os
+import django
 from django.core.management import call_command
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import NoArgsCommand, CommandError
 from django.contrib.auth.models import User
 from datetime import datetime, date, time, timedelta
 from django.conf import settings
 from django.db.models import signals
+from django.utils.termcolors import make_style
 from django.core.management.color import color_style
 from dateutil import rrule
 from swingtime import models as swingtime
 
+class Term:
+    info  = staticmethod(make_style(opts=('bold',), fg='green'))
+    warn  = staticmethod(make_style(opts=('bold',), fg='yellow', bg='black'))
+    error = staticmethod(make_style(opts=('bold',), fg='red', bg='black'))
+
+IS_1_7 = django.VERSION[:2] >= (1,7)
 
 #-------------------------------------------------------------------------------
 def create_sample_data():
@@ -107,13 +115,16 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASES['default']['NAME'])
         if os.path.exists(dbpath):
-            print 'Removing old database', dbpath
+            self.stdout.write(Term.warn('Removing old database %s' % dbpath))
             os.remove(dbpath)
-        print 'Creating database', dbpath
+        self.stdout.write(Term.info('Creating database %s' % dbpath))
 
-        call_command('syncdb', noinput=True, load_initial_data=False, interactive=False)
+        if IS_1_7:
+            call_command('migrate', noinput=True, load_initial_data=False, interactive=False)
+        else:
+            call_command('syncdb', noinput=True, load_initial_data=False, interactive=False)
+            
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
-        
         print 'Done.\n\nCreating sample data...'
         create_sample_data()
         print 'Done\n'

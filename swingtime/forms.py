@@ -3,7 +3,7 @@ Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
 
 '''
 from datetime import datetime, date, time, timedelta
-
+from django import VERSION
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms.extras.widgets import SelectDateWidget
@@ -12,6 +12,8 @@ from dateutil import rrule
 from swingtime.conf import settings as swingtime_settings
 from swingtime import utils
 from swingtime.models import *
+
+FIELDS_REQUIRED = (VERSION[:2] >= (1,6))
 
 WEEKDAY_SHORT = (
     (7, _(u'Sun')),
@@ -349,9 +351,9 @@ class MultipleOccurrenceForm(forms.Form):
             interval=data['interval'] or 1
         )
         
-        if self.cleaned_data['repeats'] == 'count':
+        if data['repeats'] == 'count':
             params['count'] = data['count']
-        elif self.cleaned_data['repeats'] == 'until':
+        elif data['repeats'] == 'until':
             params['until'] = data['until']
 
         if params['freq'] == rrule.WEEKLY:
@@ -388,7 +390,8 @@ class EventForm(forms.ModelForm):
     #===========================================================================
     class Meta:
         model = Event
-        fields = "__all__"
+        if FIELDS_REQUIRED:
+            fields = "__all__"
         
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
@@ -409,6 +412,7 @@ class SingleOccurrenceForm(forms.ModelForm):
     #===========================================================================
     class Meta:
         model = Occurrence
-        fields = "__all__"
+        if FIELDS_REQUIRED:
+            fields = "__all__"
         
 

@@ -13,12 +13,19 @@ setup(
     long_description='Swingtime is a Django application similar to a stripped down version of iCal for Mac OS X or Google Calendar',
     author='David A Krauth',
     platforms=['any'],
+    license='MIT License',
+    classifiers=(
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.7',
+    ),
     packages=[
         'swingtime',
         'swingtime.conf'
     ],
     install_requires=[
         'python-dateutil',
-        'django>=1.6',
+        'django>=1.5',
     ]
 )
