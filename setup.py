@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 # Dynamically calculate the version based on swingtime.VERSION.
-VERSION = __import__('swingtime').get_version()[:3]
+VERSION = __import__('swingtime').get_version()
 
 setup(
     name='django-swingtime',
