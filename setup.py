@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys
+import os, sys
 
 try:
     from setuptools import setup
@@ -8,9 +8,9 @@ except ImportError:
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
-    sys.exit()
+    sys.exit(0)
 
-with open('README.rst', 'r', 'utf-8') as f:
+with open('README.rst', 'r') as f:
     long_description = f.read()
 
 # Dynamically calculate the version based on swingtime.VERSION.
