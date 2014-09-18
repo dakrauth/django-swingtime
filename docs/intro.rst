@@ -7,8 +7,8 @@ Welcome
 Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to
 a stripped-down version of `iCal for Mac OS X <http://en.wikipedia.org/wiki/ICal>`_
 or `Google Calendar <http://www.google.com/intl/en/googlecalendar/tour.html>`_.
-Swingtime provides a :class:`~models.Event` model that acts as metadata container
-for one or more :class:`~models.Occurrence` objects, which describe specific
+Swingtime provides a ``models.Event`` model that acts as metadata container
+for one or more ``models.Occurrence`` objects, which describe specific
 start and end times.
 
 Swingtime relies heavily upon both the ``datetime`` standard library package and
@@ -59,10 +59,10 @@ Features
 --------
 
 * Support for adding complex event occurrences via ``dateutil``
-* Ready-made :class:`~forms.MultipleOccurrenceForm` for handling complex input
+* Ready-made ``forms.MultipleOccurrenceForm`` for handling complex input
 * Daily, monthly, and annual view functions
 * Grid-based daily view generator, complete with alternating or sequential 
-  :class:`~models.EventType` CSS-class handling
+  ``~models.EventType`` CSS-class handling
 * Slightly better than average documentation, a few test cases, and commented code
 * Active support (I have to eat my own dogfood)
 * Built-in demo project / application
@@ -81,5 +81,5 @@ Todo List
 * Add i18n support / translation support in demo
 * Add weekly view
 * Import and export .ics files
-* Add :class:`~models.Note` support to demo
+* Add ``models.Note`` support to demo
 * Add more tests
