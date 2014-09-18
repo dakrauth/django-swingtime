@@ -74,7 +74,7 @@ Features
 Requirements
 ------------
 
-* `Django 1.7 <http://www.djangoproject.com/download/>`_
+* `Django 1.5+ <http://www.djangoproject.com/download/>`_
 * Python 2.7
 * The ``dateutil`` `package <http://labix.org/python-dateutil>`_.
 
@@ -83,9 +83,7 @@ Todo List
 =========
 
 * Add i18n support / translation support in demo
-* Include a setup installer (I'm not doing ``easy_install``!)
 * Add weekly view
 * Import and export .ics files
 * Add :class:`~models.Note` support to demo
 * Add more tests
-* Port over to github
