@@ -35,7 +35,7 @@ A fairly simple example::
     New TPS Cover Sheet: 2013-04-04T16:00:00
     New TPS Cover Sheet: 2013-04-05T16:00:00
 
-A bit more elaborate example, using the the convenience function :func:`models.create_event`::
+A bit more elaborate example, using the the convenience function ``models.create_event``::
     
     >>> # pay day is the last Friday of the month at 5pm
     >>> evt = swingtime.create_event(
