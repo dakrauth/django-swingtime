@@ -2,6 +2,7 @@
 Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
 
 '''
+from __future__ import print_function, unicode_literals
 from datetime import datetime, date, time, timedelta
 from django import VERSION
 from django import forms
@@ -10,80 +11,80 @@ from django.forms.extras.widgets import SelectDateWidget
 
 from dateutil import rrule
 from swingtime.conf import settings as swingtime_settings
-from swingtime import utils
 from swingtime.models import *
+from swingtime import utils
 
 FIELDS_REQUIRED = (VERSION[:2] >= (1,6))
 
 WEEKDAY_SHORT = (
-    (7, _(u'Sun')),
-    (1, _(u'Mon')),
-    (2, _(u'Tue')),
-    (3, _(u'Wed')),
-    (4, _(u'Thu')),
-    (5, _(u'Fri')),
-    (6, _(u'Sat'))
+    (7, _('Sun')),
+    (1, _('Mon')),
+    (2, _('Tue')),
+    (3, _('Wed')),
+    (4, _('Thu')),
+    (5, _('Fri')),
+    (6, _('Sat'))
 )
 
 WEEKDAY_LONG = (
-    (7, _(u'Sunday')),
-    (1, _(u'Monday')),
-    (2, _(u'Tuesday')),
-    (3, _(u'Wednesday')),
-    (4, _(u'Thursday')),
-    (5, _(u'Friday')),
-    (6, _(u'Saturday'))
+    (7, _('Sunday')),
+    (1, _('Monday')),
+    (2, _('Tuesday')),
+    (3, _('Wednesday')),
+    (4, _('Thursday')),
+    (5, _('Friday')),
+    (6, _('Saturday'))
 )
 
 MONTH_LONG = (
-    (1,  _(u'January')),
-    (2,  _(u'February')),
-    (3,  _(u'March')),
-    (4,  _(u'April')),
-    (5,  _(u'May')),
-    (6,  _(u'June')),
-    (7,  _(u'July')),
-    (8,  _(u'August')),
-    (9,  _(u'September')),
-    (10, _(u'October')),
-    (11, _(u'November')),
-    (12, _(u'December')),
+    (1,  _('January')),
+    (2,  _('February')),
+    (3,  _('March')),
+    (4,  _('April')),
+    (5,  _('May')),
+    (6,  _('June')),
+    (7,  _('July')),
+    (8,  _('August')),
+    (9,  _('September')),
+    (10, _('October')),
+    (11, _('November')),
+    (12, _('December')),
 )
 
 MONTH_SHORT = (
-    (1,  _(u'Jan')),
-    (2,  _(u'Feb')),
-    (3,  _(u'Mar')),
-    (4,  _(u'Apr')),
-    (5,  _(u'May')),
-    (6,  _(u'Jun')),
-    (7,  _(u'Jul')),
-    (8,  _(u'Aug')),
-    (9,  _(u'Sep')),
-    (10, _(u'Oct')),
-    (11, _(u'Nov')),
-    (12, _(u'Dec')),
+    (1,  _('Jan')),
+    (2,  _('Feb')),
+    (3,  _('Mar')),
+    (4,  _('Apr')),
+    (5,  _('May')),
+    (6,  _('Jun')),
+    (7,  _('Jul')),
+    (8,  _('Aug')),
+    (9,  _('Sep')),
+    (10, _('Oct')),
+    (11, _('Nov')),
+    (12, _('Dec')),
 )
 
 
 ORDINAL = (
-    (1,  _(u'first')),
-    (2,  _(u'second')),
-    (3,  _(u'third')),
-    (4,  _(u'fourth')),
-    (-1, _(u'last'))
+    (1,  _('first')),
+    (2,  _('second')),
+    (3,  _('third')),
+    (4,  _('fourth')),
+    (-1, _('last'))
 )
 
 FREQUENCY_CHOICES = (
-    (rrule.DAILY,   _(u'Day(s)')),
-    (rrule.WEEKLY,  _(u'Week(s)')),
-    (rrule.MONTHLY, _(u'Month(s)')),
-    (rrule.YEARLY,  _(u'Year(s)')),
+    (rrule.DAILY,   _('Day(s)')),
+    (rrule.WEEKLY,  _('Week(s)')),
+    (rrule.MONTHLY, _('Month(s)')),
+    (rrule.YEARLY,  _('Year(s)')),
 )
 
 REPEAT_CHOICES = (
-    ('count', _(u'By count')),
-    ('until', _(u'Until date')),
+    ('count', _('By count')),
+    ('until', _('Until date')),
 )
 
 ISO_WEEKDAYS_MAP = (
@@ -206,18 +207,18 @@ class SplitDateTimeWidget(forms.MultiWidget):
 #===============================================================================
 class MultipleOccurrenceForm(forms.Form):
     day = forms.DateField(
-        label=_(u'Date'),
+        label=_('Date'),
         initial=date.today,
         widget=SelectDateWidget()
     )
     
     start_time_delta = forms.IntegerField(
-        label=_(u'Start time'),
+        label=_('Start time'),
         widget=forms.Select(choices=default_timeslot_offset_options)
     )
     
     end_time_delta = forms.IntegerField(
-        label=_(u'End time'),
+        label=_('End time'),
         widget=forms.Select(choices=default_timeslot_offset_options)
     )
 
@@ -225,12 +226,12 @@ class MultipleOccurrenceForm(forms.Form):
     repeats = forms.ChoiceField(
         choices=REPEAT_CHOICES,
         initial='count',
-        label=_(u'Occurrences'),
+        label=_('Occurrences'),
         widget=forms.RadioSelect()
     )
 
     count = forms.IntegerField(
-        label=_(u'Total Occurrences'),
+        label=_('Total Occurrences'),
         initial=1,
         required=False,
         widget=forms.TextInput(attrs=dict(size=2, max_length=2))
@@ -243,7 +244,7 @@ class MultipleOccurrenceForm(forms.Form):
     )
     
     freq = forms.IntegerField(
-        label=_(u'Frequency'),
+        label=_('Frequency'),
         initial=rrule.WEEKLY,
         widget=forms.RadioSelect(choices=FREQUENCY_CHOICES),
     )
@@ -257,16 +258,16 @@ class MultipleOccurrenceForm(forms.Form):
     # weekly options
     week_days = MultipleIntegerField(
         WEEKDAY_SHORT, 
-        label=_(u'Weekly options'),
+        label=_('Weekly options'),
         widget=forms.CheckboxSelectMultiple
     )
     
     # monthly  options
     month_option = forms.ChoiceField(
-        choices=(('on',_(u'On the')), ('each',_(u'Each:'))),
+        choices=(('on',_('On the')), ('each',_('Each:'))),
         initial='each',
         widget=forms.RadioSelect(),
-        label=_(u'Monthly options')
+        label=_('Monthly options')
     )
     
     month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL))
@@ -279,7 +280,7 @@ class MultipleOccurrenceForm(forms.Form):
     # yearly options
     year_months = MultipleIntegerField(
         MONTH_SHORT, 
-        label=_(u'Yearly options'),
+        label=_('Yearly options'),
         widget=forms.CheckboxSelectMultiple
     )
     
@@ -300,19 +301,19 @@ class MultipleOccurrenceForm(forms.Form):
 
             weekday = dtstart.isoweekday()
             ordinal = dtstart.day // 7
-            ordinal = u'%d' % (-1 if ordinal > 3 else ordinal + 1,)
+            ordinal = '%d' % (-1 if ordinal > 3 else ordinal + 1,)
             offset = (dtstart - datetime.combine(dtstart.date(), time(0))).seconds
             
             self.initial.setdefault('day', dtstart)
-            self.initial.setdefault('week_days', u'%d' % weekday)
+            self.initial.setdefault('week_days', '%d' % weekday)
             self.initial.setdefault('month_ordinal', ordinal)
-            self.initial.setdefault('month_ordinal_day', u'%d' % weekday)
-            self.initial.setdefault('each_month_day', [u'%d' % dtstart.day])
-            self.initial.setdefault('year_months', [u'%d' % dtstart.month])
+            self.initial.setdefault('month_ordinal_day', '%d' % weekday)
+            self.initial.setdefault('each_month_day', ['%d' % dtstart.day])
+            self.initial.setdefault('year_months', ['%d' % dtstart.month])
             self.initial.setdefault('year_month_ordinal', ordinal)
-            self.initial.setdefault('year_month_ordinal_day', u'%d' % weekday)
-            self.initial.setdefault('start_time_delta', u'%d' % offset)
-            self.initial.setdefault('end_time_delta', u'%d' % (offset + SECONDS_INTERVAL,))
+            self.initial.setdefault('year_month_ordinal_day', '%d' % weekday)
+            self.initial.setdefault('start_time_delta', '%d' % offset)
+            self.initial.setdefault('end_time_delta', '%d' % (offset + SECONDS_INTERVAL,))
 
     #---------------------------------------------------------------------------
     def clean(self):
@@ -375,7 +376,7 @@ class MultipleOccurrenceForm(forms.Form):
                 params['byweekday'] = day(ordinal)
                 
         elif params['freq'] != rrule.DAILY:
-            raise NotImplementedError(_(u'Unknown interval rule %s') % params['freq'])
+            raise NotImplementedError(_('Unknown interval rule ' + params['freq']))
 
         return params
 

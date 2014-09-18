@@ -8,9 +8,11 @@ import itertools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
+from django.utils.encoding import python_2_unicode_compatible
 
 from dateutil import rrule
 from swingtime.conf import settings as swingtime_settings
+from swingtime.models import EventType
 
 
 #-------------------------------------------------------------------------------
@@ -50,24 +52,26 @@ def month_boundaries(dt=None):
 
 
 #-------------------------------------------------------------------------------
+def default_css_class_cycler():
+    return itertools.cycle(('evt-even', 'evt-odd'))
+
+
+#-------------------------------------------------------------------------------
 def css_class_cycler():
     '''
     Return a dictionary keyed by ``EventType`` abbreviations, whose values are an
     iterable or cycle of CSS class names.
     
     '''
-    from swingtime.models import EventType
-    return defaultdict(
-        lambda: itertools.cycle(('evt-even', 'evt-odd')).next,
-        ((e.abbr, itertools.cycle((
-             'evt-%s-even' % e.abbr, 
-             'evt-%s-odd' % e.abbr
-             )).next) for e in EventType.objects.all()
-        )
-    )
+    FMT = 'evt-{0}-{1}'.format
+    return defaultdict(default_css_class_cycler, (
+        (e.abbr, itertools.cycle((FMT(e.abbr, 'even'), FMT(e.abbr, 'odd'))))
+        for e in EventType.objects.all()
+    ))
 
 
 #===============================================================================
+@python_2_unicode_compatible
 class BaseOccurrenceProxy(object):
     '''
     A simple wrapper class for handling the presentational aspects of an
@@ -85,14 +89,15 @@ class BaseOccurrenceProxy(object):
         return getattr(self._occurrence, name)
         
     #---------------------------------------------------------------------------
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
 #===============================================================================
+@python_2_unicode_compatible
 class DefaultOccurrenceProxy(BaseOccurrenceProxy):
 
-    CONTINUATION_STRING = '^'
+    CONTINUATION_STRING = '^^'
     
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
@@ -105,12 +110,12 @@ class DefaultOccurrenceProxy(BaseOccurrenceProxy):
         self._str = itertools.chain(
             (link,),
             itertools.repeat(self.CONTINUATION_STRING)
-        ).next
+        )
         
     #---------------------------------------------------------------------------
     @html_mark_safe
-    def __unicode__(self):
-        return self._str()
+    def __str__(self):
+        return next(self._str)
 
 
 #-------------------------------------------------------------------------------
@@ -159,7 +164,7 @@ def create_timeslot_table(
         items = Occurrence.objects.daily_occurrences(dt).select_related('event')
 
     # build a mapping of timeslot "buckets"
-    timeslots = dict()
+    timeslots = {}
     n = dtstart
     while n <= dtend:
         timeslots[n] = {}
@@ -208,7 +213,7 @@ def create_timeslot_table(
             colkey += 1
             
     # determine the number of timeslot columns we should show
-    column_lens = [len(x) for x in timeslots.itervalues()]
+    column_lens = [len(x) for x in timeslots.values()]
     column_count = max((min_columns, max(column_lens) if column_lens else 0))
     column_range = range(column_count)
     empty_columns = ['' for x in column_range]
@@ -226,7 +231,7 @@ def create_timeslot_table(
             proxy = timeslots[rowkey][colkey]
             cols[colkey] = proxy
             if not proxy.event_class and column_classes:
-                proxy.event_class = column_classes[colkey][proxy.event_type.abbr]()
+                proxy.event_class = next(column_classes[colkey][proxy.event_type.abbr])
 
         table.append((rowkey, cols))
 

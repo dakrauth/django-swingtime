@@ -4,6 +4,7 @@
 | and the database will be pre-populated with some data relative to today's date. |
 #---------------------------------------------------------------------------------+
 '''
+from __future__ import print_function, unicode_literals
 import os
 import django
 from django.core.management import call_command
@@ -40,10 +41,10 @@ def create_sample_data():
             ('spc',  'Special Event'),
         )
     ))
-    print __doc__
-    print 'Created event types: %s' % (
+    print(__doc__)
+    print('Created event types: %s' % (
         ', '.join(['%s' % et for et in swingtime.EventType.objects.all()]),
-    )
+    ))
     
     now = datetime.now()
     
@@ -56,7 +57,7 @@ def create_sample_data():
         end_time=datetime.combine(now.date(), time(18)),
         note='Free tea, sushi, and sake'
     )
-    print 'Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count())
+    print('Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count()))
     
     # create an event with multiple occurrences by fixed count
     evt = swingtime.create_event(
@@ -67,7 +68,7 @@ def create_sample_data():
         count=30,
         byweekday=(rrule.MO, rrule.WE, rrule.FR)
     )
-    print 'Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count())
+    print('Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count()))
 
     # create an event with multiple occurrences by ending date (until)
     evt = swingtime.create_event(
@@ -78,7 +79,7 @@ def create_sample_data():
         until=now + timedelta(days=+70),
         byweekday=(rrule.MO, rrule.WE, rrule.FR)
     )
-    print 'Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count())
+    print('Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count()))
 
     # create an event with multiple occurrences by fixed count on monthly basis
     evt = swingtime.create_event(
@@ -91,7 +92,7 @@ def create_sample_data():
         freq=rrule.MONTHLY,
         byweekday=(rrule.TH(+1), rrule.TH(+3))
     )
-    print 'Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count())
+    print('Created event "%s" with %d occurrences' % (evt, evt.occurrence_set.count()))
 
     # create an event with multiple occurrences and alternate intervale
     evt = swingtime.create_event(
@@ -104,7 +105,7 @@ def create_sample_data():
         count=6,
         byweekday=(rrule.SU)
     )
-    print 'Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count())
+    print('Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count()))
 
 
 #===============================================================================
@@ -125,7 +126,7 @@ class Command(NoArgsCommand):
             call_command('syncdb', noinput=True, load_initial_data=False, interactive=False)
             
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
-        print 'Done.\n\nCreating sample data...'
+        print('Done.\n\nCreating sample data...')
         create_sample_data()
-        print 'Done\n'
+        print('Done\n')
 

@@ -65,6 +65,6 @@ Requirements
 ------------
 
 * Django 1.5+
-* Python 2.7 
+* Python 2.7, 3.4
 * [dateutil](http://labix.org/python-dateutil)
 

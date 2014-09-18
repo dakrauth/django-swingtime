@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 from pprint import pformat
 from datetime import datetime, timedelta, date, time
 
@@ -154,7 +154,7 @@ class NewEventFormTest(TestCase):
         self.assertEqual(
             occ_form.cleaned_data['start_time'],
             datetime(2008, 12, 11, 8),
-            'Bad start_time: %s' % pformat(occ_form.cleaned_data)
+            'Bad start_time: {0}'.format(pformat(occ_form.cleaned_data))
         )
 
 #-------------------------------------------------------------------------------

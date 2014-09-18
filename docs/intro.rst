@@ -75,7 +75,7 @@ Requirements
 ------------
 
 * `Django 1.5+ <http://www.djangoproject.com/download/>`_
-* Python 2.7
+* Python 2.7, 3.4
 * The ``dateutil`` `package <http://labix.org/python-dateutil>`_.
 
 
