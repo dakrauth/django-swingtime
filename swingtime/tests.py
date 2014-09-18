@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from pprint import pprint, pformat
-from cStringIO import StringIO
+from __future__ import print_function
+from pprint import pformat
 from datetime import datetime, timedelta, date, time
 
 from django.test import TestCase
@@ -73,33 +73,30 @@ class TableTest(TestCase):
 
     #---------------------------------------------------------------------------
     def table_as_string(self, table):
-        timefmt = '| %-5s'
-        cellfmt = '| %-8s'
-        out = StringIO()
+        timefmt = '| {:<5s} '
+        cellfmt = '| {:<8s} '
+        out = []
         for tm, cells in table:
-            print >> out, timefmt % tm.strftime('%H:%M'),
+            out.append(timefmt.format(tm.strftime('%H:%M')))
             for cell in cells:
                 if cell:
-                    print >> out, cellfmt % cell.event.title,
+                    out.append(cellfmt.format(cell.event.title))
                 else:
-                    print >> out, cellfmt % '',
-            print >> out, '|'
+                    out.append(cellfmt.format(''))
+            out.append('|\n')
             
-        return out.getvalue()
+        return ''.join(out)
 
     #---------------------------------------------------------------------------
     def _do_test(self, start, end, expect):
-        import pdb
-        start = time(*start)
+        start   = time(*start)
         dtstart = datetime.combine(self._dt, start)
-        etd = datetime.combine(self._dt, time(*end)) - dtstart
+        etd     = datetime.combine(self._dt, time(*end)) - dtstart
+        table   = utils.create_timeslot_table(self._dt, start_time=start, end_time_delta=etd)
+        actual  = self.table_as_string(table)
+        out     = 'Expecting:\n{0}\nActual:\n{1}'.format(expect, actual)
 
-        # pdb.set_trace()
-        table = utils.create_timeslot_table(self._dt, start_time=start, end_time_delta=etd)
-
-        actual = self.table_as_string(table)
-        out = 'Expecting:\n%s\nActual:\n%s' % (expect, actual)
-        print out
+        print(out)
         self.assertEqual(actual, expect, out)
 
     #---------------------------------------------------------------------------
@@ -187,7 +184,7 @@ def doc_tests():
         ...     until=datetime(2008,12,31)
         ... )
         >>> for o in e.occurrence_set.all():
-        ...     print o.start_time, o.end_time
+        ...     print(o.start_time, o.end_time)
         ... 
         2008-12-02 12:00:00 2008-12-02 13:00:00
         2008-12-04 12:00:00 2008-12-04 13:00:00
