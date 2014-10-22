@@ -1,8 +1,13 @@
 import os, sys
+
+ROOT_DIR = '/var/www/demo/'
+SITE_DIR = ROOT_DIR + 'demo_site'
+
+sys.path.extend([ROOT_DIR, SITE_DIR])
 sys.stdout = sys.stderr
-sys.path.extend(['/var/www/swingtime'])
-os.environ['DJANGO_SETTINGS_MODULE'] = 'demo.settings'
 
-import django.core.handlers.wsgi
-application = django.core.handlers.wsgi.WSGIHandler()
+os.environ['DJANGO_SETTINGS_MODULE'] = 'demo_site.settings'
+os.chdir(SITE_DIR)
 
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()

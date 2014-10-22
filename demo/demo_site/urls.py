@@ -16,8 +16,3 @@ urlpatterns = patterns('',
     (r'^docs/?$',            RedirectView.as_view(url='/docs/index.html')),
     (r'^docs/(?P<path>.*)$', serve, dict(document_root=doc_root, show_indexes=False))
 )
-
-if settings.DEBUG:
-    urlpatterns += patterns ('',
-        (r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
-    )
