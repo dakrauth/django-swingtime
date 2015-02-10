@@ -110,11 +110,12 @@ class Event(models.Model):
         only a single ``Occurrence`` instance will be created using the exact
         ``start_time`` and ``end_time`` values.
         '''
-        rrule_params.setdefault('freq', rrule.DAILY)
-        
-        if 'count' not in rrule_params and 'until' not in rrule_params:
+        count = rrule_params.get('count')
+        until = rrule_params.get('until')
+        if count == until == None:
             self.occurrence_set.create(start_time=start_time, end_time=end_time)
         else:
+            rrule_params.setdefault('freq', rrule.DAILY)
             delta = end_time - start_time
             for ev in rrule.rrule(dtstart=start_time, **rrule_params):
                 self.occurrence_set.create(start_time=ev, end_time=ev + delta)

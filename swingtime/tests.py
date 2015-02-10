@@ -7,6 +7,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.management import call_command
 
+from dateutil import rrule
 from swingtime import utils
 from swingtime.models import *
 
@@ -137,12 +138,11 @@ class NewEventFormTest(TestCase):
             end_time_delta='29700',
             year_month_ordinal_day='2',
             month_ordinal_day='2',
-            holidays='skip',
             year_month_ordinal='1',
             month_option='each',
+            count=2,
             repeats='count',
             freq='2',
-            occurences='2',
             month_ordinal='1'
         )
         
@@ -150,6 +150,9 @@ class NewEventFormTest(TestCase):
         occ_form = MultipleOccurrenceForm(data)
         self.assertTrue(evt_form.is_valid(), evt_form.errors.as_text())
         self.assertTrue(occ_form.is_valid(), occ_form.errors.as_text())
+
+        evt = occ_form.save(evt_form.save())
+        self.assertEqual(evt.occurrence_set.count(), 2)
         
         self.assertEqual(
             occ_form.cleaned_data['start_time'],
