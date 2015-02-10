@@ -330,7 +330,7 @@ class MultipleOccurrenceForm(forms.Form):
 
     #---------------------------------------------------------------------------
     def save(self, event):
-        if self.cleaned_data['repeats'] == 'no':
+        if self.cleaned_data['repeats'] == 'count' and self.cleaned_data['count'] == 1:
             params = {}
         else:
             params = self._build_rrule_params()
