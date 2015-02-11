@@ -18,7 +18,7 @@ install:
 
 # Command to run tests, e.g. python setup.py test
 script:
-  - cd tests/ && manage.py test swingtime
+  - cd tests/ && python manage.py test swingtime
 
 # Report to coveralls
 #after_success:
