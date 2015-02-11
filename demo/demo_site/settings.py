@@ -4,10 +4,7 @@ try:
     # dateutil is an absolute requirement
     import dateutil
 except ImportError:
-    raise ImportError(
-        'django-swingtime requires the "dateutil" package '
-        '(http://labix.org/python-dateutil): $ pip install python-dateutil'
-    )
+    raise ImportError('django-swingtime requires the "python-dateutil" package')
 
 SITE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(SITE_DIR)
@@ -32,7 +29,7 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(SITE_DIR, 'static')
 STATIC_URL = '/static/'
 
-SECRET_KEY = 'j#_e3y&h=a4)hrmj=)bqo@$6qoz6(hrf9wz@uqq@uy*0uzl#ew'
+SECRET_KEY = 'swingtime-demo'
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.media',

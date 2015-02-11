@@ -1,0 +1,7 @@
+include README.rst
+include LICENSE
+include MANIFEST.in
+recursive-include swingtime *.json 
+recursive-include swingtime/locale *
+recursive-include tests *
+recursive-include docs *.rst *.py Makefile

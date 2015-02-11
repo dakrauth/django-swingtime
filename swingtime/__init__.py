@@ -1,5 +1,5 @@
-VERSION = (0, 4, 1)
+VERSION = (0, 5)
 
 #-------------------------------------------------------------------------------
 def get_version():
-    return '.'.join([str(i) for i in VERSION])
+    return '.'.join(map(str, VERSION))

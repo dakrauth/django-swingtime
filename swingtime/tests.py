@@ -66,7 +66,7 @@ expected_table_5 = '''\
 #===============================================================================
 class TableTest(TestCase):
 
-    fixtures = ['swingtime_test']
+    fixtures = ['swingtime_test.json']
 
     #---------------------------------------------------------------------------
     def setUp(self):

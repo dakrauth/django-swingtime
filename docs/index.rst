@@ -17,7 +17,7 @@ Table of Contents
    utils
    swingtime_settings
    changes
-
+   authors
 
 Index
 -----

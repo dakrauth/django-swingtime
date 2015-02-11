@@ -3,6 +3,18 @@
 Changes in Swingtime
 ====================
 
+Release 0.5 (February 11, 2015)
+-------------------------------
+
+* Added `tox`, `Travis CI`, a separate `tests` project, and `MANIFEST.in`
+* Cleaned up demo project, docs, `setup.py`
+* Removed support for Django<1.6
+
+Release 0.4.1 (February 10, 2015)
+---------------------------------
+
+* Bugfix for form `rrule`
+
 Release 0.4 (September 18, 2014)
 --------------------------------
 
