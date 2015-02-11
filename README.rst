@@ -1,6 +1,9 @@
 About Swingtime
 ===============
 
+.. image:: https://travis-ci.org/dakrauth/django-swingtime.svg?branch=master
+    :target: https://travis-ci.org/dakrauth/django-swingtime
+
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
