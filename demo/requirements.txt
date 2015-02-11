@@ -2,3 +2,4 @@ python-dateutil
 Django<1.8
 django-extensions
 Sphinx
+sphinx_rtd_theme

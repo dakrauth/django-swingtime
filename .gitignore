@@ -2,7 +2,9 @@
 *.pot
 *.pyc
 karate.db
-demo/django
+demo/static
 docs/build
 MANIFEST
 dist
+.tox/
+django_swingtime.egg-info/

@@ -6,7 +6,7 @@ SITE_DIR = ROOT_DIR + 'demo_site'
 sys.path.extend([ROOT_DIR, SITE_DIR])
 sys.stdout = sys.stderr
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'demo_site.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 os.chdir(SITE_DIR)
 
 from django.core.wsgi import get_wsgi_application

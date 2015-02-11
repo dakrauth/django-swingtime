@@ -114,7 +114,7 @@ class Command(NoArgsCommand):
     
     #---------------------------------------------------------------------------
     def handle_noargs(self, **options):
-        dbpath = os.path.join(settings.PROJECT_DIR, settings.DATABASES['default']['NAME'])
+        dbpath = settings.DATABASES['default']['NAME']
         if os.path.exists(dbpath):
             self.stdout.write(Term.warn('Removing old database %s' % dbpath))
             os.remove(dbpath)

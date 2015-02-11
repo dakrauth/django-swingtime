@@ -1,13 +1,11 @@
 import os
-from django.conf import settings
 from django.contrib import admin
 from django.views.static import serve
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView, RedirectView
 
 admin.autodiscover()
-site_dir = os.path.dirname(settings.SITE_DIR)
-doc_root = os.path.join(os.path.dirname(site_dir), 'docs/build/html')
+doc_root = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'docs/build/html')
 
 urlpatterns = patterns('',
     url(r'^$',               TemplateView.as_view(template_name='intro.html'), name='demo-home'),
