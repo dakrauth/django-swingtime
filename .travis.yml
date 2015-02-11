@@ -14,18 +14,12 @@ install:
   - pip install -q Django==$DJANGO_VERSION --use-mirrors --quiet
   - pip install coveralls
   - pip install python-dateutil
+  - python setup.py develop
 
 # Command to run tests, e.g. python setup.py test
 script:
-  - coverage run --source=tests manage.py test swingtime
-
-# Support Python3 only with Django 1.6+
-# Support Django 1.7+ only with Python 2.7+
-matrix:
-  exclude:
-    - python: "3.4"
-      env: DJANGO_VERSION=1.5.12
+  - cd tests/ && manage.py test swingtime
 
 # Report to coveralls
-after_success:
-  - coveralls
+#after_success:
+#  - coveralls
