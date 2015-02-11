@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
 
 try:
@@ -13,6 +12,7 @@ try:
 except ImportError:
     from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 
+from swingtime.conf import settings as swingtime_settings
 
 __all__ = (
     'Note',
@@ -28,11 +28,9 @@ class Note(models.Model):
     '''
     A generic model for adding simple, arbitrary notes to other models such as
     ``Event`` or ``Occurrence``.
-    
     '''
     note = models.TextField(_('note'))
     created = models.DateTimeField(_('created'), auto_now_add=True)
-
     content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
     object_id = models.PositiveIntegerField(_('object id'))
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -41,7 +39,7 @@ class Note(models.Model):
     class Meta:
         verbose_name = _('note')
         verbose_name_plural = _('notes')
-        
+
     #---------------------------------------------------------------------------
     def __str__(self):
         return self.note
@@ -52,7 +50,6 @@ class Note(models.Model):
 class EventType(models.Model):
     '''
     Simple ``Event`` classifcation.
-    
     '''
     abbr = models.CharField(_('abbreviation'), max_length=4, unique=True)
     label = models.CharField(_('label'), max_length=50)
@@ -61,7 +58,7 @@ class EventType(models.Model):
     class Meta:
         verbose_name = _('event type')
         verbose_name_plural = _('event types')
-        
+
     #---------------------------------------------------------------------------
     def __str__(self):
         return self.label
@@ -83,7 +80,7 @@ class Event(models.Model):
         verbose_name = _('event')
         verbose_name_plural = _('events')
         ordering = ('title', )
-        
+
     #---------------------------------------------------------------------------
     def __str__(self):
         return self.title
@@ -135,7 +132,7 @@ class Event(models.Model):
         if available, otherwise ``None``.
         '''
         upcoming = self.upcoming_occurrences()
-        return upcoming and upcoming[0] or None
+        return upcoming[0] if upcoming else None
 
     #---------------------------------------------------------------------------
     def daily_occurrences(self, dt=None):
@@ -204,7 +201,7 @@ class Occurrence(models.Model):
 
     #---------------------------------------------------------------------------
     def __str__(self):
-        return '%s: %s' % (self.title, self.start_time.isoformat())
+        return '{}: {}'.format(self.title, self.start_time.isoformat())
 
     #---------------------------------------------------------------------------
     @models.permalink
@@ -260,7 +257,6 @@ def create_event(
         follow the ``dateutils`` API (see http://labix.org/python-dateutil)
     
     '''
-    from swingtime.conf import settings as swingtime_settings
     
     if isinstance(event_type, tuple):
         event_type, created = EventType.objects.get_or_create(
@@ -283,6 +279,6 @@ def create_event(
         microsecond=0
     )
     
-    end_time = end_time or start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION
+    end_time = end_time or (start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
     event.add_occurrences(start_time, end_time, **rrule_params)
     return event

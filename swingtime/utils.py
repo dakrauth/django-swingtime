@@ -1,7 +1,7 @@
 '''
 Common features and functions for swingtime
-
 '''
+import calendar
 from collections import defaultdict
 from datetime import datetime, date, time, timedelta
 import itertools
@@ -44,7 +44,6 @@ def month_boundaries(dt=None):
     dates of the current month or using ``dt`` as a reference. 
     
     '''
-    import calendar
     dt = dt or date.today()
     wkday, ndays = calendar.monthrange(dt.year, dt.month)
     start = datetime(dt.year, dt.month, 1)
@@ -111,7 +110,7 @@ class DefaultOccurrenceProxy(BaseOccurrenceProxy):
             (link,),
             itertools.repeat(self.CONTINUATION_STRING)
         )
-        
+
     #---------------------------------------------------------------------------
     @html_mark_safe
     def __str__(self):

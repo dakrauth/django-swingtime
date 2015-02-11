@@ -10,6 +10,7 @@ from django.core.management import call_command
 from dateutil import rrule
 from swingtime import utils
 from swingtime.models import *
+from swingtime.forms import EventForm, MultipleOccurrenceForm
 
 expected_table_1 = '''\
 | 15:00 |          |          |          |          |          |
@@ -96,8 +97,6 @@ class TableTest(TestCase):
         table   = utils.create_timeslot_table(self._dt, start_time=start, end_time_delta=etd)
         actual  = self.table_as_string(table)
         out     = 'Expecting:\n{0}\nActual:\n{1}'.format(expect, actual)
-
-        print(out)
         self.assertEqual(actual, expect, out)
 
     #---------------------------------------------------------------------------
@@ -128,8 +127,6 @@ class NewEventFormTest(TestCase):
     
     #---------------------------------------------------------------------------
     def test_new_event_simple(self):
-        from swingtime.forms import EventForm, MultipleOccurrenceForm
-        
         data = dict(
             title='QWERTY',
             event_type='1',
@@ -160,43 +157,62 @@ class NewEventFormTest(TestCase):
             'Bad start_time: {0}'.format(pformat(occ_form.cleaned_data))
         )
 
-#-------------------------------------------------------------------------------
-def doc_tests():
-    '''
-        >>> from dateutil import rrule
-        >>> from datetime import datetime
-        >>> from swingtime.models import *
-        >>> evt_types = [EventType.objects.create(abbr=l.lower(),label=l) for l in ['Foo', 'Bar', 'Baz']]
-        >>> evt_types
-        [<EventType: Foo>, <EventType: Bar>, <EventType: Baz>]
-        >>> e = Event.objects.create(title='Hello, world', description='Happy New Year', event_type=evt_types[0])
-        >>> e
-        <Event: Hello, world>
-        >>> e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
-        >>> e.occurrence_set.all()
-        [<Occurrence: Hello, world: 2008-01-01T00:00:00>, <Occurrence: Hello, world: 2009-01-01T00:00:00>, <Occurrence: Hello, world: 2010-01-01T00:00:00>, <Occurrence: Hello, world: 2011-01-01T00:00:00>, <Occurrence: Hello, world: 2012-01-01T00:00:00>, <Occurrence: Hello, world: 2013-01-01T00:00:00>, <Occurrence: Hello, world: 2014-01-01T00:00:00>]
-        >>> e = create_event('Bicycle repairman', event_type=evt_types[2])
-        >>> e.occurrence_set.count()
-        1
-        >>> e = create_event(
-        ...     'Something completely different',
-        ...     event_type=('abbr', 'Abbreviation'),
-        ...     start_time=datetime(2008,12,1, 12),
-        ...     freq=rrule.WEEKLY,
-        ...     byweekday=(rrule.TU, rrule.TH),
-        ...     until=datetime(2008,12,31)
-        ... )
-        >>> for o in e.occurrence_set.all():
-        ...     print(o.start_time, o.end_time)
-        ... 
-        2008-12-02 12:00:00 2008-12-02 13:00:00
-        2008-12-04 12:00:00 2008-12-04 13:00:00
-        2008-12-09 12:00:00 2008-12-09 13:00:00
-        2008-12-11 12:00:00 2008-12-11 13:00:00
-        2008-12-16 12:00:00 2008-12-16 13:00:00
-        2008-12-18 12:00:00 2008-12-18 13:00:00
-        2008-12-23 12:00:00 2008-12-23 13:00:00
-        2008-12-25 12:00:00 2008-12-25 13:00:00
-        2008-12-30 12:00:00 2008-12-30 13:00:00
-    '''
-    pass
+
+#===============================================================================
+class AssortedTest(TestCase):
+    
+    #---------------------------------------------------------------------------
+    def test_1(self):
+        et = EventType.objects.create(abbr='foo', label='Foo')
+        self.assertTrue(et.abbr == 'foo')
+        
+        e = Event.objects.create(title='Hello, world', description='Happy New Year', event_type=et)
+        self.assertTrue(e.event_type == et)
+        
+        e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
+        occs = list(e.occurrence_set.all())
+        self.assertEqual(len(occs), 7)
+        for i in range(7):
+            o = occs[i]
+            self.assertEqual(o.start_time.year, 2008 + i)
+        
+    #---------------------------------------------------------------------------
+    def test_2(self):
+        et = EventType.objects.create(abbr='bar', label='Bar')
+        self.assertEqual(str(et), 'Bar')
+        
+        e = create_event('Bicycle repairman', event_type=et)
+        self.assertEqual(str(e), 'Bicycle repairman')
+        self.assertEqual(e.occurrence_set.count(), 1)
+        self.assertEqual(e.daily_occurrences().count(), 1)
+    
+    #---------------------------------------------------------------------------
+    def test_3(self):
+        e = create_event(
+            'Something completely different',
+            event_type=('abbr', 'Abbreviation'),
+            start_time=datetime(2008,12,1, 12),
+            freq=rrule.WEEKLY,
+            byweekday=(rrule.TU, rrule.TH),
+            until=datetime(2008,12,31)
+        )
+        self.assertTrue(e.event_type.abbr == 'abbr')
+        occs = list(e.occurrence_set.all())
+        
+        days = [2, 4, 9, 11, 16, 18, 23, 25, 30]
+        for i in range(len(occs)):
+            o = occs[i]
+            self.assertEqual(days[i], o.start_time.day)
+    
+    #---------------------------------------------------------------------------
+    def test_4(self):
+        e = create_event(
+            'This parrot has ceased to be!',
+            ('blue', 'Blue'),
+            count=3,
+        )
+        
+        occs = list(e.upcoming_occurrences())
+        self.assertEqual(len(occs), 2)
+        self.assertEqual(occs[1].title, 'This parrot has ceased to be!')
+        
