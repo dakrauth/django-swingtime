@@ -1,17 +1,14 @@
 About Swingtime
 ===============
 
-.. image:: https://pypip.in/v/django-swingtime/badge.svg
-    :target: https://pypi.python.org/pypi/django-swingtime/
-
-.. image:: https://pypip.in/d/django-swingtime/badge.svg
-    :target: https://pypi.python.org/pypi/django-swingtime/
-
 .. image:: https://travis-ci.org/dakrauth/django-swingtime.svg?branch=master
     :target: https://travis-ci.org/dakrauth/django-swingtime
 
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
+
+.. image:: https://pypip.in/d/django-swingtime/badge.svg
+    :target: https://pypi.python.org/pypi/django-swingtime/
 
 .. image:: https://pypip.in/license/django-swingtime/badge.svg
     :target: https://pypi.python.org/pypi/django-swingtime/
