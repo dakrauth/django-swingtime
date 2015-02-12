@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 
 from dateutil import rrule
+import swingtime
 from swingtime import utils
 from swingtime.models import *
 from swingtime.forms import EventForm, MultipleOccurrenceForm
@@ -157,9 +158,32 @@ class NewEventFormTest(TestCase):
             'Bad start_time: {0}'.format(pformat(occ_form.cleaned_data))
         )
 
+    #---------------------------------------------------------------------------
+    def test_freq(self):
+        et = EventType.objects.get(pk=1)
+        e = Event.objects.create(title='FIRE BAD!', description='***', event_type=et)
+        dtstart = datetime(2015,2,12)
+        data = dict(
+            day=dtstart.date(),
+            freq=rrule.MONTHLY,
+            month_option='on',
+            month_ordinal=1,
+            month_ordinal_day=5,
+            repeats='until',
+            start_time_delta='28800',
+            end_time_delta='29700',
+            until=datetime(2015, 6, 10)
+        )
+        mof = MultipleOccurrenceForm(data, initial={'dtstart': dtstart})
+        self.assertTrue(mof.is_valid(), mof.errors.as_text())
+
+        mof.save(e)
+        expected = [date(2015,m,d) for m,d in ((3, 6), (4, 3), (5, 1), (6, 5))]
+        actual = [o.start_time.date() for o in e.occurrence_set.all()]
+        self.assertEqual(expected, actual, '\nGOT:\n{}\n^\nEXP:\n{}'.format(pformat(actual), pformat(expected)))
 
 #===============================================================================
-class AssortedTest(TestCase):
+class CreationTest(TestCase):
     
     #---------------------------------------------------------------------------
     def test_1(self):
@@ -168,10 +192,12 @@ class AssortedTest(TestCase):
         
         e = Event.objects.create(title='Hello, world', description='Happy New Year', event_type=et)
         self.assertTrue(e.event_type == et)
+        self.assertEqual(e.get_absolute_url(), '/events/{}/'.format(e.id))
         
         e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
         occs = list(e.occurrence_set.all())
         self.assertEqual(len(occs), 7)
+        self.assertEqual(str(occs[0]), 'Hello, world: 2008-01-01T00:00:00')
         for i in range(7):
             o = occs[i]
             self.assertEqual(o.start_time.year, 2008 + i)
@@ -192,27 +218,40 @@ class AssortedTest(TestCase):
             'Something completely different',
             event_type=('abbr', 'Abbreviation'),
             start_time=datetime(2008,12,1, 12),
+            note='Here it is',
             freq=rrule.WEEKLY,
             byweekday=(rrule.TU, rrule.TH),
             until=datetime(2008,12,31)
         )
-        self.assertTrue(e.event_type.abbr == 'abbr')
+        self.assertIsInstance(e.event_type, EventType)
+        self.assertEqual(e.event_type.abbr, 'abbr')
+        self.assertEqual(str(e.notes.all()[0]), 'Here it is')
         occs = list(e.occurrence_set.all())
-        
-        days = [2, 4, 9, 11, 16, 18, 23, 25, 30]
-        for i in range(len(occs)):
+        for i, day in zip(range(len(occs)), [2, 4, 9, 11, 16, 18, 23, 25, 30]):
             o = occs[i]
-            self.assertEqual(days[i], o.start_time.day)
+            self.assertEqual(day, o.start_time.day)
     
     #---------------------------------------------------------------------------
     def test_4(self):
-        e = create_event(
-            'This parrot has ceased to be!',
-            ('blue', 'Blue'),
-            count=3,
-        )
-        
+        e = create_event('This parrot has ceased to be!', ('blue', 'Blue'), count=3)
         occs = list(e.upcoming_occurrences())
         self.assertEqual(len(occs), 2)
+        self.assertIsNotNone(e.next_occurrence())
         self.assertEqual(occs[1].title, 'This parrot has ceased to be!')
-        
+
+
+#===============================================================================
+class MiscTest(TestCase):
+    
+    #---------------------------------------------------------------------------
+    def test_version(self):
+        V = swingtime.VERSION
+        self.assertEqual(swingtime.get_version(), '.'.join([str(i) for i in V]))
+    
+    #---------------------------------------------------------------------------
+    def test_month_boundaries(self):
+        dt = datetime(2012,2,15)
+        start, end = utils.month_boundaries(dt)
+        self.assertEqual(start, datetime(2012,2,1))
+        self.assertEqual(end, datetime(2012,2,29))
+    

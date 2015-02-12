@@ -20,36 +20,35 @@ if swingtime_settings.CALENDAR_FIRST_WEEKDAY is not None:
 
 #-------------------------------------------------------------------------------
 def event_listing(
-    request, 
+    request,
     template='swingtime/event_list.html',
     events=None,
     **extra_context
 ):
     '''
-    View all ``events``. 
+    View all ``events``.
     
     If ``events`` is a queryset, clone it. If ``None`` default to all ``Event``s.
     
     Context parameters:
     
-    events
+    ``events``
         an iterable of ``Event`` objects
         
-    ???
-        all values passed in via **extra_context
+    ... plus all values passed in via **extra_context
     '''
-    return render(
-        request,
-        template,
-        dict(extra_context, events=events or Event.objects.all())
-    )
+    if events is None:
+        events = Event.objects.all()
+    
+    extra_context['events'] = events
+    return render(request, template, extra_context)
 
 
 #-------------------------------------------------------------------------------
 def event_view(
-    request, 
-    pk, 
-    template='swingtime/event_detail.html', 
+    request,
+    pk,
+    template='swingtime/event_detail.html',
     event_form_class=forms.EventForm,
     recurrence_form_class=forms.MultipleOccurrenceForm
 ):
@@ -59,13 +58,13 @@ def event_view(
 
     Context parameters:
 
-    event
+    ``event``
         the event keyed by ``pk``
         
-    event_form
+    ``event_form``
         a form object for updating the event
         
-    recurrence_form
+    ``recurrence_form``
         a form object for adding occurrences
     '''
     event = get_object_or_404(Event, pk=pk)
@@ -94,9 +93,9 @@ def event_view(
 
 #-------------------------------------------------------------------------------
 def occurrence_view(
-    request, 
-    event_pk, 
-    pk, 
+    request,
+    event_pk,
+    pk,
     template='swingtime/occurrence_detail.html',
     form_class=forms.SingleOccurrenceForm
 ):
@@ -105,10 +104,10 @@ def occurrence_view(
     
     Context parameters:
     
-    occurrence
+    ``occurrence``
         the occurrence object keyed by ``pk``
 
-    form
+    ``form``
         a form object for updating the occurrence
     '''
     occurrence = get_object_or_404(Occurrence, pk=pk, event__pk=event_pk)
@@ -125,7 +124,7 @@ def occurrence_view(
 
 #-------------------------------------------------------------------------------
 def add_event(
-    request, 
+    request,
     template='swingtime/add_event.html',
     event_form_class=forms.EventForm,
     recurrence_form_class=forms.MultipleOccurrenceForm
@@ -135,14 +134,14 @@ def add_event(
     
     Context parameters:
     
-    dtstart
+    ``dtstart``
         a datetime.datetime object representing the GET request value if present,
         otherwise None
     
-    event_form
+    ``event_form``
         a form object for updating the event
 
-    recurrence_form
+    ``recurrence_form``
         a form object for adding occurrences
     
     '''
@@ -176,10 +175,10 @@ def add_event(
 
 #-------------------------------------------------------------------------------
 def _datetime_view(
-    request, 
-    template, 
-    dt, 
-    timeslot_factory=None, 
+    request,
+    template,
+    dt,
+    timeslot_factory=None,
     items=None,
     params=None
 ):
@@ -189,16 +188,16 @@ def _datetime_view(
     
     Context parameters:
     
-    day
+    ``day``
         the specified datetime value (dt)
         
-    next_day
+    ``next_day``
         day + 1 day
         
-    prev_day
+    ``prev_day``
         day - 1 day
         
-    timeslots
+    ``timeslots``
         time slot grid of (time, cells) rows
         
     '''
@@ -206,7 +205,7 @@ def _datetime_view(
     params = params or {}
     
     return render(request, template, {
-        'day':       dt, 
+        'day':       dt,
         'next_day':  dt + timedelta(days=+1),
         'prev_day':  dt + timedelta(days=-1),
         'timeslots': timeslot_factory(dt, items, **params)
@@ -238,19 +237,19 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
 
     Context parameters:
     
-    year
+    ``year``
         an integer value for the year in questin
         
-    next_year
+    ``next_year``
         year + 1
         
-    last_year
+    ``last_year``
         year - 1
         
-    by_month
-        a sorted list of (month, occurrences) tuples where month is a 
+    ``by_month``
+        a sorted list of (month, occurrences) tuples where month is a
         datetime.datetime object for the first day of a month and occurrences
-        is a (potentially empty) list of values for that month. Only months 
+        is a (potentially empty) list of values for that month. Only months
         which have at least 1 occurrence is represented in the list
         
     '''
@@ -279,9 +278,9 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
 
 #-------------------------------------------------------------------------------
 def month_view(
-    request, 
-    year, 
-    month, 
+    request,
+    year,
+    month,
     template='swingtime/monthly_view.html',
     queryset=None
 ):
@@ -290,21 +289,21 @@ def month_view(
 
     Context parameters:
     
-    today
+    ``today``
         the current datetime.datetime value
         
-    calendar
+    ``calendar``
         a list of rows containing (day, items) cells, where day is the day of
         the month integer and items is a (potentially empty) list of occurrence
         for the day
         
-    this_month
+    ``this_month``
         a datetime.datetime representing the first day of the month
     
-    next_month
+    ``next_month``
         this_month + 1 month
     
-    last_month
+    ``last_month``
         this_month - 1 month
     
     '''
@@ -325,7 +324,7 @@ def month_view(
     by_day = dict([(dt, list(o)) for dt,o in itertools.groupby(occurrences, start_day)])
     data = {
         'today':      datetime.now(),
-        'calendar':   [[(d, by_day.get(d, [])) for d in row] for row in cal], 
+        'calendar':   [[(d, by_day.get(d, [])) for d in row] for row in cal],
         'this_month': dtstart,
         'next_month': dtstart + timedelta(days=+last_day),
         'last_month': dtstart + timedelta(days=-1),

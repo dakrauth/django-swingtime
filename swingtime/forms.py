@@ -270,8 +270,8 @@ class MultipleOccurrenceForm(forms.Form):
         label=_('Monthly options')
     )
 
-    month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL))
-    month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG))
+    month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
+    month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
     each_month_day = MultipleIntegerField(
         [(i,i) for i in range(1,32)],
         widget=forms.CheckboxSelectMultiple
@@ -285,8 +285,8 @@ class MultipleOccurrenceForm(forms.Form):
     )
 
     is_year_month_ordinal = forms.BooleanField(required=False)
-    year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL))
-    year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG))
+    year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
+    year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
 
     #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
@@ -352,10 +352,10 @@ class MultipleOccurrenceForm(forms.Form):
             interval=data['interval'] or 1
         )
 
-        if data['repeats'] == 'count':
-            params['count'] = data['count']
-        elif data['repeats'] == 'until':
+        if data['repeats'] == 'until':
             params['until'] = data['until']
+        else:
+            params['count'] = data.get('count', 1)
 
         if params['freq'] == rrule.WEEKLY:
             params['byweekday'] = [iso[n] for n in data['week_days']]
@@ -364,7 +364,7 @@ class MultipleOccurrenceForm(forms.Form):
             if 'on' == data['month_option']:
                 ordinal = data['month_ordinal']
                 day = iso[data['month_ordinal_day']]
-                params['byweekday'] = day(ordinal)
+                params.update(byweekday=day, bysetpos=ordinal)
             else:
                 params['bymonthday'] = data['each_month_day']
 
@@ -377,7 +377,7 @@ class MultipleOccurrenceForm(forms.Form):
 
         elif params['freq'] != rrule.DAILY:
             raise NotImplementedError(_('Unknown interval rule ' + params['freq']))
-
+        
         return params
 
 

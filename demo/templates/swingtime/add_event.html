@@ -5,7 +5,7 @@
     {{ event_form.non_field_errors }}
     {{ recurring_form.non_field_errors }}
     {% if event_form.errors or recurrence_form.errors %}
-    <p>Please fix any errors.</p>
+    <p class="form-errors">Please fix any errors.</p>
     {% endif %}
     <form method="post" action="">
     <table>
