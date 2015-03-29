@@ -114,10 +114,10 @@ class Event(models.Model):
         else:
             rrule_params.setdefault('freq', rrule.DAILY)
             delta = end_time - start_time
-	    occurrences = []
+            occurrences = []
             for ev in rrule.rrule(dtstart=start_time, **rrule_params):
-		occurrences.append(Occurrence(start_time=ev, end_time=ev + delta, event=self))
-	    self.occurrence_set.bulk_create(occurrences)
+                occurrences.append(Occurrence(start_time=ev, end_time=ev + delta, event=self))
+            self.occurrence_set.bulk_create(occurrences)
 	    
     #---------------------------------------------------------------------------
     def upcoming_occurrences(self):
