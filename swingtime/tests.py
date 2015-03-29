@@ -239,6 +239,18 @@ class CreationTest(TestCase):
         self.assertIsNotNone(e.next_occurrence())
         self.assertEqual(occs[1].title, 'This parrot has ceased to be!')
 
+    def test_6(self):
+        et = EventType.objects.create(abbr='foo', label='Foo')
+        self.assertTrue(et.abbr == 'foo')
+        
+        e = Event.objects.create(title='Yet another event', description="with tons of occurrences", event_type=et)
+        self.assertTrue(e.event_type == et)
+        self.assertEqual(e.get_absolute_url(), '/events/{}/'.format(e.id))
+        
+        e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1),
+    			  freq=rrule.DAILY, until=datetime(2020,12,31)) # 
+        occs = list(e.occurrence_set.all())
+        self.assertEqual(len(occs), 4749)
 
 #===============================================================================
 class MiscTest(TestCase):
