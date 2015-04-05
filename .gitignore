@@ -9,3 +9,5 @@ dist
 .tox/
 django_swingtime.egg-info/
 /dev
+tests/.coverage
+tests/htmlcov

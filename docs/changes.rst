@@ -3,6 +3,13 @@
 Changes in Swingtime
 ====================
 
+Release 0.6 (April 5, 2015)
+---------------------------
+
+* Added ``bulk_create`` in ``Event.add_occurrences`` (siolag161)
+* Support for Django 1.8
+* Added tests and docs
+
 Release 0.5 (February 11, 2015)
 -------------------------------
 
