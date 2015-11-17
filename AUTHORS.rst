@@ -7,3 +7,4 @@ Authors
 * siolag
 * brousch
 * muelli
+* FortschrittApps
