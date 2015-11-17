@@ -254,7 +254,7 @@ def year_view(request, year, template='swingtime/yearly_view.html', queryset=Non
         
     '''
     year = int(year)
-    queryset = queryset._clone() if queryset else Occurrence.objects.select_related()
+    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
     occurrences = queryset.filter(
         models.Q(start_time__year=year) |
         models.Q(end_time__year=year)
@@ -315,7 +315,7 @@ def month_view(
 
     # TODO Whether to include those occurrences that started in the previous
     # month but end in this month?
-    queryset = queryset._clone() if queryset else Occurrence.objects.select_related()
+    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
     occurrences = queryset.filter(start_time__year=year, start_time__month=month)
 
     def start_day(o):
