@@ -154,6 +154,7 @@ def create_timeslot_table(
     '''
     from swingtime.models import Occurrence
     dt = dt or datetime.now()
+    start_time = start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
     dtstart = datetime.combine(dt.date(), start_time)
     dtend = dtstart + end_time_delta
     

@@ -302,7 +302,7 @@ class MultipleOccurrenceForm(forms.Form):
             weekday = dtstart.isoweekday()
             ordinal = dtstart.day // 7
             ordinal = '%d' % (-1 if ordinal > 3 else ordinal + 1,)
-            offset = (dtstart - datetime.combine(dtstart.date(), time(0))).seconds
+            offset = (dtstart - datetime.combine(dtstart.date(), time(0, tzinfo=dtstart.tzinfo))).seconds
 
             self.initial.setdefault('day', dtstart)
             self.initial.setdefault('week_days', '%d' % weekday)
