@@ -8,7 +8,7 @@ from __future__ import print_function, unicode_literals
 import os
 import django
 from django.core.management import call_command
-from django.core.management.base import NoArgsCommand, CommandError
+from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from datetime import datetime, date, time, timedelta
 from django.conf import settings
@@ -109,11 +109,11 @@ def create_sample_data():
 
 
 #===============================================================================
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = 'Run the swingtime demo. If an existing demo database exists, it will recreated.'
     
     #---------------------------------------------------------------------------
-    def handle_noargs(self, **options):
+    def handle(self, **options):
         dbpath = settings.DATABASES['default']['NAME']
         if os.path.exists(dbpath):
             self.stdout.write(Term.warn('Removing old database %s' % dbpath))

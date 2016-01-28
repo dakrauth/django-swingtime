@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from swingtime import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(
         r'^(?:calendar/)?$', 
         views.today_view, 
@@ -49,4 +49,4 @@ urlpatterns = patterns('',
         views.occurrence_view, 
         name='swingtime-occurrence'
     ),
-)
+]

@@ -1,2 +1,4 @@
-from django.conf.urls import patterns, include, url
-urlpatterns = patterns('', url(r'^', include('swingtime.urls')),)
+from django.conf.urls import include, url
+urlpatterns = [
+    url(r'^', include('swingtime.urls')),
+]

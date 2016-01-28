@@ -12,6 +12,6 @@ USE_I18N = True
 SECRET_KEY = 'swingtime_test'
 TEMPLATE_CONTEXT_PROCESSORS = ('swingtime.context_processors.current_datetime',)
 ROOT_URLCONF = 'urls'
-INSTALLED_APPS = ('django.contrib.contenttypes', 'swingtime',)
+INSTALLED_APPS = ('django.contrib.auth', 'django.contrib.contenttypes', 'swingtime',)
 MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',)
 SWINGTIME_SETTINGS_MODULE = 'swingtime_settings'

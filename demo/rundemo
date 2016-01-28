@@ -1,16 +1,11 @@
 #!/bin/bash
 PYWARN='python -Wd'
-pip install -r requirements.txt
+pip install -r ../requirements.txt
 cd ../docs
 make html
 cd -
-VER=$(python manage.py --version)
+$PYWARN manage.py check
 $PYWARN manage.py loaddemo
-$PYWARN manage.py collectstatic --noinput --link
-if [[ "$VER" > "1.6" ]]
-then
-    $PYWARN manage.py check
-fi
-
+#$PYWARN manage.py collectstatic --noinput --link
 $PYWARN manage.py runserver
 
