@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^$',               TemplateView.as_view(template_name='intro.html'), name='demo-home'),
     (r'^karate/',            include('karate.urls')),
     (r'^admin/',             include(admin.site.urls)),
-    (r'^docs/?$',            RedirectView.as_view(url='/docs/index.html')),
+    (r'^docs/?$',            RedirectView.as_view(url='/docs/index.html', permanent=True)),
     (r'^docs/(?P<path>.*)$', serve, dict(document_root=doc_root, show_indexes=False))
 )

@@ -1,14 +1,56 @@
+============
 Installation
 ============
 
+.. note::
+
+    The ``swingtime`` documentation assumes familiarity with and installation of
+    Python deployment tools `pip <https://pip.pypa.io>`_,
+    `virtualenv <https://virtualenv.pypa.io/>`_, and
+    `virtualenvwrapper <https://bitbucket.org/dhellmann/virtualenvwrapper>`_.
+
+
 Get ``Swingtime``
------------------
+=================
 
-Options:
+Basic Installation
+------------------
 
-* Source: https://github.com/dakrauth/django-swingtime
-* ``pip install django-swingtime``
-* ``curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip``
+Install into the current environment::
+
+    $ pip install django-swingtime
+
+.. _full-project-source-install:
+
+Full project source code
+------------------------
+
+* ``git``::
+
+    $ git clone https://github.com/dakrauth/django-swingtime.git django-swingtime
+    $ cd django-swingtime
+
+* Download::
+
+    $ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip
+    $ unzip swingtime.zip
+    $ cd django-swingtime-master
+
+
+Documentation
+=============
+
+.. note::
+
+    Building the documentation requires `Sphinx <http://www.sphinx-doc.org/>`_ to be installed.
+
+Install the ``swingtime`` project as shown in :ref:`full-project-source-install`
+and build the docs as follows::
+
+    $ cd docs
+    $ make html
+
+Browse the file ``build/html/index.html``.
 
 
 Demo
@@ -32,28 +74,9 @@ provides some sample templates to use as a guide or starting point.
 Running the demo
 ----------------
 
-Get the code::
-
-    $ git clone https://github.com/dakrauth/django-swingtime.git django-swingtime-master
-
-
-*-- or --*
-
-::
-
-    $ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip
-    $ unzip swingtime.zip
-    $ cd 
-
-
-And::
-
-    $ cd django-swingtime-master
-
-
+Install the ``swingtime`` project as shown in :ref:`full-project-source-install`.
 You can set up your environment to run the demo in a ``virtualenv`` by doing the
-following (please note that for the following commands you have already installed
-``virtualenv`` and ``virtualenvwrapper``)::
+following from the root ``swingtime`` project directory::
 
     $ mkvirtualenv swingtime_demo
     $ pip install -r requirements.txt
@@ -71,11 +94,9 @@ Now, you are ready to browse to http://127.0.0.1:8000/
 Optional
 --------
 
-*From the* ``django-swingtime-master`` *directory*
+.. note::
 
-* Build the documentation files as HTML::
-
-    $ cd docs && make html
+    From the ``django-swingtime`` root directory
 
 * Run development server to check for deprecation warning::
 

@@ -1,6 +1,6 @@
 '''
 #---------------------------------------------------------------------------------+
-| Welcome to the swingtime demo project. This project's is theme is a Karate dojo |
+| Welcome to the swingtime demo project. This project's theme is a Karate dojo    |
 | and the database will be pre-populated with some data relative to today's date. |
 #---------------------------------------------------------------------------------+
 '''
