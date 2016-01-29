@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 import os, sys
-
-
-
-try:
-    from setuptools import setup
-    requires = {'requires': ['dateutil', 'django']}
-except ImportError:
-    from distutils.core import setup
-    requires = {'install_requires': ['dateutil', 'Django>=1.6']}
+from setuptools import setup, find_packages
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -40,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
     ),
-    packages=['swingtime', 'swingtime.conf'],
+    packages=find_packages(),
     package_data={'swingtime': ['locale/*/*/*.*', 'fixtures/swingtime_test.json']},
-    **requires
+    requires=['dateutil', 'django']
 )

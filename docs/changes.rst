@@ -3,6 +3,15 @@
 Changes in Swingtime
 ====================
 
+Release 0.7.1 (January 29, 2016)
+--------------------------------
+
+* Added model migrations
+* Added support for Django 1.9
+* Removed support for Django < 1.7
+* More docs for running demo and installing
+
+
 Release 0.6 (April 5, 2015)
 ---------------------------
 
