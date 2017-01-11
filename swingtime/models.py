@@ -203,7 +203,7 @@ class Occurrence(models.Model):
 
     #---------------------------------------------------------------------------
     def __str__(self):
-        return '{}: {}'.format(self.title, self.start_time.isoformat())
+        return u'{}: {}'.format(self.title, self.start_time.isoformat())
 
     #---------------------------------------------------------------------------
     @models.permalink
