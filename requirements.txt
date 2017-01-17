@@ -1,6 +1,6 @@
 pytz
 python-dateutil
-Django<1.9
+Django<1.10
 django-extensions
 -e .
 Sphinx
