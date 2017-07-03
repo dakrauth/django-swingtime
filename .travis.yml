@@ -1,24 +1,27 @@
 # Python versions for matrix
 language: python
 python:
-  - "2.7"
   - "3.4"
+  - "3.5"
+  - "3.6"
 
 # Django versions for matrix
 env:
-  - DJANGO_VERSION=1.6.10
-  - DJANGO_VERSION=1.7.4
+  - DJANGO_VERSION=1.11.2
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
   - pip install -q Django==$DJANGO_VERSION --use-mirrors --quiet
   - pip install coveralls
   - pip install python-dateutil
+  - pip install pytest-django
+  - pip install pytest
+
   - python setup.py develop
 
 # Command to run tests, e.g. python setup.py test
 script:
-  - cd tests/ && python manage.py test swingtime
+  - py.test
 
 # Report to coveralls
 #after_success:

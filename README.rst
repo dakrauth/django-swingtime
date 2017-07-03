@@ -83,7 +83,7 @@ Features
 Requirements
 ------------
 
-* Python 2.7, 3.4
-* `Django 1.7+ <http://www.djangoproject.com/download/>`_
+* Python 3.4+
+* `Django 1.11+ <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
 
