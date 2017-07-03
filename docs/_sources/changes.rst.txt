@@ -3,6 +3,15 @@
 Changes in Swingtime
 ====================
 
+Release 0.8.0 (July 3, 2017)
+----------------------------
+
+* **Breaking Change** settings are now configured by the ``settings.SWINGTIME`` dict
+* Use ``invoke`` for CLI
+* Added support for Django 1.11
+* Switched test framework to pytest
+* Removed support for Python 2
+
 Release 0.7.1 (January 29, 2016)
 --------------------------------
 

@@ -132,8 +132,6 @@ class Event(models.Model):
 
 class OccurrenceManager(models.Manager):
     
-    use_for_related_fields = True
-    
     def daily_occurrences(self, dt=None, event=None):
         '''
         Returns a queryset of for instances that have any overlap with a 
@@ -186,6 +184,7 @@ class Occurrence(models.Model):
         verbose_name = _('occurrence')
         verbose_name_plural = _('occurrences')
         ordering = ('start_time', 'end_time')
+        base_manager_name = 'objects'
 
     def __str__(self):
         return u'{}: {}'.format(self.title, self.start_time.isoformat())

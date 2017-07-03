@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; Swingtime 0.8.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Swingtime 0.8.0 documentation" href="index.html"/>
+        <link rel="next" title="Demo" href="demo.html"/>
+        <link rel="prev" title="About Swingtime" href="intro.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Swingtime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">About Swingtime</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-swingtime">Get <code class="docutils literal"><span class="pre">Swingtime</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-installation">Basic Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html"><code class="docutils literal"><span class="pre">models</span></code> — Swingtime Object Model Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html"><code class="docutils literal"><span class="pre">views</span></code> — Swingtime Views</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forms.html"><code class="docutils literal"><span class="pre">forms</span></code> — Swingtime Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html"><code class="docutils literal"><span class="pre">utils</span></code> — Swingtime Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conf.html"><code class="docutils literal"><span class="pre">conf</span></code> — Configuration Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes in Swingtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Swingtime</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">swingtime</span></code> documentation assumes familiarity with and installation of
+Python deployment tools <a class="reference external" href="https://pip.pypa.io">pip</a>,
+<a class="reference external" href="https://virtualenv.pypa.io/">virtualenv</a>, and
+<a class="reference external" href="https://bitbucket.org/dhellmann/virtualenvwrapper">virtualenvwrapper</a>.</p>
+</div>
+<div class="section" id="get-swingtime">
+<h2>Get <code class="docutils literal"><span class="pre">Swingtime</span></code><a class="headerlink" href="#get-swingtime" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic-installation">
+<h3>Basic Installation<a class="headerlink" href="#basic-installation" title="Permalink to this headline">¶</a></h3>
+<p>Install into the current environment:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip install django-swingtime
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="development">
+<span id="id1"></span><h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>Setup a virtual environment:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkvirtualenv swingtime
+$ pip install invoke
+</pre></div>
+</div>
+<p>Get the code:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">git</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ git clone https://github.com/dakrauth/django-swingtime.git django-swingtime
+$ cd django-swingtime
+</pre></div>
+</div>
+</li>
+<li><p class="first">Download:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip
+$ unzip swingtime.zip
+$ cd django-swingtime-master
+</pre></div>
+</div>
+</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">Invoke</span></code> is used to automate many tasks. See <code class="docutils literal"><span class="pre">inv</span> <span class="pre">-l</span></code> for all options.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ inv dev
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Building the documentation requires <a class="reference external" href="http://www.sphinx-doc.org/">Sphinx</a> to be installed.</p>
+</div>
+<p>First, install the <code class="docutils literal"><span class="pre">swingtime</span></code> project as shown in <a class="reference internal" href="#development"><span class="std std-ref">Development</span></a>.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ inv docs
+</pre></div>
+</div>
+<p>Browse the file <code class="docutils literal"><span class="pre">docs/index.html</span></code>.</p>
+</div>
+<div class="section" id="running-the-tests">
+<h2>Running the Tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>First, install the <code class="docutils literal"><span class="pre">swingtime</span></code> project as shown in <a class="reference internal" href="#development"><span class="std std-ref">Development</span></a>.:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ inv test
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="demo.html" class="btn btn-neutral float-right" title="Demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral" title="About Swingtime" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, David Krauth.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.8.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

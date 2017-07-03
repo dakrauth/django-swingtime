@@ -16,7 +16,7 @@ Table of Contents
    views
    forms
    utils
-   swingtime_settings
+   conf
    changes
    authors
 

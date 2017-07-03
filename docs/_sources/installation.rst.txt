@@ -20,10 +20,17 @@ Install into the current environment::
 
     $ pip install django-swingtime
 
-.. _full-project-source-install:
+.. _development:
 
-Full project source code
-------------------------
+Development
+===========
+
+Setup a virtual environment::
+
+    $ mkvirtualenv swingtime
+    $ pip install invoke
+
+Get the code:
 
 * ``git``::
 
@@ -36,6 +43,10 @@ Full project source code
     $ unzip swingtime.zip
     $ cd django-swingtime-master
 
+``Invoke`` is used to automate many tasks. See ``inv -l`` for all options.::
+
+    $ inv dev
+
 
 Documentation
 =============
@@ -44,28 +55,17 @@ Documentation
 
     Building the documentation requires `Sphinx <http://www.sphinx-doc.org/>`_ to be installed.
 
-Install the ``swingtime`` project as shown in :ref:`full-project-source-install`
-and build the docs as follows::
+First, install the ``swingtime`` project as shown in :ref:`development`.::
 
-    $ cd docs
-    $ make html
+    $ inv docs
 
-Browse the file ``build/html/index.html``.
+Browse the file ``docs/index.html``.
 
 
 Running the Tests
 =================
 
-.. note::
+First, install the ``swingtime`` project as shown in :ref:`development`.::
 
-    From the ``django-swingtime`` root directory
-
-::
-
-    $ cd tests
-    $ python manage.py test swingtime
-    $ ./cover # <-- run `coverage`
-    $ cd ../
-    $ tox
-
+    $ inv test
 
