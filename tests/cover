@@ -1,4 +1,0 @@
-#!/bin/bash
-coverage run --source="../swingtime" manage.py test swingtime && \
-    coverage html && \
-    open htmlcov/index.html

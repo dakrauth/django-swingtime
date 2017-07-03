@@ -2,17 +2,13 @@ from datetime import datetime, date, timedelta
 from dateutil import rrule
 
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
-try:
-    from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-except ImportError:
-    from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
-
-from swingtime.conf import settings as swingtime_settings
+from .conf import swingtime_settings
 
 __all__ = (
     'Note',
@@ -22,8 +18,6 @@ __all__ = (
     'create_event'
 )
 
-#===============================================================================
-@python_2_unicode_compatible
 class Note(models.Model):
     '''
     A generic model for adding simple, arbitrary notes to other models such as
@@ -31,22 +25,22 @@ class Note(models.Model):
     '''
     note = models.TextField(_('note'))
     created = models.DateTimeField(_('created'), auto_now_add=True)
-    content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
+    content_type = models.ForeignKey(
+        ContentType,
+        verbose_name=_('content type'),
+        on_delete=models.CASCADE
+    )
     object_id = models.PositiveIntegerField(_('object id'))
     content_object = GenericForeignKey('content_type', 'object_id')
     
-    #===========================================================================
     class Meta:
         verbose_name = _('note')
         verbose_name_plural = _('notes')
 
-    #---------------------------------------------------------------------------
     def __str__(self):
         return self.note
 
 
-#===============================================================================
-@python_2_unicode_compatible
 class EventType(models.Model):
     '''
     Simple ``Event`` classifcation.
@@ -54,43 +48,38 @@ class EventType(models.Model):
     abbr = models.CharField(_('abbreviation'), max_length=4, unique=True)
     label = models.CharField(_('label'), max_length=50)
 
-    #===========================================================================
     class Meta:
         verbose_name = _('event type')
         verbose_name_plural = _('event types')
 
-    #---------------------------------------------------------------------------
     def __str__(self):
         return self.label
 
 
-#===============================================================================
-@python_2_unicode_compatible
 class Event(models.Model):
     '''
     Container model for general metadata and associated ``Occurrence`` entries.
     '''
     title = models.CharField(_('title'), max_length=32)
     description = models.CharField(_('description'), max_length=100)
-    event_type = models.ForeignKey(EventType, verbose_name=_('event type'))
+    event_type = models.ForeignKey(
+        EventType,
+        verbose_name=_('event type'),
+        on_delete=models.CASCADE
+    )
     notes = GenericRelation(Note, verbose_name=_('notes'))
 
-    #===========================================================================
     class Meta:
         verbose_name = _('event')
         verbose_name_plural = _('events')
         ordering = ('title', )
 
-    #---------------------------------------------------------------------------
     def __str__(self):
         return self.title
 
-    #---------------------------------------------------------------------------
-    @models.permalink
     def get_absolute_url(self):
-        return ('swingtime-event', [str(self.id)])
+        return reverse('swingtime-event', args=[str(self.id)])
 
-    #---------------------------------------------------------------------------
     def add_occurrences(self, start_time, end_time, **rrule_params):
         '''
         Add one or more occurences to the event using a comparable API to 
@@ -119,7 +108,6 @@ class Event(models.Model):
                 occurrences.append(Occurrence(start_time=ev, end_time=ev + delta, event=self))
             self.occurrence_set.bulk_create(occurrences)
 	    
-    #---------------------------------------------------------------------------
     def upcoming_occurrences(self):
         '''
         Return all occurrences that are set to start on or after the current
@@ -127,7 +115,6 @@ class Event(models.Model):
         '''
         return self.occurrence_set.filter(start_time__gte=datetime.now())
 
-    #---------------------------------------------------------------------------
     def next_occurrence(self):
         '''
         Return the single occurrence set to start on or after the current time
@@ -136,7 +123,6 @@ class Event(models.Model):
         upcoming = self.upcoming_occurrences()
         return upcoming[0] if upcoming else None
 
-    #---------------------------------------------------------------------------
     def daily_occurrences(self, dt=None):
         '''
         Convenience method wrapping ``Occurrence.objects.daily_occurrences``.
@@ -144,12 +130,10 @@ class Event(models.Model):
         return Occurrence.objects.daily_occurrences(dt=dt, event=self)
 
 
-#===============================================================================
 class OccurrenceManager(models.Manager):
     
     use_for_related_fields = True
     
-    #---------------------------------------------------------------------------
     def daily_occurrences(self, dt=None, event=None):
         '''
         Returns a queryset of for instances that have any overlap with a 
@@ -181,8 +165,6 @@ class OccurrenceManager(models.Manager):
         return qs.filter(event=event) if event else qs
 
 
-#===============================================================================
-@python_2_unicode_compatible
 class Occurrence(models.Model):
     '''
     Represents the start end time for a specific occurrence of a master ``Event``
@@ -190,42 +172,39 @@ class Occurrence(models.Model):
     '''
     start_time = models.DateTimeField(_('start time'))
     end_time = models.DateTimeField(_('end time'))
-    event = models.ForeignKey(Event, verbose_name=_('event'), editable=False)
+    event = models.ForeignKey(
+        Event,
+        verbose_name=_('event'),
+        editable=False,
+        on_delete=models.CASCADE
+    )
     notes = GenericRelation(Note, verbose_name=_('notes'))
 
     objects = OccurrenceManager()
 
-    #===========================================================================
     class Meta:
         verbose_name = _('occurrence')
         verbose_name_plural = _('occurrences')
         ordering = ('start_time', 'end_time')
 
-    #---------------------------------------------------------------------------
     def __str__(self):
         return u'{}: {}'.format(self.title, self.start_time.isoformat())
 
-    #---------------------------------------------------------------------------
-    @models.permalink
     def get_absolute_url(self):
-        return ('swingtime-occurrence', [str(self.event.id), str(self.id)])
+        return reverse('swingtime-occurrence', args=[str(self.event.id), str(self.id)])
 
-    #---------------------------------------------------------------------------
     def __lt__(self, other):
         return self.start_time < other.start_time
 
-    #---------------------------------------------------------------------------
     @property
     def title(self):
         return self.event.title
         
-    #---------------------------------------------------------------------------
     @property
     def event_type(self):
         return self.event.event_type
 
 
-#-------------------------------------------------------------------------------
 def create_event(
     title, 
     event_type,

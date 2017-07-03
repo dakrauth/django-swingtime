@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, render
 
 from swingtime import models as swingtime
 
-#-------------------------------------------------------------------------------
 def event_type(request, abbr):
     event_type = get_object_or_404(swingtime.EventType, abbr=abbr)
     now = datetime.now()

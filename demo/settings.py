@@ -1,6 +1,8 @@
 import os
 import sys
+import datetime
 import django
+
 try:
     # dateutil is an absolute requirement
     import dateutil
@@ -9,6 +11,7 @@ except ImportError:
 
 dirname = os.path.dirname
 sys.path.extend([
+    os.path.dirname(__file__),
     os.path.abspath('..'), # relative location of swingtime app
 ])
 
@@ -25,36 +28,23 @@ SITE_ID = 1
 USE_I18N = True
 SECRET_KEY = 'swingtime-demo'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-
-_DJ_GT_17 = django.VERSION >= (1,8)
-__TEMPLATE_DEBUG = False
-__TEMPLATE_DIRS = (os.path.join(dirname(__file__), 'templates'),)
-__TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-__TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.{}.context_processors.debug'.format('template' if _DJ_GT_17 else 'core'),
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'swingtime.context_processors.current_datetime',
-)
-
-if _DJ_GT_17:
-    TEMPLATES = [{
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': __TEMPLATE_DIRS,
-        'OPTIONS': {
-            'debug': True,
-            'loaders': __TEMPLATE_LOADERS,
-            'context_processors': __TEMPLATE_CONTEXT_PROCESSORS
-        }
-    }]
-else:
-    TEMPLATE_DEBUG = __TEMPLATE_DEBUG
-    TEMPLATE_DIRS = __TEMPLATE_DIRS
-    TEMPLATE_LOADERS = __TEMPLATE_LOADERS
-    TEMPLATE_CONTEXT_PROCESSORS = __TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': (os.path.join(dirname(__file__), 'templates'),),
+    'OPTIONS': {
+        'debug': True,
+        'loaders': (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ),
+        'context_processors': (
+            'django.template.context_processors.debug',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+            'swingtime.context_processors.current_datetime',
+        )
+    }
+}]
     
 
 ROOT_URLCONF = 'urls'
@@ -78,7 +68,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-SWINGTIME_SETTINGS_MODULE = 'swingtime_settings'
+SWINGTIME = {
+    'TIMESLOT_START_TIME': datetime.time(14),
+    'TIMESLOT_END_TIME_DURATION': datetime.timedelta(hours=6.5)
+}
 
 try:
     import django_extensions

@@ -1,9 +1,0 @@
-pytz
-python-dateutil
-Django<1.10
-django-extensions
--e .
-Sphinx
-sphinx_rtd_theme
-coverage
-tox

@@ -1,20 +1,15 @@
 '''
 Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
-
 '''
-from __future__ import print_function, unicode_literals
 from datetime import datetime, date, time, timedelta
-from django import VERSION
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from django.forms.extras.widgets import SelectDateWidget
+from django.forms.widgets import SelectDateWidget
 
 from dateutil import rrule
-from swingtime.conf import settings as swingtime_settings
-from swingtime.models import *
-from swingtime import utils
-
-FIELDS_REQUIRED = (VERSION[:2] >= (1, 6))
+from .conf import swingtime_settings
+from .models import *
+from . import utils
 
 WEEKDAY_SHORT = (
     (7, _('Sun')),
@@ -101,7 +96,6 @@ ISO_WEEKDAYS_MAP = (
 MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
 SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
 
-#-------------------------------------------------------------------------------
 def timeslot_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
@@ -126,7 +120,6 @@ def timeslot_options(
 
     return options
 
-#-------------------------------------------------------------------------------
 def timeslot_offset_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
@@ -158,17 +151,16 @@ default_timeslot_options = timeslot_options()
 default_timeslot_offset_options = timeslot_offset_options()
 
 
-#===============================================================================
 class MultipleIntegerField(forms.MultipleChoiceField):
     '''
     A form field for handling multiple integers.
 
     '''
 
-    #---------------------------------------------------------------------------
     def __init__(self, choices, size=None, label=None, widget=None):
         if widget is None:
             widget = forms.SelectMultiple(attrs={'size' : size or len(choices)})
+        
         super(MultipleIntegerField, self).__init__(
             required=False,
             choices=choices,
@@ -176,19 +168,16 @@ class MultipleIntegerField(forms.MultipleChoiceField):
             widget=widget,
         )
 
-    #---------------------------------------------------------------------------
     def clean(self, value):
         return [int(i) for i in super(MultipleIntegerField, self).clean(value)]
 
 
-#===============================================================================
 class SplitDateTimeWidget(forms.MultiWidget):
     '''
     A Widget that splits datetime input into a SelectDateWidget for dates and
     Select widget for times.
 
     '''
-    #---------------------------------------------------------------------------
     def __init__(self, attrs=None):
         widgets = (
             SelectDateWidget(attrs=attrs),
@@ -196,7 +185,6 @@ class SplitDateTimeWidget(forms.MultiWidget):
         )
         super(SplitDateTimeWidget, self).__init__(widgets, attrs)
 
-    #---------------------------------------------------------------------------
     def decompress(self, value):
         if value:
             return [value.date(), value.time().replace(microsecond=0)]
@@ -204,7 +192,6 @@ class SplitDateTimeWidget(forms.MultiWidget):
         return [None, None]
 
 
-#===============================================================================
 class MultipleOccurrenceForm(forms.Form):
     day = forms.DateField(
         label=_('Date'),
@@ -288,7 +275,6 @@ class MultipleOccurrenceForm(forms.Form):
     year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
     year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
 
-    #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
         super(MultipleOccurrenceForm, self).__init__(*args, **kws)
         dtstart = self.initial.get('dtstart', None)
@@ -315,7 +301,6 @@ class MultipleOccurrenceForm(forms.Form):
             self.initial.setdefault('start_time_delta', '%d' % offset)
             self.initial.setdefault('end_time_delta', '%d' % (offset + SECONDS_INTERVAL,))
 
-    #---------------------------------------------------------------------------
     def clean(self):
         day = datetime.combine(self.cleaned_data['day'], time(0))
         self.cleaned_data['start_time'] = day + timedelta(
@@ -328,7 +313,6 @@ class MultipleOccurrenceForm(forms.Form):
 
         return self.cleaned_data
 
-    #---------------------------------------------------------------------------
     def save(self, event):
         if self.cleaned_data['repeats'] == 'count' and self.cleaned_data['count'] == 1:
             params = {}
@@ -343,7 +327,6 @@ class MultipleOccurrenceForm(forms.Form):
 
         return event
 
-    #---------------------------------------------------------------------------
     def _build_rrule_params(self):
         iso = ISO_WEEKDAYS_MAP
         data = self.cleaned_data
@@ -381,26 +364,21 @@ class MultipleOccurrenceForm(forms.Form):
         return params
 
 
-#===============================================================================
 class EventForm(forms.ModelForm):
     '''
     A simple form for adding and updating Event attributes
 
     '''
 
-    #===========================================================================
     class Meta:
         model = Event
-        if FIELDS_REQUIRED:
-            fields = "__all__"
+        fields = "__all__"
 
-    #---------------------------------------------------------------------------
     def __init__(self, *args, **kws):
         super(EventForm, self).__init__(*args, **kws)
         self.fields['description'].required = False
 
 
-#===============================================================================
 class SingleOccurrenceForm(forms.ModelForm):
     '''
     A simple form for adding and updating single Occurrence attributes
@@ -410,10 +388,8 @@ class SingleOccurrenceForm(forms.ModelForm):
     start_time = forms.DateTimeField(widget=SplitDateTimeWidget)
     end_time = forms.DateTimeField(widget=SplitDateTimeWidget)
 
-    #===========================================================================
     class Meta:
         model = Occurrence
-        if FIELDS_REQUIRED:
-            fields = "__all__"
+        fields = "__all__"
 
 

@@ -1,12 +1,7 @@
 #!/usr/bin/env python
-from __future__ import print_function, unicode_literals
+import pytest
 from pprint import pformat
 from datetime import datetime, timedelta, date, time
-
-from django.test import TestCase
-from django.contrib.auth.models import User
-from django.core.management import call_command
-
 from dateutil import rrule
 import swingtime
 from swingtime import utils
@@ -65,16 +60,13 @@ expected_table_5 = '''\
 | 16:30 | alpha    | bravo    | foxtrot  | charlie  | delta    |
 '''
 
-#===============================================================================
-class TableTest(TestCase):
+@pytest.mark.django_db
+class TestTable:
 
-    fixtures = ['swingtime_test.json']
+    @property
+    def dt(self):
+        return datetime(2008,12,11)
 
-    #---------------------------------------------------------------------------
-    def setUp(self):
-        self._dt = dt = datetime(2008,12,11)
-
-    #---------------------------------------------------------------------------
     def table_as_string(self, table):
         timefmt = '| {:<5s} '
         cellfmt = '| {:<8s} '
@@ -90,47 +82,37 @@ class TableTest(TestCase):
             
         return ''.join(out)
 
-    #---------------------------------------------------------------------------
     def _do_test(self, start, end, expect):
         start   = time(*start)
-        dtstart = datetime.combine(self._dt, start)
-        etd     = datetime.combine(self._dt, time(*end)) - dtstart
-        table   = utils.create_timeslot_table(self._dt, start_time=start, end_time_delta=etd)
+        dtstart = datetime.combine(self.dt, start)
+        etd     = datetime.combine(self.dt, time(*end)) - dtstart
+        table   = utils.create_timeslot_table(self.dt, start_time=start, end_time_delta=etd)
         actual  = self.table_as_string(table)
-        out     = 'Expecting:\n{0}\nActual:\n{1}'.format(expect, actual)
-        self.assertEqual(actual, expect, out)
+        assert actual == expect
 
-    #---------------------------------------------------------------------------
-    def test_slot_table_1(self):
+    def test_slot_table_1(self, events):
         self._do_test((15,0), (18,0), expected_table_1)
 
-    #---------------------------------------------------------------------------
-    def test_slot_table_2(self):
+    def test_slot_table_2(self, events):
         self._do_test((15,30), (17,30), expected_table_2)
 
-    #---------------------------------------------------------------------------
-    def test_slot_table_3(self):
+    def test_slot_table_3(self, events):
         self._do_test((16,0), (17,30), expected_table_3)
-
-    #---------------------------------------------------------------------------
-    def test_slot_table_4(self):
+    
+    def test_slot_table_4(self, events):
         self._do_test((18,0), (19,30), expected_table_4)
-
-    #---------------------------------------------------------------------------
-    def test_slot_table_5(self):
+    
+    def test_slot_table_5(self, events):
         self._do_test((16,30), (16,30), expected_table_5)
 
 
-#===============================================================================
-class NewEventFormTest(TestCase):
+@pytest.mark.django_db
+class TestNewEventForm:
 
-    fixtures = ['swingtime_test']
-    
-    #---------------------------------------------------------------------------
-    def test_new_event_simple(self):
+    def test_new_event_simple(self, play_type):
         data = dict(
             title='QWERTY',
-            event_type='1',
+            event_type=play_type.id,
             day='2008-12-11',
             start_time_delta='28800',
             end_time_delta='29700',
@@ -146,22 +128,17 @@ class NewEventFormTest(TestCase):
         
         evt_form = EventForm(data)
         occ_form = MultipleOccurrenceForm(data)
-        self.assertTrue(evt_form.is_valid(), evt_form.errors.as_text())
-        self.assertTrue(occ_form.is_valid(), occ_form.errors.as_text())
+        assert True == evt_form.is_valid()
+        assert '' == evt_form.errors.as_text()
+        assert True == occ_form.is_valid()
+        assert '' == occ_form.errors.as_text()
 
         evt = occ_form.save(evt_form.save())
-        self.assertEqual(evt.occurrence_set.count(), 2)
-        
-        self.assertEqual(
-            occ_form.cleaned_data['start_time'],
-            datetime(2008, 12, 11, 8),
-            'Bad start_time: {0}'.format(pformat(occ_form.cleaned_data))
-        )
-
-    #---------------------------------------------------------------------------
-    def test_freq(self):
-        et = EventType.objects.get(pk=1)
-        e = Event.objects.create(title='FIRE BAD!', description='***', event_type=et)
+        assert evt.occurrence_set.count() == 2
+        assert occ_form.cleaned_data['start_time'] == datetime(2008, 12, 11, 8)
+    
+    def test_freq(self, play_type):
+        e = Event.objects.create(title='FIRE BAD!', description='***', event_type=play_type)
         dtstart = datetime(2015,2,12)
         data = dict(
             day=dtstart.date(),
@@ -175,44 +152,42 @@ class NewEventFormTest(TestCase):
             until=datetime(2015, 6, 10)
         )
         mof = MultipleOccurrenceForm(data, initial={'dtstart': dtstart})
-        self.assertTrue(mof.is_valid(), mof.errors.as_text())
+        assert True == mof.is_valid()
 
         mof.save(e)
         expected = [date(2015,m,d) for m,d in ((3, 6), (4, 3), (5, 1), (6, 5))]
         actual = [o.start_time.date() for o in e.occurrence_set.all()]
-        self.assertEqual(expected, actual, '\nGOT:\n{}\n^\nEXP:\n{}'.format(pformat(actual), pformat(expected)))
+        assert expected == actual
 
-#===============================================================================
-class CreationTest(TestCase):
+
+@pytest.mark.django_db
+class TestCreation:
     
-    #---------------------------------------------------------------------------
     def test_1(self):
         et = EventType.objects.create(abbr='foo', label='Foo')
-        self.assertTrue(et.abbr == 'foo')
+        assert et.abbr == 'foo'
         
         e = Event.objects.create(title='Hello, world', description='Happy New Year', event_type=et)
-        self.assertTrue(e.event_type == et)
-        self.assertEqual(e.get_absolute_url(), '/events/{}/'.format(e.id))
+        assert e.event_type == et
+        assert e.get_absolute_url() == '/events/{}/'.format(e.id)
         
         e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1), freq=rrule.YEARLY, count=7)
         occs = list(e.occurrence_set.all())
-        self.assertEqual(len(occs), 7)
-        self.assertEqual(str(occs[0]), 'Hello, world: 2008-01-01T00:00:00')
+        assert len(occs) == 7
+        assert str(occs[0]) == 'Hello, world: 2008-01-01T00:00:00'
         for i in range(7):
             o = occs[i]
-            self.assertEqual(o.start_time.year, 2008 + i)
+            assert o.start_time.year == 2008 + i
         
-    #---------------------------------------------------------------------------
     def test_2(self):
         et = EventType.objects.create(abbr='bar', label='Bar')
-        self.assertEqual(str(et), 'Bar')
+        assert str(et) == 'Bar'
         
         e = create_event('Bicycle repairman', event_type=et)
-        self.assertEqual(str(e), 'Bicycle repairman')
-        self.assertEqual(e.occurrence_set.count(), 1)
-        self.assertEqual(e.daily_occurrences().count(), 1)
+        assert str(e) == 'Bicycle repairman'
+        assert e.occurrence_set.count() == 1
+        assert e.daily_occurrences().count() == 1
     
-    #---------------------------------------------------------------------------
     def test_3(self):
         e = create_event(
             'Something completely different',
@@ -223,47 +198,49 @@ class CreationTest(TestCase):
             byweekday=(rrule.TU, rrule.TH),
             until=datetime(2008,12,31)
         )
-        self.assertIsInstance(e.event_type, EventType)
-        self.assertEqual(e.event_type.abbr, 'abbr')
-        self.assertEqual(str(e.notes.all()[0]), 'Here it is')
+        assert True == isinstance(e.event_type, EventType)
+        assert e.event_type.abbr == 'abbr'
+        assert str(e.notes.all()[0]) == 'Here it is'
         occs = list(e.occurrence_set.all())
         for i, day in zip(range(len(occs)), [2, 4, 9, 11, 16, 18, 23, 25, 30]):
             o = occs[i]
-            self.assertEqual(day, o.start_time.day)
+            assert day == o.start_time.day
     
-    #---------------------------------------------------------------------------
+    
     def test_4(self):
         e = create_event('This parrot has ceased to be!', ('blue', 'Blue'), count=3)
         occs = list(e.upcoming_occurrences())
-        self.assertEqual(len(occs), 2)
-        self.assertIsNotNone(e.next_occurrence())
-        self.assertEqual(occs[1].title, 'This parrot has ceased to be!')
+        assert len(occs) == 2
+        assert e.next_occurrence() is not None
+        assert occs[1].title == 'This parrot has ceased to be!'
 
     def test_6(self):
         et = EventType.objects.create(abbr='foo', label='Foo')
-        self.assertTrue(et.abbr == 'foo')
+        assert et.abbr == 'foo'
         
         e = Event.objects.create(title='Yet another event', description="with tons of occurrences", event_type=et)
-        self.assertTrue(e.event_type == et)
-        self.assertEqual(e.get_absolute_url(), '/events/{}/'.format(e.id))
+        assert e.event_type == et
+        assert e.get_absolute_url() == '/events/{}/'.format(e.id)
         
-        e.add_occurrences(datetime(2008,1,1), datetime(2008,1,1,1),
-    			  freq=rrule.DAILY, until=datetime(2020,12,31)) # 
+        e.add_occurrences(
+            datetime(2008,1,1),
+            datetime(2008,1,1,1),
+    		freq=rrule.DAILY,
+            until=datetime(2020,12,31)
+        )
         occs = list(e.occurrence_set.all())
-        self.assertEqual(len(occs), 4749)
+        assert len(occs) == 4749
 
-#===============================================================================
-class MiscTest(TestCase):
+
+class TestMisc:
     
-    #---------------------------------------------------------------------------
     def test_version(self):
         V = swingtime.VERSION
-        self.assertEqual(swingtime.get_version(), '.'.join([str(i) for i in V]))
+        assert swingtime.get_version() == '.'.join([str(i) for i in V])
     
-    #---------------------------------------------------------------------------
     def test_month_boundaries(self):
         dt = datetime(2012,2,15)
         start, end = utils.month_boundaries(dt)
-        self.assertEqual(start, datetime(2012,2,1))
-        self.assertEqual(end, datetime(2012,2,29))
+        assert start == datetime(2012,2,1)
+        assert end == datetime(2012,2,29)
     

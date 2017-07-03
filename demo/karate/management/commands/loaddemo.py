@@ -4,7 +4,6 @@
 | and the database will be pre-populated with some data relative to today's date. |
 #---------------------------------------------------------------------------------+
 '''
-from __future__ import print_function, unicode_literals
 import os
 import django
 from django.core.management import call_command
@@ -23,9 +22,7 @@ class Term:
     warn  = staticmethod(make_style(opts=('bold',), fg='yellow', bg='black'))
     error = staticmethod(make_style(opts=('bold',), fg='red', bg='black'))
 
-IS_1_7 = django.VERSION[:2] >= (1,7)
 
-#-------------------------------------------------------------------------------
 def create_sample_data():
     
     # Create the studio's event types
@@ -108,11 +105,9 @@ def create_sample_data():
     print('Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count()))
 
 
-#===============================================================================
 class Command(BaseCommand):
     help = 'Run the swingtime demo. If an existing demo database exists, it will recreated.'
     
-    #---------------------------------------------------------------------------
     def handle(self, **options):
         dbpath = settings.DATABASES['default']['NAME']
         if os.path.exists(dbpath):
@@ -120,11 +115,7 @@ class Command(BaseCommand):
             os.remove(dbpath)
         self.stdout.write(Term.info('Creating database %s' % dbpath))
 
-        if IS_1_7:
-            call_command('migrate', noinput=True, load_initial_data=False, interactive=False)
-        else:
-            call_command('syncdb', noinput=True, load_initial_data=False, interactive=False)
-            
+        call_command('migrate', noinput=True, load_initial_data=False, interactive=False)
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
         print('Done.\n\nCreating sample data...')
         create_sample_data()
