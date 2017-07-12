@@ -22,7 +22,7 @@ setup(
     long_description=long_description,
     platforms=['any'],
     license='MIT License',
-    classifiers=(
+    classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
@@ -30,8 +30,8 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-    ),
+    ],
     packages=find_packages(),
-    package_data={'swingtime': ['locale/*/*/*.*', 'fixtures/swingtime_test.json']},
+    package_data={'swingtime': ['locale/*/*/*.*',]},
     requires=['dateutil', 'django']
 )
