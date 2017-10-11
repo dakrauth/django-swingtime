@@ -45,7 +45,7 @@ TEMPLATES = [{
         )
     }
 }]
-ALLOWED_HOSTS = ['swingtime.nerdfog.com'] 
+ALLOWED_HOSTS = ['nerdfog.com'] 
 
 ROOT_URLCONF = 'urls'
 INSTALLED_APPS = (
