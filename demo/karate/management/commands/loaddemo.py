@@ -115,7 +115,7 @@ class Command(BaseCommand):
             os.remove(dbpath)
         self.stdout.write(Term.info('Creating database %s' % dbpath))
 
-        call_command('migrate', noinput=True, load_initial_data=False, interactive=False)
+        call_command('migrate', no_input=True, interactive=False)
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
         print('Done.\n\nCreating sample data...')
         create_sample_data()
