@@ -7,7 +7,7 @@
     {% if event_form.errors or recurrence_form.errors %}
     <p class="form-errors">Please fix any errors.</p>
     {% endif %}
-    <form method="post" action="">
+    <form method="post" action="">{% csrf_token %}
     <table>
         <tfoot>
             <tr>

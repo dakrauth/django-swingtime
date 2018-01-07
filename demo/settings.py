@@ -45,7 +45,7 @@ TEMPLATES = [{
         )
     }
 }]
-ALLOWED_HOSTS = ['nerdfog.com'] 
+ALLOWED_HOSTS = ['*'] 
 
 ROOT_URLCONF = 'urls'
 INSTALLED_APPS = (
@@ -59,13 +59,14 @@ INSTALLED_APPS = (
     'karate',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 SWINGTIME = {

@@ -3,7 +3,7 @@
 {% block main_content %}
     <h3>Swingtime Event</h3>
     <h4>Event Details</h4>
-    <form action="" method="post">
+    <form action="" method="post">{% csrf_token %}
     <table>
         <tfoot>
             <tr>
@@ -51,7 +51,7 @@
     {% endif %}
     
     <h4>Add Occurrences</h4>
-    <form action="" method="post">
+    <form action="" method="post">{% csrf_token %}
     <table>
         <tfoot>
             <tr>

@@ -7,11 +7,6 @@ About Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-.. image:: https://pypip.in/d/django-swingtime/badge.svg
-    :target: https://pypi.python.org/pypi/django-swingtime/
-
-.. image:: https://pypip.in/license/django-swingtime/badge.svg
-    :target: https://pypi.python.org/pypi/django-swingtime/
 
 Welcome
 -------
@@ -66,6 +61,9 @@ A bit more elaborate example, using the the convenience function ``models.create
     Pay day: 2013-05-31T17:00:00
     Pay day: 2013-06-28T17:00:00
     Pay day: 2013-07-26T17:00:00
+
+
+View the `live demo <https://nerdfog.com/swingtime/>`_.
 
 
 Features

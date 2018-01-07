@@ -10,14 +10,6 @@ Functions
 =========
 
 
-``html_mark_safe``
-------------------
-
-.. function:: html_mark_safe(func)
-
-    Decorator for functions return strings that should be treated as template
-    safe.
-
 ``time_delta_total_seconds``
 ----------------------------
 
