@@ -62,8 +62,17 @@ A bit more elaborate example, using the the convenience function ``models.create
     Pay day: 2013-06-28T17:00:00
     Pay day: 2013-07-26T17:00:00
 
+Demo
+----
 
-View the `live demo <https://nerdfog.com/swingtime/>`_.
+To view a demo, `click here <https://nerdfog.com/swingtime/>`_.
+
+To run a local demo using Docker, do the following::
+
+    $ docker build -t swingtime .
+    $ docker run -p 8000:80 -d swingtime:latest
+
+And browse to `localhost:8000 <http://localhost:8000>`_.
 
 
 Features
