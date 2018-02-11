@@ -2,13 +2,14 @@
 {% block title %}Monthly View{% endblock %}
 {% block main_content %}
     <h3>Monthly View</h3>
+    <p><em>Click a calendar date below to add a new event</em></p>
     <h4>
-        <a href="{% url 'swingtime-monthly-view' last_month.year last_month.month %}" 
+        <a class="plain" href="{% url 'swingtime-monthly-view' last_month.year last_month.month %}" 
            title="Last Month">&larr;</a>
         {{ this_month|date:"F" }}
         <a title="View {{ this_month.year}}" href="{% url 'swingtime-yearly-view' this_month.year %}">
             {{ this_month|date:"Y" }}</a>
-        <a href="{% url 'swingtime-monthly-view' next_month.year next_month.month %}" 
+        <a class="plain" href="{% url 'swingtime-monthly-view' next_month.year next_month.month %}" 
            title="Next Month">&rarr;</a>
     </h4>
     <table class="month-view">
@@ -27,14 +28,12 @@
                         <a href="{% url 'swingtime-daily-view' this_month.year this_month.month day %}">{{ day }}</a>
                     </div>
                     {% if items %}
-                    <ul>
-                        {% for item in items %}
+                    <ul>{% for item in items %}
                         <li>
                             <a href="{{ item.get_absolute_url }}">
                                 <span class="event-times">{{ item.start_time|time }}</span>
                                 {{ item.title }}</a>
-                        </li>
-                        {% endfor %}
+                        </li>{% endfor %}
                     </ul>
                     {% endif %}
                 {% endif %}

@@ -27,6 +27,7 @@
         ul, ol { margin-left: 2em; }
         body { font-size: 14px; background-color: #bba; padding: 1em 2em; }
         img { border: none; }
+        .w-100 { width: 100%; }
         .center { text-align : center; }
         .container { 
             margin: 1em auto;
@@ -92,6 +93,13 @@
         .month-view td { vertical-align: top; height: 10em; }
             .month-view td, .month-view th { width: 14.285%; }
             .month-view .day-ordinal { font-weight: bold; font-size: 1.1em; text-align: right; }
+            .calendar th a, .month-view .day-ordinal a {
+                background: #357;
+                color: #eee;
+                padding: 0 1em;
+                text-decoration: none;
+                border-radius: 4px;
+            }
             .month-view ul { margin: 1px 2px; padding: 0; padding-left: 1em; }
             .month-view li { font-size: .9em; }
             .month-view .today { background-color: #eed; }

@@ -2,6 +2,7 @@
 {% block title %}Daily View{% endblock %}
 {% block main_content %}
     <h3>Daily View</h3>
+    <p><em>Click a time from the Time column to add a new event...</em></p>
     <h4>
         <a class="plain" href="{% url 'swingtime-daily-view' prev_day.year prev_day.month prev_day.day %}">&larr;</a>
         {{ day|date:"l, N jS Y" }}
@@ -10,7 +11,7 @@
     <table class="calendar">
         <thead>
             <tr>
-                <th>Time</th>
+                <th class="center">Time</th>
                 <th>Main Room</th>
                 <th>Private 2</th>
                 <th>Private 3</th>
@@ -20,7 +21,7 @@
         <tbody>
             {% for tm,cells in timeslots %}
             <tr>
-                <th><a href="{% url 'swingtime-add-event' %}?dtstart={{ tm.isoformat }}">{{ tm|date:"P" }}</a></th>
+                <th class="center"><a href="{% url 'swingtime-add-event' %}?dtstart={{ tm.isoformat }}">{{ tm|date:"h:i a" }}</a></th>
                 {% for cell in cells %}
                 <td{% if cell.event_class %} class="{{cell.event_class}}"{% endif %}>{{ cell }}</td>    
                 {% endfor %}

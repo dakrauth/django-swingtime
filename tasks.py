@@ -6,7 +6,7 @@ PYWARN='python -Wd'
 @task
 def clean(ctx):
     '''Remove build artifacts'''
-    ctx.run('rm -rf .cache build django_swingtime.egg-info .coverage docs/html')
+    ctx.run('rm -rf __pycache__ .cache build django_swingtime.egg-info .coverage docs/html')
 
 @task
 def install(ctx):
