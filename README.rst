@@ -32,16 +32,15 @@ A fairly simple example::
     ...     description='Kiss off, Lumbergh!',
     ...     event_type=et
     ... )
-    >>> evt.add_occurrences(datetime(2013,4,1,16), datetime(2013,4,1,16,15), count=5)
+    >>> evt.add_occurrences(datetime(2018,3,18,16), datetime(2018,3,18,16,15), count=5)
     >>> for o in evt.occurrence_set.all():
-    ...     print o
-    ... 
-    New TPS Cover Sheet: 2013-04-01T16:00:00
-    New TPS Cover Sheet: 2013-04-02T16:00:00
-    New TPS Cover Sheet: 2013-04-03T16:00:00
-    New TPS Cover Sheet: 2013-04-04T16:00:00
-    New TPS Cover Sheet: 2013-04-05T16:00:00
-
+    ...     print(o)
+    ...
+    New TPS Cover Sheet: 2018-03-18T16:00:00
+    New TPS Cover Sheet: 2018-03-19T16:00:00
+    New TPS Cover Sheet: 2018-03-20T16:00:00
+    New TPS Cover Sheet: 2018-03-21T16:00:00
+    New TPS Cover Sheet: 2018-03-22T16:00:00
 
 A bit more elaborate example, using the the convenience function ``models.create_event``::
     
@@ -55,7 +54,7 @@ A bit more elaborate example, using the the convenience function ``models.create
     ...     start_time=datetime(2013,4,1,17)
     ... )
     >>> for o in evt.occurrence_set.all():
-    ...     print o
+    ...     print(o)
     ... 
     Pay day: 2013-04-26T17:00:00
     Pay day: 2013-05-31T17:00:00
