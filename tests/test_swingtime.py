@@ -3,6 +3,8 @@ import pytest
 from pprint import pformat
 from datetime import datetime, timedelta, date, time
 from dateutil import rrule
+from django.urls import reverse
+from django.forms.models import model_to_dict
 import swingtime
 from swingtime import utils
 from swingtime.models import *
@@ -159,6 +161,30 @@ class TestNewEventForm:
         actual = [o.start_time.date() for o in e.occurrence_set.all()]
         assert expected == actual
 
+    def test_yearly(self, play_type):
+        e = Event.objects.create(title='YEARLY', description='YYYY', event_type=play_type)
+        dtstart = datetime(2018,3,18)
+        data = dict(
+            day=dtstart.date(),
+            freq=rrule.YEARLY,
+            year_months=['3'],
+            repeats='count',
+            count='3',
+            month_option='each',
+            start_time_delta='54000',
+            end_time_delta='57600',
+            is_year_month_ordinal = 'on',
+            year_month_ordinal = '3',
+            year_month_ordinal_day = '7',
+        )
+        mof = MultipleOccurrenceForm(data, initial={'dtstart': dtstart})
+        assert True == mof.is_valid()
+
+        mof.save(e)
+        expected = [date(2018,3,18), date(2019,3,17), date(2020,3,15)]
+        actual = [o.start_time.date() for o in e.occurrence_set.all()]
+        assert expected == actual
+
 
 @pytest.mark.django_db
 class TestCreation:
@@ -244,3 +270,87 @@ class TestMisc:
         assert start == datetime(2012,2,1)
         assert end == datetime(2012,2,29)
     
+
+@pytest.mark.django_db
+class TestViews:    
+
+    def test_views(self, client, occurence):
+        # r'^(?:calendar/)?$', views.today_view
+        r = client.get(reverse('swingtime-today'))
+        assert r.status_code == 200
+        
+        # r'^calendar/(?P<year>\d{4})/$', views.year_view
+        r = client.get(reverse('swingtime-yearly-view', args=[2018]))
+        assert r.status_code == 200
+        
+        # r'^calendar/(\d{4})/(0?[1-9]|1[012])/$', views.month_view
+        r = client.get(reverse('swingtime-monthly-view', args=[2018, 3]))
+        assert r.status_code == 200
+        
+        # r'^calendar/(\d{4})/(0?[1-9]|1[012])/([0-3]?\d)/$', views.day_view
+        r = client.get(reverse('swingtime-daily-view', args=[2018,3,18]))
+        assert r.status_code == 200
+        
+        # r'^events/$', views.event_listing
+        r = client.get(reverse('swingtime-events'))
+        assert r.status_code == 200
+        
+        # r'^events/add/$', views.add_event
+        r = client.get(reverse('swingtime-add-event') + '?dtstart=20180318')
+        assert r.status_code == 200
+        
+        r = client.get(reverse('swingtime-add-event') + '?dtstart=BAD')
+        assert r.status_code == 200
+
+        r = client.post(reverse('swingtime-add-event'))
+        assert r.status_code == 200
+
+        # r'^events/(\d+)/$', views.event_view
+        r = client.get(reverse('swingtime-event', args=[occurence.event.id]))
+        assert r.status_code == 200
+
+        r = client.post(
+            reverse('swingtime-event', args=[occurence.event.id]),
+            model_to_dict(occurence.event)
+        )
+        assert r.status_code == 400
+
+        r = client.post(
+            reverse('swingtime-event', args=[occurence.event.id]),
+            dict(model_to_dict(occurence.event), _update='')
+        )
+        assert r.status_code == 302
+
+        r = client.post(
+            reverse('swingtime-event', args=[occurence.event.id]),
+            dict(model_to_dict(occurence.event), _add='')
+        )
+        assert r.status_code == 200
+
+        
+        # r'^events/(\d+)/(\d+)/$', views.occurrence_view
+        r = client.get(reverse('swingtime-occurrence', args=[
+            occurence.event.id,
+            occurence.id
+        ]))
+        assert r.status_code == 200
+
+        # r'^events/(\d+)/(\d+)/$', views.occurrence_view
+        start = occurence.start_time
+        end = occurence.end_time
+
+        data = {
+            'end_time_0_day': end.day,
+            'end_time_0_month': end.month,
+            'end_time_0_year': end.year,
+            'end_time_1': str(end.time()),
+            'start_time_0_day': start.day,
+            'start_time_0_month': start.month,
+            'start_time_0_year': start.year,
+            'start_time_1': str(start.time())
+        }            
+        r = client.post(reverse('swingtime-occurrence', args=[
+            occurence.event.id,
+            occurence.id
+        ]), data)
+        assert r.status_code == 302

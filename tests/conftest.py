@@ -14,6 +14,16 @@ def play_type():
 
 
 @pytest.fixture
+def occurence(work_type):
+    e = Event.objects.create(event_type=work_type, title='event')
+    return Occurrence.objects.create(
+        event=e,
+        start_time=datetime(2018, 3, 18, 16, 00), 
+        end_time=datetime(2018, 3, 18, 16, 45)
+    )
+
+
+@pytest.fixture
 def events(play_type, work_type):
     e = Event.objects.create(event_type=play_type, title='bravo')
     Occurrence.objects.create(

@@ -3,6 +3,7 @@ Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
 '''
 from datetime import datetime, date, time, timedelta
 from django import forms
+from django.forms.utils import to_current_timezone
 from django.utils.translation import ugettext_lazy as _
 from django.forms.widgets import SelectDateWidget
 
@@ -161,7 +162,7 @@ class MultipleIntegerField(forms.MultipleChoiceField):
         if widget is None:
             widget = forms.SelectMultiple(attrs={'size' : size or len(choices)})
         
-        super(MultipleIntegerField, self).__init__(
+        super().__init__(
             required=False,
             choices=choices,
             label=label,
@@ -169,7 +170,7 @@ class MultipleIntegerField(forms.MultipleChoiceField):
         )
 
     def clean(self, value):
-        return [int(i) for i in super(MultipleIntegerField, self).clean(value)]
+        return [int(i) for i in super().clean(value)]
 
 
 class SplitDateTimeWidget(forms.MultiWidget):
@@ -183,12 +184,12 @@ class SplitDateTimeWidget(forms.MultiWidget):
             SelectDateWidget(attrs=attrs),
             forms.Select(choices=default_timeslot_options, attrs=attrs)
         )
-        super(SplitDateTimeWidget, self).__init__(widgets, attrs)
+        super().__init__(widgets)
 
     def decompress(self, value):
         if value:
+            value = to_current_timezone(value)
             return [value.date(), value.time().replace(microsecond=0)]
-
         return [None, None]
 
 
@@ -276,7 +277,7 @@ class MultipleOccurrenceForm(forms.Form):
     year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
 
     def __init__(self, *args, **kws):
-        super(MultipleOccurrenceForm, self).__init__(*args, **kws)
+        super().__init__(*args, **kws)
         dtstart = self.initial.get('dtstart', None)
         if dtstart:
             dtstart = dtstart.replace(
@@ -302,14 +303,15 @@ class MultipleOccurrenceForm(forms.Form):
             self.initial.setdefault('end_time_delta', '%d' % (offset + SECONDS_INTERVAL,))
 
     def clean(self):
-        day = datetime.combine(self.cleaned_data['day'], time(0))
-        self.cleaned_data['start_time'] = day + timedelta(
-            seconds=self.cleaned_data['start_time_delta']
-        )
+        if 'day' in self.cleaned_data:
+            day = datetime.combine(self.cleaned_data['day'], time(0))
+            self.cleaned_data['start_time'] = day + timedelta(
+                seconds=self.cleaned_data['start_time_delta']
+            )
 
-        self.cleaned_data['end_time'] = day + timedelta(
-            seconds=self.cleaned_data['end_time_delta']
-        )
+            self.cleaned_data['end_time'] = day + timedelta(
+                seconds=self.cleaned_data['end_time_delta']
+            )
 
         return self.cleaned_data
 
@@ -375,7 +377,7 @@ class EventForm(forms.ModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kws):
-        super(EventForm, self).__init__(*args, **kws)
+        super().__init__(*args, **kws)
         self.fields['description'].required = False
 
 
@@ -385,8 +387,8 @@ class SingleOccurrenceForm(forms.ModelForm):
 
     '''
 
-    start_time = forms.DateTimeField(widget=SplitDateTimeWidget)
-    end_time = forms.DateTimeField(widget=SplitDateTimeWidget)
+    start_time = forms.SplitDateTimeField(widget=SplitDateTimeWidget)
+    end_time = forms.SplitDateTimeField(widget=SplitDateTimeWidget)
 
     class Meta:
         model = Occurrence

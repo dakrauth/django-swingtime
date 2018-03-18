@@ -79,7 +79,7 @@ class DefaultOccurrenceProxy(BaseOccurrenceProxy):
     CONTINUATION_STRING = '^^'
     
     def __init__(self, *args, **kws):
-        super(DefaultOccurrenceProxy, self).__init__(*args, **kws)
+        super().__init__(*args, **kws)
         link = '<a href="%s">%s</a>' % (
             self.get_absolute_url(),
             self.title

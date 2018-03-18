@@ -22,17 +22,14 @@ def dev(ctx):
     ctx.run('pip install -r requirements/dev.txt', pty=True)
 
 @task
-def test(ctx):
-    '''Run tests and coverage'''
+def test(ctx, cov=False):
+    '''Run tests and coverage. Optionally open the coverage reports.'''
     ctx.run(
         "py.test --cov-config .coveragerc --cov-report html --cov-report term --cov=swingtime",
         pty=True
     )
 
-@task
-def cov(ctx):
-    '''Open the coverage reports'''
-    if os.path.exists('build/coverage/index.html'):
+    if cov and os.path.exists('build/coverage/index.html'):
         ctx.run('open build/coverage/index.html', pty=True)
 
 @task
