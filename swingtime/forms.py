@@ -97,6 +97,7 @@ ISO_WEEKDAYS_MAP = (
 MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
 SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
 
+
 def timeslot_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
     start_time=swingtime_settings.TIMESLOT_START_TIME,
@@ -120,6 +121,7 @@ def timeslot_options(
         dtstart += interval
 
     return options
+
 
 def timeslot_offset_options(
     interval=swingtime_settings.TIMESLOT_INTERVAL,
@@ -148,6 +150,7 @@ def timeslot_offset_options(
 
     return options
 
+
 default_timeslot_options = timeslot_options()
 default_timeslot_offset_options = timeslot_offset_options()
 
@@ -160,8 +163,8 @@ class MultipleIntegerField(forms.MultipleChoiceField):
 
     def __init__(self, choices, size=None, label=None, widget=None):
         if widget is None:
-            widget = forms.SelectMultiple(attrs={'size' : size or len(choices)})
-        
+            widget = forms.SelectMultiple(attrs={'size': size or len(choices)})
+
         super().__init__(
             required=False,
             choices=choices,
@@ -250,18 +253,25 @@ class MultipleOccurrenceForm(forms.Form):
         widget=forms.CheckboxSelectMultiple
     )
 
-    # monthly  options
+    # monthly options
     month_option = forms.ChoiceField(
-        choices=(('on',_('On the')), ('each',_('Each:'))),
+        choices=(('on', _('On the')), ('each', _('Each:'))),
         initial='each',
         widget=forms.RadioSelect(),
         label=_('Monthly options')
     )
 
-    month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
-    month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
+    month_ordinal = forms.IntegerField(
+        widget=forms.Select(choices=ORDINAL),
+        required=False
+    )
+    month_ordinal_day = forms.IntegerField(
+        widget=forms.Select(choices=WEEKDAY_LONG),
+        required=False
+    )
+
     each_month_day = MultipleIntegerField(
-        [(i,i) for i in range(1,32)],
+        [(i, i) for i in range(1, 32)],
         widget=forms.CheckboxSelectMultiple
     )
 
@@ -273,8 +283,15 @@ class MultipleOccurrenceForm(forms.Form):
     )
 
     is_year_month_ordinal = forms.BooleanField(required=False)
-    year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
-    year_month_ordinal_day = forms.IntegerField(widget=forms.Select(choices=WEEKDAY_LONG), required=False)
+    year_month_ordinal = forms.IntegerField(
+        widget=forms.Select(choices=ORDINAL),
+        required=False
+    )
+
+    year_month_ordinal_day = forms.IntegerField(
+        widget=forms.Select(choices=WEEKDAY_LONG),
+        required=False
+    )
 
     def __init__(self, *args, **kws):
         super().__init__(*args, **kws)
@@ -289,7 +306,8 @@ class MultipleOccurrenceForm(forms.Form):
             weekday = dtstart.isoweekday()
             ordinal = dtstart.day // 7
             ordinal = '%d' % (-1 if ordinal > 3 else ordinal + 1,)
-            offset = (dtstart - datetime.combine(dtstart.date(), time(0, tzinfo=dtstart.tzinfo))).seconds
+            midnight = datetime.combine(dtstart.date(), time(0, tzinfo=dtstart.tzinfo))
+            offset = (dtstart - midnight).seconds
 
             self.initial.setdefault('day', dtstart)
             self.initial.setdefault('week_days', '%d' % weekday)
@@ -362,7 +380,7 @@ class MultipleOccurrenceForm(forms.Form):
 
         elif params['freq'] != rrule.DAILY:
             raise NotImplementedError(_('Unknown interval rule ' + params['freq']))
-        
+
         return params
 
 
@@ -393,5 +411,3 @@ class SingleOccurrenceForm(forms.ModelForm):
     class Meta:
         model = Occurrence
         fields = "__all__"
-
-

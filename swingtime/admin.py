@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.admin import GenericTabularInline
-
 from django.contrib import admin
 from swingtime.models import *
+
 
 class EventTypeAdmin(admin.ModelAdmin):
     list_display = ('label', 'abbr')

@@ -3,10 +3,12 @@ from invoke import task
 
 PYWARN='python -Wd'
 
+
 @task
 def clean(ctx):
     '''Remove build artifacts'''
     ctx.run('rm -rf __pycache__ .cache build django_swingtime.egg-info .coverage docs/html')
+
 
 @task
 def install(ctx):
@@ -15,11 +17,13 @@ def install(ctx):
     ctx.run('pip install -r requirements/base.txt', pty=True)
     ctx.run('pip install -e .', pty=True)
 
+
 @task
 def dev(ctx):
     '''Install development requirements'''
     install(ctx)
     ctx.run('pip install -r requirements/dev.txt', pty=True)
+
 
 @task
 def test(ctx, cov=False):
@@ -31,6 +35,7 @@ def test(ctx, cov=False):
 
     if cov and os.path.exists('build/coverage/index.html'):
         ctx.run('open build/coverage/index.html', pty=True)
+
 
 @task
 def docs(ctx):
@@ -47,3 +52,10 @@ def demo(ctx, warn=False):
     ctx.run(manage.format('check'), pty=True)
     ctx.run(manage.format('loaddemo'), pty=True)
     ctx.run(manage.format('runserver'), pty=True)
+
+
+@task
+def check(ctx):
+    '''Run PEP8 checks'''
+    ctx.run('pycodestyle swingtime')
+

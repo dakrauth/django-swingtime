@@ -9,7 +9,7 @@ DEFAULT_SETTINGS = {
     'TIMESLOT_TIME_FORMAT':  '%I:%M %p',
 
     # Used for creating start and end time form selectors as well as time slot grids.
-    # Value should be datetime.timedelta value representing the incremental 
+    # Value should be datetime.timedelta value representing the incremental
     # differences between temporal options
     'TIMESLOT_INTERVAL':  datetime.timedelta(minutes=15),
 
@@ -17,11 +17,11 @@ DEFAULT_SETTINGS = {
     # selectors
     'TIMESLOT_START_TIME':  datetime.time(9),
 
-    # A datetime.timedelta value indicating the offset value from 
+    # A datetime.timedelta value indicating the offset value from
     # TIMESLOT_START_TIME for creating time slot grids and form selectors. The for
     # using a time delta is that it possible to span dates. For instance, one could
-    # have a starting time of 3pm (15:00) and wish to indicate a ending value 
-    # 1:30am (01:30), in which case a value of datetime.timedelta(hours=10.5) 
+    # have a starting time of 3pm (15:00) and wish to indicate a ending value
+    # 1:30am (01:30), in which case a value of datetime.timedelta(hours=10.5)
     # could be specified to indicate that the 1:30 represents the following date's
     # time and not the current date.
     'TIMESLOT_END_TIME_DURATION':  datetime.timedelta(hours=+8),
