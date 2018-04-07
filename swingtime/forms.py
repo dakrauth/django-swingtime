@@ -162,9 +162,7 @@ class MultipleIntegerField(forms.MultipleChoiceField):
     '''
 
     def __init__(self, choices, size=None, label=None, widget=None):
-        if widget is None:
-            widget = forms.SelectMultiple(attrs={'size': size or len(choices)})
-
+        widget = widget or forms.SelectMultiple(attrs={'size': size or len(choices)})
         super().__init__(
             required=False,
             choices=choices,

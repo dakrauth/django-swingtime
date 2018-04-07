@@ -35,9 +35,7 @@ def event_listing(
 
     ... plus all values passed in via **extra_context
     '''
-    if events is None:
-        events = Event.objects.all()
-
+    events = events or Event.objects.all()
     extra_context['events'] = events
     return render(request, template, extra_context)
 
