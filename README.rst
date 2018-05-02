@@ -22,7 +22,9 @@ Swingtime relies heavily upon both the ``datetime`` standard library package and
 the ``dateutil`` package, featuring direct support for the ``dateutil.rrule`` 
 interface to create occurrences.
 
-A fairly simple example::
+A fairly simple example:
+
+.. code:: python
 
     >>> from datetime import *
     >>> from swingtime import models as swingtime
@@ -42,8 +44,10 @@ A fairly simple example::
     New TPS Cover Sheet: 2018-03-21T16:00:00
     New TPS Cover Sheet: 2018-03-22T16:00:00
 
-A bit more elaborate example, using the the convenience function ``models.create_event``::
+A bit more elaborate example, using the the convenience function ``models.create_event``:
     
+.. code:: python
+
     >>> # pay day is the last Friday of the month at 5pm
     >>> evt = swingtime.create_event(
     ...     'Pay day',
@@ -66,7 +70,9 @@ Demo
 
 To view a demo, `click here <https://nerdfog.com/swingtime/>`_.
 
-To run a local demo using Docker, do the following::
+To run a local demo using Docker, do the following:
+
+.. code:: bash
 
     $ docker build -t swingtime .
     $ docker run -p 8000:80 -d swingtime:latest
