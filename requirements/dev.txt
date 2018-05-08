@@ -11,3 +11,4 @@ pytest-cov>=2.5.1
 tox>=2.7.0
 invoke>=0.22
 pycodestyle
+-e .

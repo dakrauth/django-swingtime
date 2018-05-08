@@ -12,3 +12,4 @@ django_swingtime.egg-info/
 .cache/
 .coverage
 .pytest_cache
+venv
