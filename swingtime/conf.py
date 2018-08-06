@@ -36,6 +36,18 @@ DEFAULT_SETTINGS = {
 
     # If not None, passed to the calendar module's setfirstweekday function.
     'CALENDAR_FIRST_WEEKDAY':  6,
+
+    # Default note model
+    'NOTE_MODEL': 'swingtime.Note',
+
+    # Default event type model
+    'EVENT_TYPE_MODEL': 'swingtime.EventType',
+
+    # Default event model
+    'EVENT_MODEL': 'swingtime.Event',
+
+    # Default Occurrence
+    'OCCURRENCE_MODEL': 'swingtime.Occurrence',
 }
 
 _user_settings = getattr(settings, 'SWINGTIME', {})
