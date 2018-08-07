@@ -38,5 +38,5 @@ setup(
     ],
     packages=find_packages(),
     package_data={'swingtime': ['locale/*/*/*.*',]},
-    requires=['dateutil', 'django']
+    install_requires=['python-dateutil', 'django']
 )
