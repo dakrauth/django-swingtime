@@ -4,25 +4,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
 
-# Django versions for matrix
-env:
-  - DJANGO_VERSION=2.0.2
-
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install:
-  - pip install -q Django==$DJANGO_VERSION --quiet
-  - pip install coveralls
-  - pip install python-dateutil
-  - pip install pytest-django
-  - pip install pytest
-
-  - python setup.py develop
-
-# Command to run tests, e.g. python setup.py test
-script:
-  - py.test
-
-# Report to coveralls
-#after_success:
-#  - coveralls
+install: pip install tox-travis
+script: tox
