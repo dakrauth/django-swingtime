@@ -1,5 +1,6 @@
 # Python versions for matrix
 language: python
+dist: xenial
 python:
   - "3.4"
   - "3.5"
