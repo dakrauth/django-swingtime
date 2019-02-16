@@ -92,12 +92,12 @@ pygments_style = 'sphinx'
 # Options for HTML output
 # -----------------------
 try:
-    import sphinx_rtd_theme
+    import sphinx_bootstrap_theme
 except ImportError:
     html_theme = "default"
 else:
-    html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    html_theme = "bootstrap"
+    html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
 
 # The style sheet to use for HTML and HTML Help pages. A file of that name

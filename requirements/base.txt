@@ -1,2 +1,0 @@
-python-dateutil==2.7.5
-Django>=1.11,<2.2

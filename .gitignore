@@ -13,3 +13,4 @@ django_swingtime.egg-info/
 .coverage
 .pytest_cache
 venv
+Dockerrun.aws.json

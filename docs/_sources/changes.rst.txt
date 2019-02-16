@@ -3,6 +3,24 @@
 Changes in Swingtime
 ====================
 
+Release 1.1.0 (Feb 16, 2019)
+----------------------------
+
+* Added support for Django 2.2
+* Dropped support for Python 3.4, Django 1.11
+* Cleaned up testing, dev env
+
+Release 1.0.0 (Feb 2, 2019)
+---------------------------
+
+* Added support for Django 2.1, Python 3.7
+* Added Docker integration for demo app
+
+Release 0.9 (Jan 7, 2018)
+-------------------------
+
+* Added support for Django 2.0
+
 Release 0.8.0 (July 3, 2017)
 ----------------------------
 

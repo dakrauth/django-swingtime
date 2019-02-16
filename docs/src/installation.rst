@@ -25,47 +25,37 @@ Install into the current environment::
 Development
 ===========
 
-Setup a virtual environment::
-
-    $ mkvirtualenv swingtime
-    $ pip install invoke
-
-Get the code:
-
-* ``git``::
+* Get the code::
 
     $ git clone https://github.com/dakrauth/django-swingtime.git django-swingtime
     $ cd django-swingtime
 
-* Download::
+* Or, download::
 
     $ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip
     $ unzip swingtime.zip
     $ cd django-swingtime-master
 
-``Invoke`` is used to automate many tasks. See ``inv -l`` for all options.::
+* Environment::
 
-    $ inv dev
+    $ python -m venv venv
+    $ . venv/bin/activate
+    $ pip install tox
+    $ tox -e dev
 
+* Test
 
-Documentation
-=============
+    Assuming you have `pyenv <https://github.com/pyenv/pyenv>`_ installed and the
+    following versions installed::
 
-.. note::
+        $ pyenv local 3.7.2 3.4.9 3.5.6 3.6.8
+        $ tox  # or...
+        $ tox -e py37-django2.1  # build and test only Python 3.7 and Django 2.1
 
-    Building the documentation requires `Sphinx <http://www.sphinx-doc.org/>`_ to be installed.
+* Documentation
 
-First, install the ``swingtime`` project as shown in :ref:`development`.::
+    ::
 
-    $ inv docs
+        $ tox -e docs
 
-Browse the file ``docs/index.html``.
-
-
-Running the Tests
-=================
-
-First, install the ``swingtime`` project as shown in :ref:`development`.::
-
-    $ inv test
-
+    Browse the file ``docs/index.html``.

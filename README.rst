@@ -19,7 +19,7 @@ for one or more ``models.Occurrence`` objects, which describe specific
 start and end times.
 
 Swingtime relies heavily upon both the ``datetime`` standard library package and
-the ``dateutil`` package, featuring direct support for the ``dateutil.rrule`` 
+the ``dateutil`` package, featuring direct support for the ``dateutil.rrule``
 interface to create occurrences.
 
 A fairly simple example:
@@ -45,7 +45,7 @@ A fairly simple example:
     New TPS Cover Sheet: 2018-03-22T16:00:00
 
 A bit more elaborate example, using the the convenience function ``models.create_event``:
-    
+
 .. code:: python
 
     >>> # pay day is the last Friday of the month at 5pm
@@ -59,7 +59,7 @@ A bit more elaborate example, using the the convenience function ``models.create
     ... )
     >>> for o in evt.occurrence_set.all():
     ...     print(o)
-    ... 
+    ...
     Pay day: 2013-04-26T17:00:00
     Pay day: 2013-05-31T17:00:00
     Pay day: 2013-06-28T17:00:00
@@ -86,7 +86,7 @@ Features
 * Support for adding complex event occurrences via ``dateutil``
 * Ready-made ``forms.MultipleOccurrenceForm`` for handling complex input
 * Daily, monthly, and annual view functions
-* Grid-based daily view generator, complete with alternating or sequential 
+* Grid-based daily view generator, complete with alternating or sequential
   ``EventType`` CSS-class handling
 * Slightly better than average documentation, a few test cases, and commented code
 * Active support (I have to eat my own dogfood)
@@ -95,7 +95,7 @@ Features
 Requirements
 ------------
 
-* Python 3.4+
-* `Django 1.11+ <http://www.djangoproject.com/download/>`_
+* Python 3.5+
+* `Django 2.0+ <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
 
