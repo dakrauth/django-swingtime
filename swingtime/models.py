@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
+import uuid as uuid_lib
+
 from .conf import swingtime_settings
 
 __all__ = (
@@ -19,7 +21,14 @@ __all__ = (
 )
 
 
-class Note(models.Model):
+class UUIDModel(models.Model):
+    class Meta:
+        abstract = True
+
+    uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, unique=True, editable=False)
+
+
+class Note(UUIDModel):
     '''
     A generic model for adding simple, arbitrary notes to other models such as
     ``Event`` or ``Occurrence``.
@@ -42,7 +51,7 @@ class Note(models.Model):
         return self.note
 
 
-class EventType(models.Model):
+class EventType(UUIDModel):
     '''
     Simple ``Event`` classifcation.
     '''
@@ -57,7 +66,7 @@ class EventType(models.Model):
         return self.label
 
 
-class Event(models.Model):
+class Event(UUIDModel):
     '''
     Container model for general metadata and associated ``Occurrence`` entries.
     '''
@@ -131,7 +140,7 @@ class Event(models.Model):
         return Occurrence.objects.daily_occurrences(dt=dt, event=self)
 
 
-class OccurrenceManager(models.Manager):
+class OccurrenceManager(UUIDModel):
 
     def daily_occurrences(self, dt=None, event=None):
         '''
@@ -164,7 +173,7 @@ class OccurrenceManager(models.Manager):
         return qs.filter(event=event) if event else qs
 
 
-class Occurrence(models.Model):
+class Occurrence(UUIDModel):
     '''
     Represents the start end time for a specific occurrence of a master ``Event``
     object.
