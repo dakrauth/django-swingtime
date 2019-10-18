@@ -8,7 +8,6 @@ import itertools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
-from django.utils.encoding import python_2_unicode_compatible
 
 from dateutil import rrule
 from .conf import swingtime_settings
