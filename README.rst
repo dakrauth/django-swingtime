@@ -1,11 +1,17 @@
-About Swingtime
-===============
+Django Swingtime
+================
 
 .. image:: https://travis-ci.org/dakrauth/django-swingtime.svg?branch=master
     :target: https://travis-ci.org/dakrauth/django-swingtime
 
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
+
+:Version: 1.1.0
+:Demo: https://nerdfog.com/swingtime/
+:Download: https://pypi.org/project/django-swingtime/
+:Source: https://github.com/dakrauth/django-swingtime
+:Documentation: http://dakrauth.github.io/django-swingtime/ 
 
 
 Welcome
