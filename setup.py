@@ -24,7 +24,7 @@ setup(
     platforms=['any'],
     license='MIT License',
     python_requires='>=3.5, <4',
-    install_requires=['Django>=2.0,<3.1', 'python-dateutil==2.8.0'],
+    install_requires=['Django>=2.0,<3.2', 'python-dateutil==2.8.0'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
