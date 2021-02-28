@@ -4,7 +4,7 @@ Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
 from datetime import datetime, date, time, timedelta
 from django import forms
 from django.forms.utils import to_current_timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.forms.widgets import SelectDateWidget
 
 from dateutil import rrule
