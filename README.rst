@@ -1,13 +1,13 @@
 Django Swingtime
 ================
 
-.. image:: https://travis-ci.org/dakrauth/django-swingtime.svg?branch=master
-    :target: https://travis-ci.org/dakrauth/django-swingtime
+.. image:: https://github.com/dakrauth/django-swingtime/workflows/Test/badge.svg
+    :target: https://github.com/dakrauth/django-swingtime/actions
 
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 1.1.0
+:Version: 1.2.1
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -101,7 +101,7 @@ Features
 Requirements
 ------------
 
-* Python 3.5+
-* `Django 2.0+ <http://www.djangoproject.com/download/>`_
+* Python 3.6+
+* `Django 2.2+ <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
 
