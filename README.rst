@@ -7,7 +7,7 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 1.2.1
+:Version: 1.3.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -95,13 +95,12 @@ Features
 * Grid-based daily view generator, complete with alternating or sequential
   ``EventType`` CSS-class handling
 * Slightly better than average documentation, a few test cases, and commented code
-* Active support (I have to eat my own dogfood)
 * Built-in demo project / application
 
 Requirements
 ------------
 
-* Python 3.6+
-* `Django 2.2+ <http://www.djangoproject.com/download/>`_
+* Python 3.7+
+* `Django 2.2, 3.2+ <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
 
