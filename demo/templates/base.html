@@ -8,10 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB7ElEQVRYR+1Wv8tBURh+rhBJkkXZZFFmi1Epm+IfUPwD7iSrweBfUHZKUsqiLBZWFlnZMAgR3/e9p+/czr333Ni+bzjvxH3fc57nfd4f92pfP4Y/NE0RUAooBZQC/04Bv9+P2+1m7Ea+KEulknRf9vt9VKtVHI9Hm7/X60HTNMjO0jky0yak4NPphFAohPP5jGAwiOfzCZfLxYLn8zkymQz7/Xq92OWi8f8ESOCiHQ4HRCIR9kjc/gaBcDjMwEVns9mErusgVbh5vV48Hg+Qr9FomEAWiwXS6bQNhAcRQeurxyDA2X/ybnKKTSQS2G63UgKXywWBQMCZQL1eR6vVcmQvk9qWjVCS8XiMfD5vHCPSpJzb7TaXTZwCsaYejwf3+13aeOVyGd1uF8lkEuv12iBNvUKkZArJ5Lc1IT2oVCrodDoGsFNJrCBihlZfu93GaDTCbDazJeT4PSCqISPB/XwaxAyz2Sym0ymKxSJo3JyylyrwSa0pZrVaIZVKsfBarYblcmnKUFThIwLSEfltqndlsM42y0xoSJqMeDwu7SfTGOZyOUwmE1PnRqNR7Pd7+WEBxEpyOByiUCi8nSqDQCwWw263MwHRBYPBQArOs6bO32w2oB1gNVLB5/Pher063qE+SpUCSgGlgFLgG9dtWrCVDPQJAAAAAElFTkSuQmCC"/>
     <title>{% block title %}{% endblock %}</title>
-    <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <style>
         * {margin: 0; padding: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit;}
         h1 { font-size: 2.33em; text-align: center; }
@@ -60,16 +56,10 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             background: #a9db80;
-            background: -moz-linear-gradient(top,  #a9db80 0%, #96c56f 100%);
-            background: -webkit-linear-gradient(top,  #a9db80 0%,#96c56f 100%);
-            background: -ms-linear-gradient(top,  #a9db80 0%,#96c56f 100%);
             background: linear-gradient(to bottom,  #a9db80 0%,#96c56f 100%);
         }
         .btn:hover {
             background: #96c56f;
-            background: -moz-linear-gradient(top,  #96c56f 0%, #a9db80 100%);
-            background: -webkit-linear-gradient(top,  #96c56f 0%,#a9db80 100%);
-            background: -ms-linear-gradient(top,  #96c56f 0%,#a9db80 100%);
             background: linear-gradient(to bottom,  #96c56f 0%,#a9db80 100%);
         }
         nav a.btn {
@@ -141,9 +131,11 @@
         <nav>
             <a href="{% url 'karate-home' %}">Home</a> &middot;
             <a href="{% url 'swingtime-today' %}">Daily View</a> &middot; 
+            {% if current_datetime %}
             <a href="{% url 'swingtime-monthly-view' current_datetime.year current_datetime.month %}">
                 Monthly View</a> &middot; 
             <a href="{% url 'swingtime-yearly-view' current_datetime.year %}">Yearly View</a> &middot; 
+            {% endif %}
             <a href="{% url 'swingtime-events' %}">Event Listing</a>
         </nav>
         {% endblock navigation %}

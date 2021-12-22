@@ -22,7 +22,7 @@
             {% for row in calendar %}
             <tr>
                 {% for day,items in row  %}
-                <td{% ifequal day today.day  %} class="today"{% endifequal %}>
+                <td{% if day == today.day  %} class="today"{% endif %}>
                 {% if day %}
                     <div class="day-ordinal">
                         <a href="{% url 'swingtime-daily-view' this_month.year this_month.month day %}">{{ day }}</a>

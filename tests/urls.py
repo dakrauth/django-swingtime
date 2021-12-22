@@ -1,6 +1,6 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 urlpatterns = [
-    url(r'^home/$', lambda request: None, name='demo-home'),
-    url(r'^karate/$', lambda request: None, name='karate-home'),
-    url(r'^', include('swingtime.urls')),
+    re_path(r'^home/$', lambda request: None, name='demo-home'),
+    re_path(r'^karate/$', lambda request: None, name='karate-home'),
+    re_path(r'^', include('swingtime.urls')),
 ]

@@ -14,3 +14,4 @@ django_swingtime.egg-info/
 .pytest_cache
 venv
 Dockerrun.aws.json
+.python-version

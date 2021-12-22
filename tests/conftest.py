@@ -2,10 +2,12 @@ import pytest
 from datetime import datetime
 from swingtime.models import EventType, Event, Occurrence
 
+
 @pytest.fixture
 def work_type():
     #2
     return EventType.objects.create(abbr='work', label='Work')
+
 
 @pytest.fixture
 def play_type():
@@ -18,7 +20,7 @@ def occurence(work_type):
     e = Event.objects.create(event_type=work_type, title='event')
     return Occurrence.objects.create(
         event=e,
-        start_time=datetime(2018, 3, 18, 16, 00), 
+        start_time=datetime(2018, 3, 18, 16, 00),
         end_time=datetime(2018, 3, 18, 16, 45)
     )
 
