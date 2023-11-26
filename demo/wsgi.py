@@ -1,6 +1,6 @@
 import os, sys
 
-ROOT_DIR = '/var/www/swingtime.com/'
+ROOT_DIR = '/www/swingtime.com/'
 
 sys.path.extend([ROOT_DIR,])
 sys.stdout = sys.stderr

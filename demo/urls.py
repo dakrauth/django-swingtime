@@ -14,7 +14,7 @@ def docs(request):
 swingtime_patterns = [
     url(r'^$', TemplateView.as_view(template_name='intro.html'), name='demo-home'),
     url(r'^karate/', include('karate.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^0xfacade/', admin.site.urls),
     url(r'^docs/$', docs, name='swingtime-docs'),
     url(r'^docs/(?P<path>.*)$', serve, dict(document_root=doc_root, show_indexes=False))
 ]
