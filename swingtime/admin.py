@@ -4,7 +4,7 @@ from swingtime.models import *
 
 
 class EventTypeAdmin(admin.ModelAdmin):
-    list_display = ('label', 'abbr')
+    list_display = ("label", "abbr")
 
 
 class OccurrenceInline(admin.TabularInline):
@@ -18,9 +18,9 @@ class EventNoteInline(GenericTabularInline):
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'event_type', 'description')
-    list_filter = ('event_type', )
-    search_fields = ('title', 'description')
+    list_display = ("title", "event_type", "description")
+    list_filter = ("event_type",)
+    search_fields = ("title", "description")
     inlines = [EventNoteInline, OccurrenceInline]
 
 

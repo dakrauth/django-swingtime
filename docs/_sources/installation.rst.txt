@@ -32,9 +32,9 @@ Development
 
 * Or, download::
 
-    $ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/master.zip
+    $ curl -o swingtime.zip -L https://github.com/dakrauth/django-swingtime/archive/main.zip
     $ unzip swingtime.zip
-    $ cd django-swingtime-master
+    $ cd django-swingtime-main
 
 * Environment::
 
@@ -46,11 +46,11 @@ Development
 * Test
 
     Assuming you have `pyenv <https://github.com/pyenv/pyenv>`_ installed and the
-    following versions installed::
+    following versions installed (``x`` would be your installed patch version)::
 
-        $ pyenv local 3.7.2 3.4.9 3.5.6 3.6.8
+        $ pyenv local 3.8.x 3.9.x 3.10.x 3.11.x 3.12.x
         $ tox  # or...
-        $ tox -e py37-django2.1  # build and test only Python 3.7 and Django 2.1
+        $ tox -e py38-django3.2  # build and test only Python 3.8 and Django 3.2
 
 * Documentation
 

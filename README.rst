@@ -7,15 +7,15 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 1.3.0
+:Version: 1.4.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
 :Documentation: http://dakrauth.github.io/django-swingtime/ 
 
 
-Welcome
--------
+Description
+-----------
 
 Swingtime is a `Django <http://www.djangoproject.com/>`_ application similar to
 a stripped-down version of iCal for Mac OS X or Google Calendar.
@@ -100,7 +100,6 @@ Features
 Requirements
 ------------
 
-* Python 3.7+
-* `Django 2.2, 3.2+ <http://www.djangoproject.com/download/>`_
+* Python 3.8+
+* `Django >=3.2,<5.0 <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
-

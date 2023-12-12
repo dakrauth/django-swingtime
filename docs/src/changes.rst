@@ -3,6 +3,26 @@
 Changes in Swingtime
 ====================
 
+Release 1.4.0 (Dec 12, 2023)
+----------------------------
+
+* Code base cleaned with Black, Flake8
+* Support for Django 4.2, Python 3.10 - 3.12
+* Dropped support for Django 2.2, Python 3.7
+
+Release 1.3.1 (Dec 24, 2021)
+----------------------------
+
+* Removed Travis support, added GitHub action
+* Support for Django 4.0
+* Removed support for Python 3.6
+
+Release 1.2.1 (Feb 28, 2021)
+----------------------------
+
+* Removed support for Python 3.5, Django < 2.2
+* Added support for Django 3.1, 3.2
+
 Release 1.1.0 (Feb 16, 2019)
 ----------------------------
 

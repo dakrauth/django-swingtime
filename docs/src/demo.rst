@@ -13,7 +13,7 @@ time.
 Currently, Swingtime does not include any templates of its own. The demo project
 provides some sample templates to use as a guide or starting point.
 
-The easiest way to run the demo is to use Docker::
+The easiest way to run the demo is to use Docker:
 
 .. code:: bash
 

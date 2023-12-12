@@ -1,34 +1,33 @@
-'''
+"""
 Common features and functions for swingtime
-'''
+"""
 import calendar
 from collections import defaultdict
-from datetime import datetime, date, time, timedelta
+from datetime import datetime, date, timedelta
 import itertools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 
-from dateutil import rrule
 from .conf import swingtime_settings
 from .models import EventType, Occurrence
 
 
 def time_delta_total_seconds(time_delta):
-    '''
+    """
     Calculate the total number of seconds represented by a
     ``datetime.timedelta`` object
 
-    '''
+    """
     return time_delta.days * 3600 + time_delta.seconds
 
 
 def month_boundaries(dt=None):
-    '''
+    """
     Return a 2-tuple containing the datetime instances for the first and last
     dates of the current month or using ``dt`` as a reference.
 
-    '''
+    """
     dt = dt or date.today()
     wkday, ndays = calendar.monthrange(dt.year, dt.month)
     start = datetime(dt.year, dt.month, 1)
@@ -36,33 +35,36 @@ def month_boundaries(dt=None):
 
 
 def default_css_class_cycler():
-    return itertools.cycle(('evt-even', 'evt-odd'))
+    return itertools.cycle(("evt-even", "evt-odd"))
 
 
 def css_class_cycler():
-    '''
+    """
     Return a dictionary keyed by ``EventType`` abbreviations, whose values are an
     iterable or cycle of CSS class names.
 
-    '''
-    FMT = 'evt-{0}-{1}'.format
-    return defaultdict(default_css_class_cycler, (
-        (e.abbr, itertools.cycle((FMT(e.abbr, 'even'), FMT(e.abbr, 'odd'))))
-        for e in EventType.objects.all()
-    ))
+    """
+    FMT = "evt-{0}-{1}".format
+    return defaultdict(
+        default_css_class_cycler,
+        (
+            (e.abbr, itertools.cycle((FMT(e.abbr, "even"), FMT(e.abbr, "odd"))))
+            for e in EventType.objects.all()
+        ),
+    )
 
 
 class BaseOccurrenceProxy(object):
-    '''
+    """
     A simple wrapper class for handling the presentational aspects of an
     ``Occurrence`` instance.
 
-    '''
+    """
 
     def __init__(self, occurrence, col):
         self.column = col
         self._occurrence = occurrence
-        self.event_class = ''
+        self.event_class = ""
 
     def __getattr__(self, name):
         return getattr(self._occurrence, name)
@@ -72,20 +74,13 @@ class BaseOccurrenceProxy(object):
 
 
 class DefaultOccurrenceProxy(BaseOccurrenceProxy):
-
-    CONTINUATION_STRING = '^^'
+    CONTINUATION_STRING = "^^"
 
     def __init__(self, *args, **kws):
         super().__init__(*args, **kws)
-        link = '<a href="%s">%s</a>' % (
-            self.get_absolute_url(),
-            self.title
-        )
+        link = '<a href="%s">%s</a>' % (self.get_absolute_url(), self.title)
 
-        self._str = itertools.chain(
-            (link,),
-            itertools.repeat(self.CONTINUATION_STRING)
-        )
+        self._str = itertools.chain((link,), itertools.repeat(self.CONTINUATION_STRING))
 
     def __str__(self):
         return mark_safe(next(self._str))
@@ -99,9 +94,9 @@ def create_timeslot_table(
     time_delta=swingtime_settings.TIMESLOT_INTERVAL,
     min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS,
     css_class_cycles=css_class_cycler,
-    proxy_class=DefaultOccurrenceProxy
+    proxy_class=DefaultOccurrenceProxy,
 ):
-    '''
+    """
     Create a grid-like object representing a sequence of times (rows) and
     columns where cells are either empty or reference a wrapper object for
     event occasions that overlap a specific time slot.
@@ -124,16 +119,18 @@ def create_timeslot_table(
       This class should also expose ``event_type`` and ``event_type`` attrs, and
       handle the custom output via its __unicode__ method.
 
-    '''
+    """
     dt = dt or datetime.now()
-    start_time = start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
+    start_time = (
+        start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
+    )
     dtstart = datetime.combine(dt.date(), start_time)
     dtend = dtstart + end_time_delta
 
     if isinstance(items, QuerySet):
         items = items._clone()
     elif not items:
-        items = Occurrence.objects.daily_occurrences(dt).select_related('event')
+        items = Occurrence.objects.daily_occurrences(dt).select_related("event")
 
     # build a mapping of timeslot "buckets"
     timeslots = {}
@@ -188,7 +185,7 @@ def create_timeslot_table(
     column_lens = [len(x) for x in timeslots.values()]
     column_count = max((min_columns, max(column_lens) if column_lens else 0))
     column_range = range(column_count)
-    empty_columns = ['' for x in column_range]
+    empty_columns = ["" for x in column_range]
 
     if css_class_cycles:
         column_classes = dict([(i, css_class_cycles()) for i in column_range])
