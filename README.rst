@@ -7,7 +7,7 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 1.4.0
+:Version: 1.5.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -100,6 +100,6 @@ Features
 Requirements
 ------------
 
-* Python 3.8+
-* `Django >=3.2,<5.0 <http://www.djangoproject.com/download/>`_
+* Python 3.10+
+* `Django >=4.2,<5.2 <http://www.djangoproject.com/download/>`_
 * `python-dateutil <http://labix.org/python-dateutil>`_.
