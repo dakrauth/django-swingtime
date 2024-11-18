@@ -1,13 +1,16 @@
-import os, sys
+"""
+WSGI config for foo project.
 
-ROOT_DIR = '/var/www/swingtime.com/'
+It exposes the WSGI callable as a module-level variable named ``application``.
 
-sys.path.extend([ROOT_DIR,])
-sys.stdout = sys.stderr
+For more information on this file, see
+https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
+"""
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-os.chdir(ROOT_DIR)
+import os
 
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+
+application = get_wsgi_application()

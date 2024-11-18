@@ -7,7 +7,7 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 1.5.1
+:Version: 1.5.2
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -81,7 +81,7 @@ To run a local demo using Docker, do the following:
 .. code:: bash
 
     $ docker build -t swingtime .
-    $ docker run -p 8000:80 -d swingtime:latest
+    $ docker run -p 8000:80 swingtime:latest
 
 And browse to `localhost:8000 <http://localhost:8000>`_.
 
