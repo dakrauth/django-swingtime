@@ -15,6 +15,7 @@ sys.path.extend([
     os.path.abspath('..'), # relative location of swingtime app
 ])
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DEBUG = True
 DATABASES = {'default': {
     'ENGINE': 'django.db.backends.sqlite3',
@@ -40,6 +41,7 @@ TEMPLATES = [{
         ),
         'context_processors': (
             'django.template.context_processors.debug',
+            'django.template.context_processors.request',
             'django.contrib.auth.context_processors.auth',
             'django.contrib.messages.context_processors.messages',
             'swingtime.context_processors.current_datetime',
