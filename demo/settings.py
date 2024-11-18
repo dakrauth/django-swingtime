@@ -26,6 +26,7 @@ STATIC_ROOT = 'static'
 TIME_ZONE = 'America/New_York'
 SITE_ID = 1
 USE_I18N = True
+USE_TZ = False
 SECRET_KEY = 'swingtime-demo'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 TEMPLATES = [{
