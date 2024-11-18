@@ -21,7 +21,7 @@ setup(
     platforms=['any'],
     license='MIT License',
     python_requires='>=3.10, <4',
-    install_requires=['Django>=43.2,<5.2', 'python-dateutil>=2.8.2'],
+    install_requires=['Django>=4.2,<5.2', 'python-dateutil>=2.8.2'],
     extras_require={
         'test': ['tox', 'coverage', 'pytest-django', 'pytest', 'pytest-cov', 'flake8'],
         'docs': ["sphinx", "sphinx-rtd-theme"]
