@@ -1,15 +1,26 @@
-from datetime import datetime
+from datetime import datetime, date, time
 from dateutil import rrule
 
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
 from .conf import swingtime_settings
 
 __all__ = ("Note", "EventType", "Event", "Occurrence", "create_event")
+
+
+def normalize_tz(dt):
+    if isinstance(dt, (datetime, time)) and dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.get_default_timezone())
+
+    if isinstance(dt, date):
+        return datetime.combine(dt, time(), tzinfo=timezone.get_default_timezone())
+
+    return dt
 
 
 class Note(models.Model):
@@ -89,18 +100,22 @@ class Event(models.Model):
         only a single ``Occurrence`` instance will be created using the exact
         ``start_time`` and ``end_time`` values.
         """
+        start_time = normalize_tz(start_time)
+        end_time = normalize_tz(end_time)
         count = rrule_params.get("count")
         until = rrule_params.get("until")
+        if until:
+            until = rrule_params["until"] = normalize_tz(rrule_params.get("until"))
+
         if not (count or until):
             self.occurrence_set.create(start_time=start_time, end_time=end_time)
         else:
             rrule_params.setdefault("freq", rrule.DAILY)
             delta = end_time - start_time
-            occurrences = []
-            for ev in rrule.rrule(dtstart=start_time, **rrule_params):
-                occurrences.append(
-                    Occurrence(start_time=ev, end_time=ev + delta, event=self)
-                )
+            occurrences = [
+                Occurrence(start_time=ev, end_time=ev + delta, event=self)
+                for ev in rrule.rrule(dtstart=start_time, **rrule_params)
+            ]
             self.occurrence_set.bulk_create(occurrences)
 
     def upcoming_occurrences(self):
@@ -108,7 +123,7 @@ class Event(models.Model):
         Return all occurrences that are set to start on or after the current
         time.
         """
-        return self.occurrence_set.filter(start_time__gte=datetime.now())
+        return self.occurrence_set.filter(start_time__gte=timezone.now())
 
     def next_occurrence(self):
         """
@@ -136,8 +151,8 @@ class OccurrenceManager(models.Manager):
 
         * ``event`` can be an ``Event`` instance for further filtering.
         """
-        dt = dt or datetime.now()
-        start = datetime(dt.year, dt.month, dt.day)
+        dt = dt or timezone.now()
+        start = dt.replace(hour=0, minute=0, second=0, microsecond=0)
         end = start.replace(hour=23, minute=59, second=59)
         qs = self.filter(
             models.Q(
@@ -194,13 +209,7 @@ class Occurrence(models.Model):
 
 
 def create_event(
-    title,
-    event_type,
-    description="",
-    start_time=None,
-    end_time=None,
-    note=None,
-    **rrule_params
+    title, event_type, description="", start_time=None, end_time=None, note=None, **rrule_params
 ):
     """
     Convenience function to create an ``Event``, optionally create an
@@ -232,14 +241,12 @@ def create_event(
             abbr=event_type[0], label=event_type[1]
         )
 
-    event = Event.objects.create(
-        title=title, description=description, event_type=event_type
-    )
+    event = Event.objects.create(title=title, description=description, event_type=event_type)
 
     if note is not None:
         event.notes.create(note=note)
 
-    start_time = start_time or datetime.now().replace(minute=0, second=0, microsecond=0)
+    start_time = start_time or timezone.now().replace(minute=0, second=0, microsecond=0)
 
     end_time = end_time or (start_time + swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
     event.add_occurrences(start_time, end_time, **rrule_params)

@@ -18,9 +18,7 @@ swingtime_patterns = [
     re_path(r"^karate/", include("karate.urls")),
     re_path(r"^admin/", admin.site.urls),
     re_path(r"^docs/$", docs, name="swingtime-docs"),
-    re_path(
-        r"^docs/(?P<path>.*)$", serve, dict(document_root=doc_root, show_indexes=False)
-    ),
+    re_path(r"^docs/(?P<path>.*)$", serve, dict(document_root=doc_root, show_indexes=False)),
 ]
 
 urlpatterns = [

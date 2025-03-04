@@ -17,3 +17,4 @@ Dockerrun.aws.json
 .python-version
 /temp
 /docs/_build
+.ruff_cache

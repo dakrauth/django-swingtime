@@ -32,4 +32,4 @@ DEFAULT_SETTINGS = {
 }
 
 _user_settings = getattr(settings, "SWINGTIME", {})
-swingtime_settings = SimpleNamespace(**dict(DEFAULT_SETTINGS, **_user_settings))
+swingtime_settings = SimpleNamespace(**{**DEFAULT_SETTINGS, **_user_settings})

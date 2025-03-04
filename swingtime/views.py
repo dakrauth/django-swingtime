@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from dateutil import parser
 from django import http
 from django.db import models
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 
 from .models import Event, Occurrence
@@ -16,9 +17,7 @@ if swingtime_settings.CALENDAR_FIRST_WEEKDAY is not None:
     calendar.setfirstweekday(swingtime_settings.CALENDAR_FIRST_WEEKDAY)
 
 
-def event_listing(
-    request, template="swingtime/event_list.html", events=None, **extra_context
-):
+def event_listing(request, template="swingtime/event_list.html", events=None, **extra_context):
     """
     View all ``events``.
 
@@ -78,7 +77,7 @@ def event_view(
         "event": event,
         "event_form": event_form or event_form_class(instance=event),
         "recurrence_form": recurrence_form
-        or recurrence_form_class(initial={"dtstart": datetime.now()}),
+        or recurrence_form_class(initial={"dtstart": timezone.now()}),
     }
     return render(request, template, data)
 
@@ -151,25 +150,22 @@ def add_event(
             except (TypeError, ValueError) as exc:
                 # TODO: A badly formatted date is passed to add_event
                 logging.warning(exc)
+            else:
+                if not dtstart.tzinfo:
+                    dtstart = dtstart.replace(tzinfo=timezone.get_default_timezone())
 
-        dtstart = dtstart or datetime.now()
+        dtstart = dtstart or timezone.now()
         event_form = event_form_class()
         recurrence_form = recurrence_form_class(initial={"dtstart": dtstart})
 
     return render(
         request,
         template,
-        {
-            "dtstart": dtstart,
-            "event_form": event_form,
-            "recurrence_form": recurrence_form,
-        },
+        {"dtstart": dtstart, "event_form": event_form, "recurrence_form": recurrence_form},
     )
 
 
-def _datetime_view(
-    request, template, dt, timeslot_factory=None, items=None, params=None
-):
+def _datetime_view(request, template, dt, timeslot_factory=None, items=None, params=None):
     """
     Build a time slot grid representation for the given datetime ``dt``. See
     utils.create_timeslot_table documentation for items and params.
@@ -209,7 +205,7 @@ def day_view(request, year, month, day, template="swingtime/daily_view.html", **
     See documentation for function``_datetime_view``.
 
     """
-    dt = datetime(int(year), int(month), int(day))
+    dt = datetime(int(year), int(month), int(day), tzinfo=timezone.get_default_timezone())
     return _datetime_view(request, template, dt, **params)
 
 
@@ -218,7 +214,7 @@ def today_view(request, template="swingtime/daily_view.html", **params):
     See documentation for function``_datetime_view``.
 
     """
-    return _datetime_view(request, template, datetime.now(), **params)
+    return _datetime_view(request, template, timezone.now(), **params)
 
 
 def year_view(request, year, template="swingtime/yearly_view.html", queryset=None):
@@ -243,14 +239,8 @@ def year_view(request, year, template="swingtime/yearly_view.html", queryset=Non
 
     """
     year = int(year)
-    queryset = (
-        queryset._clone()
-        if queryset is not None
-        else Occurrence.objects.select_related()
-    )
-    occurrences = queryset.filter(
-        models.Q(start_time__year=year) | models.Q(end_time__year=year)
-    )
+    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
+    occurrences = queryset.filter(models.Q(start_time__year=year) | models.Q(end_time__year=year))
 
     def group_key(o):
         return datetime(
@@ -264,18 +254,14 @@ def year_view(request, year, template="swingtime/yearly_view.html", queryset=Non
         template,
         {
             "year": year,
-            "by_month": [
-                (dt, list(o)) for dt, o in itertools.groupby(occurrences, group_key)
-            ],
+            "by_month": [(dt, list(o)) for dt, o in itertools.groupby(occurrences, group_key)],
             "next_year": year + 1,
             "last_year": year - 1,
         },
     )
 
 
-def month_view(
-    request, year, month, template="swingtime/monthly_view.html", queryset=None
-):
+def month_view(request, year, month, template="swingtime/monthly_view.html", queryset=None):
     """
     Render a tradional calendar grid view with temporal navigation variables.
 
@@ -306,21 +292,15 @@ def month_view(
 
     # TODO Whether to include those occurrences that started in the previous
     # month but end in this month?
-    queryset = (
-        queryset._clone()
-        if queryset is not None
-        else Occurrence.objects.select_related()
-    )
+    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
     occurrences = queryset.filter(start_time__year=year, start_time__month=month)
 
     def start_day(o):
         return o.start_time.day
 
-    by_day = dict(
-        [(dt, list(o)) for dt, o in itertools.groupby(occurrences, start_day)]
-    )
+    by_day = dict([(dt, list(o)) for dt, o in itertools.groupby(occurrences, start_day)])
     data = {
-        "today": datetime.now(),
+        "today": timezone.now(),
         "calendar": [[(d, by_day.get(d, [])) for d in row] for row in cal],
         "this_month": dtstart,
         "next_month": dtstart + timedelta(days=+last_day),

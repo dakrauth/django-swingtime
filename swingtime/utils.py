@@ -1,13 +1,15 @@
 """
 Common features and functions for swingtime
 """
+
 import calendar
 from collections import defaultdict
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 import itertools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 
 from .conf import swingtime_settings
 from .models import EventType, Occurrence
@@ -28,9 +30,9 @@ def month_boundaries(dt=None):
     dates of the current month or using ``dt`` as a reference.
 
     """
-    dt = dt or date.today()
+    dt = dt or timezone.now()
     wkday, ndays = calendar.monthrange(dt.year, dt.month)
-    start = datetime(dt.year, dt.month, 1)
+    start = dt.replace(day=1)
     return (start, start + timedelta(ndays - 1))
 
 
@@ -120,10 +122,8 @@ def create_timeslot_table(
       handle the custom output via its __unicode__ method.
 
     """
-    dt = dt or datetime.now()
-    start_time = (
-        start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
-    )
+    dt = dt or timezone.now()
+    start_time = start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
     dtstart = datetime.combine(dt.date(), start_time)
     dtend = dtstart + end_time_delta
 

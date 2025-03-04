@@ -4,6 +4,7 @@
 | and the database will be pre-populated with some data relative to today's date. |
 #---------------------------------------------------------------------------------+
 """
+
 import os
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
@@ -102,9 +103,7 @@ def create_sample_data():
         count=6,
         byweekday=(rrule.SU),
     )
-    print(
-        'Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count())
-    )
+    print('Created event "%s" with %d occurrences\n' % (evt, evt.occurrence_set.count()))
 
 
 class Command(BaseCommand):

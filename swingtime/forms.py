@@ -1,15 +1,17 @@
 """
 Convenience forms for adding and updating ``Event`` and ``Occurrence``s.
 """
+
 from datetime import datetime, date, time, timedelta
 from django import forms
 from django.forms.utils import to_current_timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.forms.widgets import SelectDateWidget
 
 from dateutil import rrule
 from .conf import swingtime_settings
-from .models import *
+from .models import Event, Occurrence
 from . import utils
 
 WEEKDAY_SHORT = (
@@ -95,9 +97,7 @@ ISO_WEEKDAYS_MAP = (
 )
 
 MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
-SECONDS_INTERVAL = utils.time_delta_total_seconds(
-    swingtime_settings.DEFAULT_OCCURRENCE_DURATION
-)
+SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
 
 
 def timeslot_options(
@@ -113,8 +113,8 @@ def timeslot_options(
     12-hour temporal representation of that offset.
 
     """
-    dt = datetime.combine(date.today(), time(0))
-    dtstart = datetime.combine(dt.date(), start_time)
+    now = timezone.now()
+    dtstart = datetime.combine(now.date(), start_time, tzinfo=now.tzinfo)
     dtend = dtstart + end_delta
     options = []
 
@@ -138,8 +138,9 @@ def timeslot_offset_options(
     start of the day and a 12-hour temporal representation of that offset.
 
     """
-    dt = datetime.combine(date.today(), time(0))
-    dtstart = datetime.combine(dt.date(), start_time)
+    now = timezone.now()
+    dt = datetime.combine(now.date(), time(0), tzinfo=now.tzinfo)
+    dtstart = datetime.combine(dt.date(), start_time, tzinfo=dt.tzinfo)
     dtend = dtstart + end_delta
     options = []
 
@@ -198,9 +199,7 @@ class SplitDateTimeWidget(forms.MultiWidget):
 
 
 class MultipleOccurrenceForm(forms.Form):
-    day = forms.DateField(
-        label=_("Date"), initial=date.today, widget=SelectDateWidget()
-    )
+    day = forms.DateField(label=_("Date"), initial=date.today, widget=SelectDateWidget())
 
     start_time_delta = forms.IntegerField(
         label=_("Start time"),
@@ -227,9 +226,7 @@ class MultipleOccurrenceForm(forms.Form):
         widget=forms.TextInput(attrs=dict(size=2, max_length=2)),
     )
 
-    until = forms.DateField(
-        required=False, initial=date.today, widget=SelectDateWidget()
-    )
+    until = forms.DateField(required=False, initial=date.today, widget=SelectDateWidget())
 
     freq = forms.IntegerField(
         label=_("Frequency"),
@@ -256,9 +253,7 @@ class MultipleOccurrenceForm(forms.Form):
         label=_("Monthly options"),
     )
 
-    month_ordinal = forms.IntegerField(
-        widget=forms.Select(choices=ORDINAL), required=False
-    )
+    month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
     month_ordinal_day = forms.IntegerField(
         widget=forms.Select(choices=WEEKDAY_LONG), required=False
     )
@@ -273,9 +268,7 @@ class MultipleOccurrenceForm(forms.Form):
     )
 
     is_year_month_ordinal = forms.BooleanField(required=False)
-    year_month_ordinal = forms.IntegerField(
-        widget=forms.Select(choices=ORDINAL), required=False
-    )
+    year_month_ordinal = forms.IntegerField(widget=forms.Select(choices=ORDINAL), required=False)
 
     year_month_ordinal_day = forms.IntegerField(
         widget=forms.Select(choices=WEEKDAY_LONG), required=False
@@ -306,9 +299,7 @@ class MultipleOccurrenceForm(forms.Form):
             self.initial.setdefault("year_month_ordinal", ordinal)
             self.initial.setdefault("year_month_ordinal_day", "%d" % weekday)
             self.initial.setdefault("start_time_delta", "%d" % offset)
-            self.initial.setdefault(
-                "end_time_delta", "%d" % (offset + SECONDS_INTERVAL,)
-            )
+            self.initial.setdefault("end_time_delta", "%d" % (offset + SECONDS_INTERVAL,))
 
     def clean(self):
         if "day" in self.cleaned_data:

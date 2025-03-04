@@ -52,9 +52,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "abbr",
-                    models.CharField(
-                        max_length=4, unique=True, verbose_name="abbreviation"
-                    ),
+                    models.CharField(max_length=4, unique=True, verbose_name="abbreviation"),
                 ),
                 ("label", models.CharField(max_length=50, verbose_name="label")),
             ],

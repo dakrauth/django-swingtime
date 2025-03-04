@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+TIMEFORMAT="Task completed in %3lR"
+BIN="./venv/bin"
+
+function help {
+    echo "Options:"
+    echo "    init:     Setup dev environment"
+    echo "    lint:     Linter"
+    echo "    check:    Formatting checks"
+    echo "    format:   Run formatter"
+    echo "    test:     Execute tests"
+    echo "    coverage: Run tests with code coverage"
+}
+
+function init {
+    python3 -m venv --prompt sw venv
+    "${BIN}/python" -m pip install -e ".[dev,test,docs]"
+}
+
+function lint {
+    "${BIN}/ruff" check swingtime demo tests
+}
+
+function check {
+    "${BIN}/ruff" format --check swingtime demo tests
+}
+
+function format {
+    "${BIN}/ruff" format swingtime demo tests
+}
+
+function test {
+    PYTHONPATH=. "${BIN}/pytest" -s -Werror tests "$@"
+}
+
+function coverage {
+    PYTHONPATH=. "${BIN}/pytest" \
+        --cov-config .coveragerc \
+        --cov-report html \
+        --cov-report term \
+        --cov=swingtime
+}
+
+if [ -z "$1" ]; then
+    help
+else
+    what=$1
+    shift
+    time ${what:-help} "$@"
+fi
