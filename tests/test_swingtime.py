@@ -200,13 +200,13 @@ class TestCreation:
         assert e.event_type == et
         assert e.get_absolute_url() == url
 
-        e.add_occurrences(dt_get(2008, 1, 1), dt_get(2008, 1, 1, 1), freq=rrule.YEARLY, count=7)
+        e.add_occurrences(dt_get(2025, 1, 1), dt_get(2025, 1, 1, 1), freq=rrule.YEARLY, count=7)
         occs = list(e.occurrence_set.all())
         assert len(occs) == 7
-        expect_fmt = "Hello, world: {}-01-01T05:00:00+00:00".format
+        expect_fmt = "Hello, world: {}-01-01T00:00:00+00:00".format
         for i in range(7):
             o = occs[i]
-            assert str(o) == expect_fmt(2008 + i)
+            assert str(o) == expect_fmt(2025 + i)
 
     def test_2(self):
         et = EventType.objects.create(abbr="bar", label="Bar")
@@ -221,11 +221,11 @@ class TestCreation:
         e = create_event(
             "Something completely different",
             event_type=("abbr", "Abbreviation"),
-            start_time=dt_get(2008, 12, 1, 12),
+            start_time=dt_get(2025, 12, 1, 12),
             note="Here it is",
             freq=rrule.WEEKLY,
             byweekday=(rrule.TU, rrule.TH),
-            until=dt_get(2008, 12, 31),
+            until=dt_get(2025, 12, 31),
         )
         assert isinstance(e.event_type, EventType) is True
         assert e.event_type.abbr == "abbr"
