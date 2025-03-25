@@ -1,32 +1,19 @@
-from datetime import datetime, date, time
-from dateutil import rrule
-
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.urls import reverse
 from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
 from .conf import swingtime_settings
+from . import base_models
 
 __all__ = ("Note", "EventType", "Event", "Occurrence", "create_event")
-
-
-def normalize_tz(dt):
-    if isinstance(dt, (datetime, time)) and dt.tzinfo is None:
-        return dt.replace(tzinfo=timezone.get_default_timezone())
-
-    if isinstance(dt, date):
-        return datetime.combine(dt, time(), tzinfo=timezone.get_default_timezone())
-
-    return dt
 
 
 class Note(models.Model):
     """
     A generic model for adding simple, arbitrary notes to other models such as
-    ``Event`` or ``Occurrence``.
+    ``Event`` or ``Occurrence``
     """
 
     note = models.TextField(_("note"))
@@ -45,29 +32,19 @@ class Note(models.Model):
         return self.note
 
 
-class EventType(models.Model):
+class EventType(base_models.EventTypeBase):
     """
     Simple ``Event`` classifcation.
     """
 
-    abbr = models.CharField(_("abbreviation"), max_length=4, unique=True)
-    label = models.CharField(_("label"), max_length=50)
-
-    class Meta:
-        verbose_name = _("event type")
-        verbose_name_plural = _("event types")
-
-    def __str__(self):
-        return self.label
+    pass
 
 
-class Event(models.Model):
+class Event(base_models.EventBase):
     """
     Container model for general metadata and associated ``Occurrence`` entries.
     """
 
-    title = models.CharField(_("title"), max_length=32)
-    description = models.CharField(_("description"), max_length=100)
     event_type = models.ForeignKey(
         EventType, verbose_name=_("event type"), on_delete=models.CASCADE
     )
@@ -78,111 +55,17 @@ class Event(models.Model):
         verbose_name_plural = _("events")
         ordering = ("title",)
 
-    def __str__(self):
-        return self.title
 
-    def get_absolute_url(self):
-        return reverse("swingtime-event", args=[str(self.id)])
-
-    def add_occurrences(self, start_time, end_time, **rrule_params):
-        """
-        Add one or more occurences to the event using a comparable API to
-        ``dateutil.rrule``.
-
-        If ``rrule_params`` does not contain a ``freq``, one will be defaulted
-        to ``rrule.DAILY``.
-
-        Because ``rrule.rrule`` returns an iterator that can essentially be
-        unbounded, we need to slightly alter the expected behavior here in order
-        to enforce a finite number of occurrence creation.
-
-        If both ``count`` and ``until`` entries are missing from ``rrule_params``,
-        only a single ``Occurrence`` instance will be created using the exact
-        ``start_time`` and ``end_time`` values.
-        """
-        start_time = normalize_tz(start_time)
-        end_time = normalize_tz(end_time)
-        count = rrule_params.get("count")
-        until = rrule_params.get("until")
-        if until:
-            until = rrule_params["until"] = normalize_tz(rrule_params.get("until"))
-
-        if not (count or until):
-            self.occurrence_set.create(start_time=start_time, end_time=end_time)
-        else:
-            rrule_params.setdefault("freq", rrule.DAILY)
-            delta = end_time - start_time
-            occurrences = [
-                Occurrence(start_time=ev, end_time=ev + delta, event=self)
-                for ev in rrule.rrule(dtstart=start_time, **rrule_params)
-            ]
-            self.occurrence_set.bulk_create(occurrences)
-
-    def upcoming_occurrences(self):
-        """
-        Return all occurrences that are set to start on or after the current
-        time.
-        """
-        return self.occurrence_set.filter(start_time__gte=timezone.now())
-
-    def next_occurrence(self):
-        """
-        Return the single occurrence set to start on or after the current time
-        if available, otherwise ``None``.
-        """
-        upcoming = self.upcoming_occurrences()
-        return upcoming[0] if upcoming else None
-
-    def daily_occurrences(self, dt=None):
-        """
-        Convenience method wrapping ``Occurrence.objects.daily_occurrences``.
-        """
-        return Occurrence.objects.daily_occurrences(dt=dt, event=self)
-
-
-class OccurrenceManager(models.Manager):
-    def daily_occurrences(self, dt=None, event=None):
-        """
-        Returns a queryset of for instances that have any overlap with a
-        particular day.
-
-        * ``dt`` may be either a datetime.datetime, datetime.date object, or
-          ``None``. If ``None``, default to the current day.
-
-        * ``event`` can be an ``Event`` instance for further filtering.
-        """
-        dt = dt or timezone.now()
-        start = dt.replace(hour=0, minute=0, second=0, microsecond=0)
-        end = start.replace(hour=23, minute=59, second=59)
-        qs = self.filter(
-            models.Q(
-                start_time__gte=start,
-                start_time__lte=end,
-            )
-            | models.Q(
-                end_time__gte=start,
-                end_time__lte=end,
-            )
-            | models.Q(start_time__lt=start, end_time__gt=end)
-        )
-
-        return qs.filter(event=event) if event else qs
-
-
-class Occurrence(models.Model):
+class Occurrence(base_models.OccurrenceBase):
     """
     Represents the start end time for a specific occurrence of a master ``Event``
     object.
     """
 
-    start_time = models.DateTimeField(_("start time"))
-    end_time = models.DateTimeField(_("end time"))
     event = models.ForeignKey(
         Event, verbose_name=_("event"), editable=False, on_delete=models.CASCADE
     )
     notes = GenericRelation(Note, verbose_name=_("notes"))
-
-    objects = OccurrenceManager()
 
     class Meta:
         verbose_name = _("occurrence")
@@ -190,30 +73,13 @@ class Occurrence(models.Model):
         ordering = ("start_time", "end_time")
         base_manager_name = "objects"
 
-    def __str__(self):
-        return "{}: {}".format(self.title, self.start_time.isoformat())
-
-    def get_absolute_url(self):
-        return reverse("swingtime-occurrence", args=[str(self.event.id), str(self.id)])
-
-    def __lt__(self, other):
-        return self.start_time < other.start_time
-
-    @property
-    def title(self):
-        return self.event.title
-
-    @property
-    def event_type(self):
-        return self.event.event_type
-
 
 def create_event(
     title, event_type, description="", start_time=None, end_time=None, note=None, **rrule_params
 ):
     """
     Convenience function to create an ``Event``, optionally create an
-    ``EventType``, and associated ``Occurrence``s. ``Occurrence`` creation
+    ``EventType``, and associated ``Occurrence`` objects. ``Occurrence`` creation
     rules match those for ``Event.add_occurrences``.
 
     Returns the newly created ``Event`` instance.

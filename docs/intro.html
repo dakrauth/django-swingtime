@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Intro &mdash; Swingtime 1.4.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>Intro &mdash; Swingtime 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9172181d"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             Swingtime
           </a>
-              <div class="version">
-                1.4
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -60,11 +55,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> — Swingtime Object Model Definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="views.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> — Swingtime Views</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forms</span></code> — Swingtime Forms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code> — Swingtime Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conf.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code> — Configuration Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Swingtime API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes.html">Changes in Swingtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
 </ul>
@@ -97,11 +89,13 @@
 <h1>Intro<a class="headerlink" href="#intro" title="Link to this heading"></a></h1>
 <section id="django-swingtime">
 <h2>Django Swingtime<a class="headerlink" href="#django-swingtime" title="Link to this heading"></a></h2>
-<a class="reference external image-reference" href="https://github.com/dakrauth/django-swingtime/actions"><img alt="https://github.com/dakrauth/django-swingtime/workflows/Test/badge.svg" src="https://github.com/dakrauth/django-swingtime/workflows/Test/badge.svg" /></a>
-<a class="reference external image-reference" href="http://badge.fury.io/py/django-swingtime"><img alt="https://badge.fury.io/py/django-swingtime.svg" src="https://badge.fury.io/py/django-swingtime.svg" /></a>
+<a class="reference external image-reference" href="https://github.com/dakrauth/django-swingtime/actions"><img alt="https://github.com/dakrauth/django-swingtime/workflows/Test/badge.svg" src="https://github.com/dakrauth/django-swingtime/workflows/Test/badge.svg" />
+</a>
+<a class="reference external image-reference" href="http://badge.fury.io/py/django-swingtime"><img alt="https://badge.fury.io/py/django-swingtime.svg" src="https://badge.fury.io/py/django-swingtime.svg" />
+</a>
 <dl class="field-list simple">
 <dt class="field-odd">Version<span class="colon">:</span></dt>
-<dd class="field-odd"><p>1.4.0</p>
+<dd class="field-odd"><p>2.1.0</p>
 </dd>
 <dt class="field-even">Demo<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://nerdfog.com/swingtime/">https://nerdfog.com/swingtime/</a></p>
@@ -122,13 +116,14 @@
 a stripped-down version of iCal for Mac OS X or Google Calendar.</p>
 <p>Swingtime provides a <code class="docutils literal notranslate"><span class="pre">models.Event</span></code> model that acts as metadata container
 for one or more <code class="docutils literal notranslate"><span class="pre">models.Occurrence</span></code> objects, which describe specific
-start and end times.</p>
+start and end times. Alternatively, there abstract, base models that can be used. See
+the provide demo app for examples.</p>
 <p>Swingtime relies heavily upon both the <code class="docutils literal notranslate"><span class="pre">datetime</span></code> standard library package and
 the <code class="docutils literal notranslate"><span class="pre">dateutil</span></code> package, featuring direct support for the <code class="docutils literal notranslate"><span class="pre">dateutil.rrule</span></code>
 interface to create occurrences.</p>
 <p>A fairly simple example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">swingtime</span> <span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">swingtime</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">swingtime</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">swingtime</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">et</span> <span class="o">=</span> <span class="n">swingtime</span><span class="o">.</span><span class="n">EventType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">abbr</span><span class="o">=</span><span class="s1">&#39;work&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Work Related Events&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evt</span> <span class="o">=</span> <span class="n">swingtime</span><span class="o">.</span><span class="n">Event</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;New TPS Cover Sheet&#39;</span><span class="p">,</span>
@@ -171,7 +166,17 @@ interface to create occurrences.</p>
 <p>To view a demo, <a class="reference external" href="https://nerdfog.com/swingtime/">click here</a>.</p>
 <p>To run a local demo using Docker, do the following:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>swingtime<span class="w"> </span>.
-$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:80<span class="w"> </span>-d<span class="w"> </span>swingtime:latest
+$<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:80<span class="w"> </span>swingtime:latest
+</pre></div>
+</div>
+<p>And browse to <a class="reference external" href="http://localhost:8001">localhost:8001</a>.</p>
+<p>Alternatively:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+./.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+<span class="nb">cd</span><span class="w"> </span>demo
+./manage.py<span class="w"> </span>migrate
+./manage.py<span class="w"> </span>runserver
 </pre></div>
 </div>
 <p>And browse to <a class="reference external" href="http://localhost:8000">localhost:8000</a>.</p>
@@ -182,6 +187,7 @@ $<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </spa
 <li><p>Support for adding complex event occurrences via <code class="docutils literal notranslate"><span class="pre">dateutil</span></code></p></li>
 <li><p>Ready-made <code class="docutils literal notranslate"><span class="pre">forms.MultipleOccurrenceForm</span></code> for handling complex input</p></li>
 <li><p>Daily, monthly, and annual view functions</p></li>
+<li><p>Daily, monthly, and annual view classes.</p></li>
 <li><p>Grid-based daily view generator, complete with alternating or sequential
 <code class="docutils literal notranslate"><span class="pre">EventType</span></code> CSS-class handling</p></li>
 <li><p>Slightly better than average documentation, a few test cases, and commented code</p></li>
@@ -191,9 +197,10 @@ $<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </spa
 <section id="requirements">
 <h3>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>Python 3.8+</p></li>
-<li><p><a class="reference external" href="http://www.djangoproject.com/download/">Django 3.2+</a></p></li>
-<li><p><a class="reference external" href="http://labix.org/python-dateutil">python-dateutil</a>.</p></li>
+<li><p>Python 3.10+</p></li>
+<li><p><a class="reference external" href="https://www.djangoproject.com/download/">Django &gt;=4.2,&lt;6.0</a></p></li>
+<li><p><a class="reference external" href="https://labix.org/python-dateutil">python-dateutil</a></p></li>
+<li><p><a class="reference external" href="https://github.com/encode/django-vanilla-views">django-vanilla-view</a></p></li>
 </ul>
 </section>
 </section>
@@ -210,7 +217,7 @@ $<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </spa
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, David Krauth.</p>
+    <p>&#169; Copyright 2025, David Krauth.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

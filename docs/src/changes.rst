@@ -3,6 +3,24 @@
 Changes in Swingtime
 ====================
 
+Release 2.1.0 (Jul, 2025)
+-------------------------
+
+* Added class-based views (via django-vanilla-views)
+* Added abstract models
+
+Release 2.0.0 (Mar 4, 2025)
+---------------------------
+
+* Official support and tests for timezone aware datetimes
+* Support for Django 5.2, Python 3.13
+
+Release 1.5.2 (Nov 18, 2024)
+----------------------------
+
+* Support for Django 5.1
+* Dropped Django 3.2, Python 3.8, 3.9
+
 Release 1.4.0 (Dec 12, 2023)
 ----------------------------
 

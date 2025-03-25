@@ -1,8 +1,27 @@
-        <tr><th>{{ event_form.event_type.label_tag }}</th>
-            <td>{{ event_form.event_type.errors }}
-                {{ event_form.event_type }}</td></tr>
-        <tr><th>{{ event_form.title.label_tag }}</th>
-            <td>{{ event_form.title.errors }}
-                {{ event_form.title }}</td></tr>
-        <tr><th>{{ event_form.description.label_tag }}</th>
-            <td>{{ event_form.description }}</td></tr>
+        <tr>
+            <th>{{ form.event_type.label_tag }}</th>
+            <td>{{ form.event_type.errors }}
+                {{ form.event_type }}</td>
+        </tr>
+        <tr>
+            <th>{{ form.title.label_tag }}</th>
+            <td>{{ form.title.errors }}
+                {{ form.title }}</td>
+        </tr>
+        <tr>
+            <th>{{ form.description.label_tag }}</th>
+            <td>{{ form.description }}</td>
+        </tr>
+        
+        <tr>
+            <th>{{ form.day.label_tag}}</th>
+            <td>{{ form.day }}</td>
+        </tr>
+        <tr>
+            <th>{{ form.start_time_delta.label_tag }}</th>
+            <td>{{ form.start_time_delta }}</td>
+        </tr>
+        <tr>
+            <th>{{ form.end_time_delta.label_tag }}</th>
+            <td>{{ form.end_time_delta }}</td>
+        </tr>

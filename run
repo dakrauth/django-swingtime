@@ -3,16 +3,18 @@
 set -o errexit
 set -o pipefail
 TIMEFORMAT="Task completed in %3lR"
-BIN="./venv/bin"
+BIN="./.venv/bin"
 
 function help {
     echo "Options:"
+    echo "    check:    Formatting checks"
+    echo "    clean:    Clean all build and test directories, as well as extraneous artificats"
+    echo "    cov: Run tests with code coverage"
+    echo "    docs:     Build the documentation"
+    echo "    format:   Run formatter"
     echo "    init:     Setup dev environment"
     echo "    lint:     Linter"
-    echo "    check:    Formatting checks"
-    echo "    format:   Run formatter"
     echo "    test:     Execute tests"
-    echo "    coverage: Run tests with code coverage"
 }
 
 function init {
@@ -33,15 +35,39 @@ function format {
 }
 
 function test {
-    PYTHONPATH=. "${BIN}/pytest" -s -Werror tests "$@"
+    "${BIN}/pytest" -s tests "$@"
+
 }
 
-function coverage {
-    PYTHONPATH=. "${BIN}/pytest" \
-        --cov-config .coveragerc \
-        --cov-report html \
-        --cov-report term \
-        --cov=swingtime
+function test_fbv {
+    "${BIN}/pytest" -s tests/test_fbv.py tests/test_swingtime.py "$@"
+}
+
+function test_cbv {
+    "${BIN}/pytest" -s tests/test_cbv.py tests/test_swingtime.py "$@"
+}
+
+function cov {
+    "${BIN}/pytest" --cov-report html --cov-report term --cov=swingtime
+}
+
+function clean {
+    find . -type f -name "*.pyc" -delete
+    find . -type d -name "__pycache__" -delete
+    rm -f demo/karate.db .coverage
+    rm -rf \
+        .tox \
+        .pytest_cache \
+        build \
+        django_swingtime.egg-info \
+        dist
+
+}
+
+function docs {
+    pushd docs
+    make html
+    popd
 }
 
 if [ -z "$1" ]; then

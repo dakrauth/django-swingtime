@@ -16,12 +16,35 @@
         h4 { font-size: 1.33em; color: #877; font-size: 1.33em; margin: 1em 0 .5em; }
         p { margin-bottom: 1em; }
         a { color: #357; }
-        table {border-collapse: collapse; border-spacing: 0;}
-        caption, th, td {text-align: left; }
+        table { border-collapse: collapse; border-spacing: 0;}
+        caption, th, td { text-align: left; }
         th, td { padding: 4px; border: 1px solid #eee; }
         th { font-weight: bold; background-color: #bba; }
         ul, ol { margin-left: 2em; }
         body { font-size: 14px; background-color: #bba; padding: 1em 2em; }
+        
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background-color: #ccc;
+            gap: 1px;
+            border: 1px solid #ccc;
+        }
+        .calendar > div { background-color: white;  min-height: 8em; padding: 2px; }
+        .calendar > div:nth-child(-n + 7) { font-weight: bold; background: #bba; text-align: center; min-height: unset;}
+        .calendar .day-ordinal { font-weight: bold; font-size: 1.1em; text-align: right; }
+        .calendar .day-ordinal a {
+            text-decoration: none;
+            color: white;
+            background-color: #357;
+            padding: 0 1em;
+            border-radius: 4px;
+        }
+        
+        .calendar ul { margin: 1px 2px; padding: 0; padding-left: 1em; }
+        .calendar li { font-size: .9em; }
+        .calendar .today { background-color: #eed; }
+
         img { border: none; }
         .w-100 { width: 100%; }
         .center { text-align : center; }
@@ -72,43 +95,23 @@
         .errorlist { color: #af0917; font-weight: bold; }
         .form-errors { background: #baa; padding: 1em 4px; text-align: center; font-weight: bold; color: #af0917;}
         .form-indent { margin-left: 2.5em; }
-        .horizontal { width: 30em; }
-            .horizontal li { float: left; margin: 0; }
-            .horizontal li label { width: 4em; display: block; float: left; }
-        #recurrence-options { float: left; margin-left: 1em; }
-            #recurrence-options li { margin-bottom: 4px; }
-        .calendar { width: 100%; }
-            .calendar td, .calendar th { width: 20%; padding: 4px; }
-        .month-view { width: 100%; }
-        .month-view td { vertical-align: top; height: 10em; }
-            .month-view td, .month-view th { width: 14.285%; }
-            .month-view .day-ordinal { font-weight: bold; font-size: 1.1em; text-align: right; }
-            .calendar th a, .month-view .day-ordinal a {
-                background: #357;
-                color: #eee;
-                padding: 0 1em;
-                text-decoration: none;
-                border-radius: 4px;
-            }
-            .month-view ul { margin: 1px 2px; padding: 0; padding-left: 1em; }
-            .month-view li { font-size: .9em; }
-            .month-view .today { background-color: #eed; }
-            .month-view .event-times {  }
+        #recurrence-options { margin-left: 1em; }
+        #recurrence-options li { margin-bottom: 4px; }
         .month-divider th, .month-divider td { border-top: 3px solid #8e8f80; }
         #belts { list-style-type: none; margin: 1em auto; padding: 0; width: 70%; }
-            #belts a {
-                text-align: center;
-                display: block;
-                padding: 4px;
-                border: 1px solid #ccc;
-                margin-bottom: .5em;
-                font-weight: bold;
-            }
+        #belts a {
+            text-align: center;
+            display: block;
+            padding: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: .5em;
+            font-weight: bold;
+        }
         #white-belt { background-color: #fff; color: #322; }
-            #yellow-belt { background-color: #fd0; color: #322; }
-            #green-belt  { background-color: #693; color: #fff; }
-            #brown-belt  { background-color: #655; color: #fff; }
-            #black-belt  { background-color: #322; color: #fff; }
+        #yellow-belt { background-color: #fd0; color: #322; }
+        #green-belt  { background-color: #693; color: #fff; }
+        #brown-belt  { background-color: #655; color: #fff; }
+        #black-belt  { background-color: #322; color: #fff; }
         .evt-spc-odd, .evt-spc-even  { background-color: #3b5153; color: #fff; }
             .evt-spc-odd a, .evt-spc-even a { color: #fff; }
             .evt-open-even, .evt-open-odd { background-color: #ccd; }
@@ -117,6 +120,12 @@
             .evt-bbc-odd, .evt-bbc-even { background-color: #aaa; }
             .evt-prv-odd { background-color: #8a9; }
             .evt-prv-even { background-color: #acb; }
+        
+        input[type=submit] { padding: 1px 6px; }
+        #id_week_days { display: flex; gap: 1em; }
+        #id_each_month_day { display: grid; gap: 1em; grid-template-columns: repeat(7, 1fr); }
+        #id_each_month_day > div { display: flex; }
+        #id_year_months { display: grid; gap: 1em; grid-template-columns: repeat(4, 1fr); }
     </style>
     {% block extended_head %}{% endblock %}
 </head>
@@ -130,13 +139,13 @@
         <h2>The Karate Dojo</h2>
         <nav>
             <a href="{% url 'karate-home' %}">Home</a> &middot;
-            <a href="{% url 'swingtime-today' %}">Daily View</a> &middot; 
+            <a href="{% url 'swingtime:today' %}">Daily View</a> &middot; 
             {% if current_datetime %}
-            <a href="{% url 'swingtime-monthly-view' current_datetime.year current_datetime.month %}">
+            <a href="{% url 'swingtime:monthly-view' current_datetime.year current_datetime.month %}">
                 Monthly View</a> &middot; 
-            <a href="{% url 'swingtime-yearly-view' current_datetime.year %}">Yearly View</a> &middot; 
+            <a href="{% url 'swingtime:yearly-view' current_datetime.year %}">Yearly View</a> &middot; 
             {% endif %}
-            <a href="{% url 'swingtime-events' %}">Event Listing</a>
+            <a href="{% url 'swingtime:events' %}">Event Listing</a>
         </nav>
         {% endblock navigation %}
         {% block main_content %}{% endblock main_content %}

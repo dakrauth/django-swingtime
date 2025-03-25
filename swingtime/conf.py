@@ -1,7 +1,7 @@
 import datetime
-from types import SimpleNamespace
 
 from django.conf import settings
+from django.urls import reverse as _reverse
 
 DEFAULT_SETTINGS = {
     # A "strftime" string for formatting start and end time selectors in forms
@@ -10,8 +10,7 @@ DEFAULT_SETTINGS = {
     # Value should be datetime.timedelta value representing the incremental
     # differences between temporal options
     "TIMESLOT_INTERVAL": datetime.timedelta(minutes=15),
-    # A datetime.time value indicting the starting time for time slot grids and form
-    # selectors
+    # A datetime.time value indicting the starting time for time slot grids and form selectors
     "TIMESLOT_START_TIME": datetime.time(9),
     # A datetime.timedelta value indicating the offset value from
     # TIMESLOT_START_TIME for creating time slot grids and form selectors. The for
@@ -21,15 +20,46 @@ DEFAULT_SETTINGS = {
     # could be specified to indicate that the 1:30 represents the following date's
     # time and not the current date.
     "TIMESLOT_END_TIME_DURATION": datetime.timedelta(hours=+8),
-    # Indicates a minimum value for the number grid columns to be shown in the time
-    # slot table.
+    # Indicates a minimum value for the number grid columns to be shown in the time slot table.
     "TIMESLOT_MIN_COLUMNS": 4,
     # Indicate the default length in time for a new occurrence, specifed by using
     # a datetime.timedelta object
     "DEFAULT_OCCURRENCE_DURATION": datetime.timedelta(hours=+1),
     # If not None, passed to the calendar module's setfirstweekday function.
     "CALENDAR_FIRST_WEEKDAY": 6,
+    # Switch to new urls versions for namespace and app_name configuration
+    "URL_VERSION_3": False,
+    "HTML_CONTINUATION_STRING": "^^^",
+    "EVENT_LIST_VIEW_MODEL": "swingtime.models.Event",
+    "DAY_VIEW_OCCURRENCE_CLS": "swingtime.models.Occurrence",
+    "MONTH_VIEW_MODEL": "swingtime.models.Occurrence",
+    "YEAR_VIEW_MODEL": "swingtime.models.Occurrence",
+    "DAY_VIEW_EVENT_TYPE_CLS": "swingtime.models.EventType",
+    "CREATE_EVENT_VIEW_MODEL": "swingtime.models.Event",
+    "CREATE_EVENT_VIEW_FORM": "swingtime.forms.EventOccurrenceForm",
+    "EVENT_VIEW_MODEL": "swingtime.models.Event",
+    "EVENT_VIEW_FORM": "swingtime.forms.EventOccurrenceForm",
+    "OCCURRENCE_VIEW_MODEL": "swingtime.models.Occurrence",
+    "OCCURRENCE_VIEW_FORM": "swingtime.forms.SingleOccurrenceForm",
 }
 
-_user_settings = getattr(settings, "SWINGTIME", {})
-swingtime_settings = SimpleNamespace(**{**DEFAULT_SETTINGS, **_user_settings})
+
+class swingtime_settings:
+    def __getattr__(self, attr):
+        if attr in getattr(settings, "SWINGTIME", {}):
+            return settings.SWINGTIME[attr]
+
+        if attr not in DEFAULT_SETTINGS:
+            raise AttributeError(f"Unknown swingtime config attribute {attr}")
+
+        return DEFAULT_SETTINGS[attr]
+
+    @property
+    def url_prefix(self):
+        return "swingtime:" if self.URL_VERSION_3 else "swingtime-"
+
+    def reverse(self, stem, *args, **kwargs):
+        return _reverse(f"{self.url_prefix}{stem}", *args, **kwargs)
+
+
+swingtime_settings = swingtime_settings()

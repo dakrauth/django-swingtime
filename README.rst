@@ -7,7 +7,7 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 2.0.0
+:Version: 2.1.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -22,7 +22,8 @@ a stripped-down version of iCal for Mac OS X or Google Calendar.
 
 Swingtime provides a ``models.Event`` model that acts as metadata container
 for one or more ``models.Occurrence`` objects, which describe specific
-start and end times.
+start and end times. Alternatively, there abstract, base models that can be used. See
+the provide demo app for examples.
 
 Swingtime relies heavily upon both the ``datetime`` standard library package and
 the ``dateutil`` package, featuring direct support for the ``dateutil.rrule``
@@ -83,6 +84,19 @@ To run a local demo using Docker, do the following:
     $ docker build -t swingtime .
     $ docker run -p 8000:80 swingtime:latest
 
+And browse to `localhost:8001 <http://localhost:8001>`_.
+
+Alternatively:
+
+.. code:: bash
+
+    python -m venv .venv
+    ./.venv/bin/activate
+    pip install -e ".[dev]"
+    cd demo
+    ./manage.py migrate
+    ./manage.py runserver
+
 And browse to `localhost:8000 <http://localhost:8000>`_.
 
 
@@ -92,6 +106,7 @@ Features
 * Support for adding complex event occurrences via ``dateutil``
 * Ready-made ``forms.MultipleOccurrenceForm`` for handling complex input
 * Daily, monthly, and annual view functions
+* Daily, monthly, and annual view classes.
 * Grid-based daily view generator, complete with alternating or sequential
   ``EventType`` CSS-class handling
 * Slightly better than average documentation, a few test cases, and commented code
@@ -101,5 +116,6 @@ Requirements
 ------------
 
 * Python 3.10+
-* `Django >=4.2,<6.0 <http://www.djangoproject.com/download/>`_
-* `python-dateutil <http://labix.org/python-dateutil>`_.
+* `Django >=4.2,<6.0 <https://www.djangoproject.com/download/>`_
+* `python-dateutil <https://labix.org/python-dateutil>`_
+* `django-vanilla-view <https://github.com/encode/django-vanilla-views>`_

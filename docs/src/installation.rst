@@ -32,22 +32,26 @@ Development
 
     $ python -m venv venv
     $ . venv/bin/activate
-    $ pip install tox
-    $ tox -e dev
+    $ ./run init
 
 * Test
 
     Assuming you have `pyenv <https://github.com/pyenv/pyenv>`_ installed and the
     following versions installed (``x`` would be your installed patch version)::
 
-        $ pyenv local 3.8.x 3.9.x 3.10.x 3.11.x 3.12.x
+        $ pyenv local 3.10.x 3.11.x 3.12.x 3.13.x
+        $ ./run test
+
+    Or, to directly interface with tox::
+
         $ tox  # or...
-        $ tox -e py38-django3.2  # build and test only Python 3.8 and Django 3.2
+        $ tox -e py313-django5.2  # build and test only Python 3.13 and Django 5.2
+    
 
 * Documentation
 
     ::
 
-        $ tox -e docs
+        $ ./run docs
 
     Browse the file ``docs/index.html``.

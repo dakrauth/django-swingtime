@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0.0"]
+requires = ["setuptools<=70.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-swingtime"
 dynamic = ["version"]
 description = "A Django calendaring application"
-license = { file = "LICENSE" }
+license = {file = "LICENSE" }
 keywords = ["django", "calendar", "events"]
 readme = { file = "README.rst", content-type = "text/x-rst" }
 authors = [
@@ -32,7 +32,8 @@ classifiers = [
 
 dependencies = [
     "Django>=4.2,<6.0",
-    "python-dateutil>=2.8.2"
+    "python-dateutil>=2.8.2",
+    "django-vanilla-views"
 ]
 
 [project.urls]
@@ -40,21 +41,28 @@ Homepage = "https://github.com/dakrauth/django-swingtime"
 
 [project.optional-dependencies]
 test = [
-    "tox",
     "coverage",
-    "pytest-django",
     "pytest",
     "pytest-cov",
-    "flake8"
+    "pytest-django",
+    "responses",
 ]
+dev = [
+    "flake8",
+    "ruff",
+    "build",
+    "twine",
+    "ipdb",
+]
+
 docs = [ "sphinx", "sphinx-rtd-theme" ]
-dev = [ "ruff", "build", "twine" ]
+
 
 [tool.setuptools.dynamic]
 version = { attr = "swingtime.__init__.__version__"}
 
 [tool.setuptools]
-packages = ["swingtime"]
+packages = ["swingtime", "swingtime.migrations"]
 
 [tool.ruff]
 cache-dir = "temp/ruff"
@@ -62,17 +70,23 @@ line-length = 100
 indent-width = 4
 
 [tool.pytest.ini_options]
+pythonpath = "."
 minversion = "6.0"
-testpaths = [ "tests", ]
-
-DJANGO_SETTINGS_MODULE = "demo.settings"
+testpaths = [ ".", ]
+filterwarnings = [
+    # "ignore::PendingDeprecationWarning",
+    "error",
+    "ignore:Swingtime view function",
+]
+    
+DJANGO_SETTINGS_MODULE = "tests.settings"
 django_find_project = false
 addopts = "-rf"
 
 [tool.coverage.run]
 branch = true
 source = [ "swingtime" ]
-omit = [ "**/migrations/**" ]
+omit = [ "**/migrations/**", "swingtime/old_forms.py" ]
 
 [tool.coverage.html]
 directory = "build/coverage"

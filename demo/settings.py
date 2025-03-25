@@ -27,7 +27,7 @@ DATABASES = {
 LANGUAGES = (("en", "English"),)
 STATIC_URL = "/static/"
 STATIC_ROOT = "static"
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Los_Angeles"
 SITE_ID = 1
 USE_I18N = True
 USE_TZ = True
@@ -55,7 +55,7 @@ TEMPLATES = [
 ]
 ALLOWED_HOSTS = ["*"]
 
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "demo.urls"
 INSTALLED_APPS = (
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -63,7 +63,6 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.admin",
     "django.contrib.staticfiles",
-    "swingtime",
     "karate",
 )
 
@@ -80,6 +79,19 @@ MIDDLEWARE = (
 SWINGTIME = {
     "TIMESLOT_START_TIME": datetime.time(14),
     "TIMESLOT_END_TIME_DURATION": datetime.timedelta(hours=6.5),
+    "URL_VERSION_3": True,
+    "HTML_CONTINUATION_STRING": "⤴️",
+    "EVENT_LIST_VIEW_MODEL": "karate.models.Event",
+    "DAY_VIEW_OCCURRENCE_CLS": "karate.models.Occurrence",
+    "MONTH_VIEW_MODEL": "karate.models.Occurrence",
+    "YEAR_VIEW_MODEL": "karate.models.Occurrence",
+    "DAY_VIEW_EVENT_TYPE_CLS": "karate.models.EventType",
+    "CREATE_EVENT_VIEW_MODEL": "karate.models.Event",
+    "CREATE_EVENT_VIEW_FORM": "karate.forms.EventOccurrenceForm",
+    "EVENT_VIEW_MODEL": "karate.models.Event",
+    "EVENT_VIEW_FORM": "karate.forms.EventOccurrenceForm",
+    "OCCURRENCE_VIEW_MODEL": "karate.models.Occurrence",
+    "OCCURRENCE_VIEW_FORM": "karate.forms.SingleOccurrenceForm",
 }
 
 try:

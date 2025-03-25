@@ -5,6 +5,9 @@
     <h4>Event Details</h4>
     <form action="" method="post">{% csrf_token %}
     <table>
+        <tbody>
+            {% include "swingtime/event_form_part.html" %}
+        </tbody>
         <tfoot>
             <tr>
                 <td colspan="2">
@@ -12,9 +15,6 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody>
-        {% include "swingtime/event_form_part.html" %}
-        </tbody>
     </table>
     </form>
     
@@ -37,10 +37,10 @@
         {% for o in event.occurrence_set.all %}
         <li>
             {% if o.start_time.date == o.end_time.date %}
-            <a href="{% url 'swingtime-occurrence' event.id o.id %}">
+            <a href="{% url 'swingtime:occurrence' event.id o.id %}">
                 {{ o.start_time|date:"l, F jS, Y" }} {{ o.start_time|date:"P" }} &ndash; {{ o.end_time|date:"P" }}</a>
             {% else %}
-            <a href="{% url 'swingtime-occurrence' event.id o.id %}">
+            <a href="{% url 'swingtime:occurrence' event.id o.id %}">
                 {{ o.start_time|date:"l, F jS, Y P" }} &ndash; 
                 {{ o.end_time|date:"l, F jS, Y P" }}</a>
             {% endif %}
@@ -53,15 +53,14 @@
     <h4>Add Occurrences</h4>
     <form action="" method="post">{% csrf_token %}
     <table>
+        <tbody>
+        {% include "swingtime/recurring_form_part.html" %}
+        </tbody>
         <tfoot>
             <tr>
                 <td colspan="2"><input type="submit" name="_add" value="Add" /></td>
             </tr>
         </tfoot>
-        <tbody>
-        {% include "swingtime/recurring_form_part.html" %}
-        </tbody>
     </table>
-    </form>
     </form>
 {% endblock %}

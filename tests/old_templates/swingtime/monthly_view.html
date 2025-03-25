@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Monthly View{% endblock %}
+{% block main_content %}
+    <h3>Monthly View</h3>
+    <p><em>Click a calendar date below to add a new event</em></p>
+    <h4>
+        <a class="plain" href="{% url 'swingtime-monthly-view' last_month.year last_month.month %}" 
+           title="Last Month">&larr;</a>
+        {{ this_month|date:"F" }}
+        <a title="View {{ this_month.year}}" href="{% url 'swingtime-yearly-view' this_month.year %}">
+            {{ this_month|date:"Y" }}</a>
+        <a class="plain" href="{% url 'swingtime-monthly-view' next_month.year next_month.month %}" 
+           title="Next Month">&rarr;</a>
+    </h4>
+    <table class="month-view">
+        <thead>
+            <tr>
+                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in calendar %}
+            <tr>
+                {% for day,items in row  %}
+                <td{% if day == today.day  %} class="today"{% endif %}>
+                {% if day %}
+                    <div class="day-ordinal">
+                        <a href="{% url 'swingtime-daily-view' this_month.year this_month.month day %}">{{ day }}</a>
+                    </div>
+                    {% if items %}
+                    <ul>{% for item in items %}
+                        <li>
+                            <a href="{{ item.get_absolute_url }}">
+                                <span class="event-times">{{ item.start_time|time }}</span>
+                                {{ item.title }}</a>
+                        </li>{% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

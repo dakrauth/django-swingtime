@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; Swingtime 1.4.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>Installation &mdash; Swingtime 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9172181d"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -36,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             Swingtime
           </a>
-              <div class="version">
-                1.4
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -58,11 +53,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> — Swingtime Object Model Definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="views.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> — Swingtime Views</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forms</span></code> — Swingtime Forms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code> — Swingtime Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conf.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code> — Configuration Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Swingtime API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes.html">Changes in Swingtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
 </ul>
@@ -93,13 +85,6 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">swingtime</span></code> documentation assumes familiarity with and installation of
-Python deployment tools <a class="reference external" href="https://pip.pypa.io">pip</a>,
-<a class="reference external" href="https://virtualenv.pypa.io/">virtualenv</a>, and
-<a class="reference external" href="https://bitbucket.org/dhellmann/virtualenvwrapper">virtualenvwrapper</a>.</p>
-</div>
 <section id="get-swingtime">
 <h2>Get <code class="docutils literal notranslate"><span class="pre">Swingtime</span></code><a class="headerlink" href="#get-swingtime" title="Link to this heading"></a></h2>
 <section id="basic-installation">
@@ -129,8 +114,7 @@ $ cd django-swingtime-main
 <li><p>Environment:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m venv venv
 $ . venv/bin/activate
-$ pip install tox
-$ tox -e dev
+$ ./run init
 </pre></div>
 </div>
 </li>
@@ -138,16 +122,20 @@ $ tox -e dev
 <blockquote>
 <div><p>Assuming you have <a class="reference external" href="https://github.com/pyenv/pyenv">pyenv</a> installed and the
 following versions installed (<code class="docutils literal notranslate"><span class="pre">x</span></code> would be your installed patch version):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pyenv local 3.8.x 3.9.x 3.10.x 3.11.x 3.12.x
-$ tox  # or...
-$ tox -e py38-django3.2  # build and test only Python 3.8 and Django 3.2
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pyenv local 3.10.x 3.11.x 3.12.x 3.13.x
+$ ./run test
+</pre></div>
+</div>
+<p>Or, to directly interface with tox:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox  # or...
+$ tox -e py313-django5.2  # build and test only Python 3.13 and Django 5.2
 </pre></div>
 </div>
 </div></blockquote>
 </li>
 <li><p>Documentation</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e docs
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./run docs
 </pre></div>
 </div>
 <p>Browse the file <code class="docutils literal notranslate"><span class="pre">docs/index.html</span></code>.</p>
@@ -168,7 +156,7 @@ $ tox -e py38-django3.2  # build and test only Python 3.8 and Django 3.2
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, David Krauth.</p>
+    <p>&#169; Copyright 2025, David Krauth.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,28 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>conf — Configuration Settings &mdash; Swingtime 1.4.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>conf — Configuration Settings &mdash; Swingtime 2.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=9172181d"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=20623aea"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Changes in Swingtime" href="changes.html" />
-    <link rel="prev" title="utils — Swingtime Utilities" href="utils.html" /> 
+    <link rel="next" title="Swingtime API" href="api.html" />
+    <link rel="prev" title="Demo" href="demo.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -36,9 +34,6 @@
           <a href="index.html" class="icon icon-home">
             Swingtime
           </a>
-              <div class="version">
-                1.4
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -51,14 +46,11 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo.html">Demo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models</span></code> — Swingtime Object Model Definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="views.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">views</span></code> — Swingtime Views</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forms.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">forms</span></code> — Swingtime Forms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code> — Swingtime Utilities</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">conf</span></code> — Configuration Settings</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#default-settings">Default Settings</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Swingtime API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changes.html">Changes in Swingtime</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
 </ul>
@@ -94,24 +86,24 @@
 <p>You can override these defaults by creating <code class="docutils literal notranslate"><span class="pre">dict</span></code> named <code class="docutils literal notranslate"><span class="pre">SWINGTIME</span></code> in your
 Django <code class="docutils literal notranslate"><span class="pre">settings.py</span></code> file. You only need to provide key/value pairs for the
 setting you wish to override. For Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
-<span class="n">SWINGTIME</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;TIMESLOT_START_TIME&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">30</span><span class="p">)}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="n">SWINGTIME</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;TIMESLOT_START_TIME&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">30</span><span class="p">)}</span>
 </pre></div>
 </div>
 <p>All defaults:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>DEFAULTS = {
 
     # A &quot;strftime&quot; string for formatting start and end time selectors in forms.
-    &#39;TIMESLOT_TIME_FORMAT&#39;: &#39;%I:%M %p&#39;,
+    &quot;TIMESLOT_TIME_FORMAT&quot;: &quot;%I:%M %p&quot;,
 
     # Used for creating start and end time form selectors as well as time
     # slot grids. Value should be ``datetime.timedelta`` value representing
     # the incremental differences between temporal options.
-    &#39;TIMESLOT_INTERVAL&#39;: datetime.timedelta(minutes=15),
+    &quot;TIMESLOT_INTERVAL&quot;: datetime.timedelta(minutes=15),
 
     # A datetime.time value indicting the starting time for time slot grids
     and form # selectors.
-    &#39;TIMESLOT_START_TIME&#39;: datetime.time(9),
+    &quot;TIMESLOT_START_TIME&quot;: datetime.time(9),
 
     # A datetime.timedelta value indicating the offset value from
     # TIMESLOT_START_TIME for creating time slot grids and form selectors.
@@ -119,18 +111,32 @@ setting you wish to override. For Example:</p>
     # For instance, one could have a starting time of 3pm (15:00) and wish
     # to indicate a ending value # 1:30am (01:30), in which case a value of
     # datetime.timedelta(hours=10.5) # could be specified to indicate that
-    # the 1:30 represents the following date&#39;s time and not the current date.
-    &#39;TIMESLOT_END_TIME_DURATION&#39;: datetime.timedelta(hours=+8),
+    # the 1:30 represents the following date&quot;s time and not the current date.
+    &quot;TIMESLOT_END_TIME_DURATION&quot;: datetime.timedelta(hours=+8),
 
     # Indicates a minimum value for the number grid columns to be shown in the
     # time slot table.
-    &#39;TIMESLOT_MIN_COLUMNS&#39;: 4,
+    &quot;TIMESLOT_MIN_COLUMNS&quot;: 4,
 
     # Indicate the default length in time for a new occurrence,
-    &#39;DEFAULT_OCCURRENCE_DURATION&#39;: ``datetime.timedelta(hours=+1)``,
+    &quot;DEFAULT_OCCURRENCE_DURATION&quot;: ``datetime.timedelta(hours=+1)``,
 
     # If not ``None``, passed to ``calendar.setfirstweekday`` function.
-    &#39;CALENDAR_FIRST_WEEKDAY&#39;: 6
+    &quot;CALENDAR_FIRST_WEEKDAY&quot;: 6
+
+    &quot;URL_VERSION_3&quot;: False,
+    &quot;HTML_CONTINUATION_STRING&quot;: &quot;^^^&quot;,
+    &quot;EVENT_LIST_VIEW_MODEL&quot;: &quot;swingtime.models.Event&quot;,
+    &quot;DAY_VIEW_OCCURRENCE_CLS&quot;: &quot;swingtime.models.Occurrence&quot;,
+    &quot;MONTH_VIEW_MODEL&quot;: &quot;swingtime.models.Occurrence&quot;,
+    &quot;YEAR_VIEW_MODEL&quot;: &quot;swingtime.models.Occurrence&quot;,
+    &quot;DAY_VIEW_EVENT_TYPE_CLS&quot;: &quot;swingtime.models.EventType&quot;,
+    &quot;CREATE_EVENT_VIEW_MODEL&quot;: &quot;swingtime.models.Event&quot;,
+    &quot;CREATE_EVENT_VIEW_FORM&quot;: &quot;swingtime.forms.EventOccurrenceForm&quot;,
+    &quot;EVENT_VIEW_MODEL&quot;: &quot;swingtime.models.Event&quot;,
+    &quot;EVENT_VIEW_FORM&quot;: &quot;swingtime.forms.EventOccurrenceForm&quot;,
+    &quot;OCCURRENCE_VIEW_MODEL&quot;: &quot;swingtime.models.Occurrence&quot;,
+    &quot;OCCURRENCE_VIEW_FORM&quot;: &quot;swingtime.forms.SingleOccurrenceForm&quot;,
 }
 </pre></div>
 </div>
@@ -141,14 +147,14 @@ setting you wish to override. For Example:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="utils.html" class="btn btn-neutral float-left" title="utils — Swingtime Utilities" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="changes.html" class="btn btn-neutral float-right" title="Changes in Swingtime" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo.html" class="btn btn-neutral float-left" title="Demo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="Swingtime API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, David Krauth.</p>
+    <p>&#169; Copyright 2025, David Krauth.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -4,13 +4,11 @@ from datetime import date, time
 
 from dateutil import rrule
 
-from django.urls import reverse
-from django.forms.models import model_to_dict
-
 import swingtime
 from swingtime import utils
+from swingtime.conf import swingtime_settings
 from swingtime.models import EventType, Event, create_event
-from swingtime.forms import EventForm, MultipleOccurrenceForm
+from swingtime.forms import MultipleOccurrenceForm, EventOccurrenceForm
 
 from .helpers import dt_get, dt_combine
 
@@ -115,47 +113,44 @@ class TestTable:
 @pytest.mark.django_db
 class TestNewEventForm:
     def test_new_event_simple(self, play_type):
-        data = dict(
-            title="QWERTY",
-            event_type=play_type.id,
-            day="2008-12-11",
-            start_time_delta="28800",
-            end_time_delta="29700",
-            year_month_ordinal_day="2",
-            month_ordinal_day="2",
-            year_month_ordinal="1",
-            month_option="each",
-            count=2,
-            repeats="count",
-            freq="2",
-            month_ordinal="1",
-        )
+        data = {
+            "title": "QWERTY",
+            "event_type": play_type.id,
+            "day": "2008-12-11",
+            "start_time_delta": "28800",
+            "end_time_delta": "29700",
+            "year_month_ordinal_day": "2",
+            "month_ordinal_day": "2",
+            "year_month_ordinal": "1",
+            "month_option": "each",
+            "count": 2,
+            "repeats": "count",
+            "freq": "2",
+            "month_ordinal": "1",
+        }
 
-        evt_form = EventForm(data)
-        occ_form = MultipleOccurrenceForm(data)
-        assert evt_form.is_valid() is True
-        assert "" == evt_form.errors.as_text()
-        assert occ_form.is_valid() is True
-        assert "" == occ_form.errors.as_text()
+        form = EventOccurrenceForm(data)
+        assert form.is_valid() is True
+        assert "" == form.errors.as_text()
 
-        evt = occ_form.save(evt_form.save())
+        evt = form.save()
         assert evt.occurrence_set.count() == 2
-        assert occ_form.cleaned_data["start_time"] == dt_get(2008, 12, 11, 8, tzinfo=False)
+        assert form.cleaned_data["start_time"] == dt_get(2008, 12, 11, 8, tzinfo=False)
 
     def test_freq(self, play_type):
         e = Event.objects.create(title="FIRE BAD!", description="***", event_type=play_type)
         dtstart = dt_get(2015, 2, 12)
-        data = dict(
-            day=dtstart.date(),
-            freq=rrule.MONTHLY,
-            month_option="on",
-            month_ordinal=1,
-            month_ordinal_day=5,
-            repeats="until",
-            start_time_delta="28800",
-            end_time_delta="29700",
-            until=dt_get(2015, 6, 10),
-        )
+        data = {
+            "day": dtstart.date(),
+            "freq": rrule.MONTHLY,
+            "month_option": "on",
+            "month_ordinal": 1,
+            "month_ordinal_day": 5,
+            "repeats": "until",
+            "start_time_delta": "28800",
+            "end_time_delta": "29700",
+            "until": dt_get(2015, 6, 10),
+        }
         mof = MultipleOccurrenceForm(data, initial={"dtstart": dtstart})
         assert mof.is_valid() is True
 
@@ -167,19 +162,19 @@ class TestNewEventForm:
     def test_yearly(self, play_type):
         e = Event.objects.create(title="YEARLY", description="YYYY", event_type=play_type)
         dtstart = dt_get(2018, 3, 18)
-        data = dict(
-            day=dtstart.date(),
-            freq=rrule.YEARLY,
-            year_months=["3"],
-            repeats="count",
-            count="3",
-            month_option="each",
-            start_time_delta="54000",
-            end_time_delta="57600",
-            is_year_month_ordinal="on",
-            year_month_ordinal="3",
-            year_month_ordinal_day="7",
-        )
+        data = {
+            "day": dtstart.date(),
+            "freq": rrule.YEARLY,
+            "year_months": ["3"],
+            "repeats": "count",
+            "count": "3",
+            "month_option": "each",
+            "start_time_delta": "54000",
+            "end_time_delta": "57600",
+            "is_year_month_ordinal": "on",
+            "year_month_ordinal": "3",
+            "year_month_ordinal_day": "7",
+        }
         mof = MultipleOccurrenceForm(data, initial={"dtstart": dtstart})
         assert mof.is_valid() is True
 
@@ -196,7 +191,7 @@ class TestCreation:
         assert et.abbr == "foo"
 
         e = Event.objects.create(title="Hello, world", description="Happy New Year", event_type=et)
-        url = reverse("swingtime-event", args=[e.id])
+        url = swingtime_settings.reverse("event", args=[e.id])
         assert e.event_type == et
         assert e.get_absolute_url() == url
 
@@ -250,7 +245,8 @@ class TestCreation:
             title="Yet another event", description="with tons of occurrences", event_type=et
         )
         assert e.event_type == et
-        assert e.get_absolute_url() == reverse("swingtime-event", args=[e.id])
+        url = swingtime_settings.reverse("event", args=[e.id])
+        assert e.get_absolute_url() == url
 
         e.add_occurrences(
             dt_get(2008, 1, 1), dt_get(2008, 1, 1, 1), freq=rrule.DAILY, until=dt_get(2020, 12, 31)
@@ -261,98 +257,10 @@ class TestCreation:
 
 class TestMisc:
     def test_version(self):
-        V = swingtime.VERSION
-        assert swingtime.get_version() == ".".join([str(i) for i in V])
+        assert swingtime.get_version() == ".".join([str(i) for i in swingtime.VERSION])
 
     def test_month_boundaries(self):
         dt = dt_get(2012, 2, 15)
         start, end = utils.month_boundaries(dt)
         assert start == dt_get(2012, 2, 1)
         assert end == dt_get(2012, 2, 29)
-
-
-@pytest.mark.django_db
-class TestViews:
-    def test_today(self, client):
-        # r'^(?:calendar/)?$', views.today_view
-        r = client.get(reverse("swingtime-today"))
-        assert r.status_code == 200
-
-    def test_year(self, client):
-        # r'^calendar/(?P<year>\d{4})/$', views.year_view
-        r = client.get(reverse("swingtime-yearly-view", args=[2018]))
-        assert r.status_code == 200
-
-    def test_month(self, client, occurence):
-        # r'^calendar/(\d{4})/(0?[1-9]|1[012])/$', views.month_view
-        url = reverse("swingtime-monthly-view", args=[2018, 3])
-        r = client.get(url)
-        assert r.status_code == 200
-
-    def test_daily(self, client):
-        # r'^calendar/(\d{4})/(0?[1-9]|1[012])/([0-3]?\d)/$', views.day_view
-        r = client.get(reverse("swingtime-daily-view", args=[2018, 3, 18]))
-        assert r.status_code == 200
-
-    def test_listing(self, client):
-        # r'^events/$', views.event_listing
-        r = client.get(reverse("swingtime-events"))
-        assert r.status_code == 200
-
-    def test_add_event_start_dtstart(self, client):
-        # r'^events/add/$', views.add_event
-        r = client.get(reverse("swingtime-add-event") + "?dtstart=20180318")
-        assert r.status_code == 200
-
-    def test_add_event_start_dtstart_bad(self, client):
-        r = client.get(reverse("swingtime-add-event") + "?dtstart=BAD")
-        assert r.status_code == 200
-
-    def test_add_event_start_no_dtstart(self, client):
-        r = client.post(reverse("swingtime-add-event"))
-        assert r.status_code == 200
-
-    def test_event_view(self, client, occurence):
-        # r'^events/(\d+)/$', views.event_view
-        r = client.get(reverse("swingtime-event", args=[occurence.event.id]))
-        assert r.status_code == 200
-
-        r = client.post(
-            reverse("swingtime-event", args=[occurence.event.id]), model_to_dict(occurence.event)
-        )
-        assert r.status_code == 400
-
-        r = client.post(
-            reverse("swingtime-event", args=[occurence.event.id]),
-            dict(model_to_dict(occurence.event), _update=""),
-        )
-        assert r.status_code == 302
-
-        r = client.post(
-            reverse("swingtime-event", args=[occurence.event.id]),
-            dict(model_to_dict(occurence.event), _add=""),
-        )
-        assert r.status_code == 200
-
-        # r'^events/(\d+)/(\d+)/$', views.occurrence_view
-        r = client.get(reverse("swingtime-occurrence", args=[occurence.event.id, occurence.id]))
-        assert r.status_code == 200
-
-        # r'^events/(\d+)/(\d+)/$', views.occurrence_view
-        start = occurence.start_time
-        end = occurence.end_time
-
-        data = {
-            "end_time_0_day": end.day,
-            "end_time_0_month": end.month,
-            "end_time_0_year": end.year,
-            "end_time_1": str(end.time()),
-            "start_time_0_day": start.day,
-            "start_time_0_month": start.month,
-            "start_time_0_year": start.year,
-            "start_time_1": str(start.time()),
-        }
-        r = client.post(
-            reverse("swingtime-occurrence", args=[occurence.event.id, occurence.id]), data
-        )
-        assert r.status_code == 302

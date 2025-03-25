@@ -12,13 +12,11 @@ Table of Contents
    intro
    installation
    demo
-   models
-   views
-   forms
-   utils
    conf
+   api
    changes
    authors
+
 
 Index
 -----

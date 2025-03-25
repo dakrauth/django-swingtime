@@ -1,6 +1,8 @@
+import functools
 import calendar
 import itertools
 import logging
+import warnings
 from datetime import datetime, timedelta
 from dateutil import parser
 from django import http
@@ -8,7 +10,6 @@ from django.db import models
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 
-from .models import Event, Occurrence
 from . import utils, forms
 from .conf import swingtime_settings
 
@@ -17,11 +18,40 @@ if swingtime_settings.CALENDAR_FIRST_WEEKDAY is not None:
     calendar.setfirstweekday(swingtime_settings.CALENDAR_FIRST_WEEKDAY)
 
 
+class deprecated:
+    def __init__(self, message, category=None, stacklevel=1):
+        if not isinstance(message, str):
+            raise TypeError(
+                f"Expected an object of type str for 'message', not {type(message).__name__!r}"
+            )
+        self.message = message
+        self.category = category or PendingDeprecationWarning
+        self.stacklevel = stacklevel
+
+    def __call__(self, arg):
+        if not callable(arg):
+            raise TypeError(f"@deprecated decorator must be applied to callable, not {arg!r}")
+
+        # Make sure the inner function created below doesn't retain a reference to self.
+        msg = f"Swingtime view function {arg} is pending deprecation. {self.message}"
+        category = self.category
+        stacklevel = self.stacklevel
+
+        @functools.wraps(arg)
+        def wrapper(*args, **kwargs):
+            warnings.warn(msg, category=category, stacklevel=stacklevel + 1)
+            return arg(*args, **kwargs)
+
+        arg.__deprecated__ = wrapper.__deprecated__ = msg
+        return wrapper
+
+
+@deprecated("Use EventListView")
 def event_listing(request, template="swingtime/event_list.html", events=None, **extra_context):
     """
     View all ``events``.
 
-    If ``events`` is a queryset, clone it. If ``None`` default to all ``Event``s.
+    If ``events`` is a queryset, clone it. If ``None`` default to all ``Event`` objects.
 
     Context parameters:
 
@@ -30,11 +60,12 @@ def event_listing(request, template="swingtime/event_list.html", events=None, **
 
     ... plus all values passed in via **extra_context
     """
-    events = events or Event.objects.all()
+    events = events or utils.cached_import("swingtime.models.Event").objects.all()
     extra_context["events"] = events
     return render(request, template, extra_context)
 
 
+@deprecated("Use EventView")
 def event_view(
     request,
     pk,
@@ -57,7 +88,7 @@ def event_view(
     ``recurrence_form``
         a form object for adding occurrences
     """
-    event = get_object_or_404(Event, pk=pk)
+    event = get_object_or_404(utils.cached_import("swingtime.models.Event"), pk=pk)
     event_form = recurrence_form = None
     if request.method == "POST":
         if "_update" in request.POST:
@@ -82,6 +113,7 @@ def event_view(
     return render(request, template, data)
 
 
+@deprecated("Use OccurrenceView")
 def occurrence_view(
     request,
     event_pk,
@@ -100,7 +132,9 @@ def occurrence_view(
     ``form``
         a form object for updating the occurrence
     """
-    occurrence = get_object_or_404(Occurrence, pk=pk, event__pk=event_pk)
+    occurrence = get_object_or_404(
+        utils.cached_import("swingtime.models.Occurrence"), pk=pk, event__pk=event_pk
+    )
     if request.method == "POST":
         form = form_class(request.POST, instance=occurrence)
         if form.is_valid():
@@ -112,6 +146,7 @@ def occurrence_view(
     return render(request, template, {"occurrence": occurrence, "form": form})
 
 
+@deprecated("Use AddEventView")
 def add_event(
     request,
     template="swingtime/add_event.html",
@@ -119,7 +154,7 @@ def add_event(
     recurrence_form_class=forms.MultipleOccurrenceForm,
 ):
     """
-    Add a new ``Event`` instance and 1 or more associated ``Occurrence``s.
+    Add a new ``Event`` instance and 1 or more associated ``Occurrence`` objects.
 
     Context parameters:
 
@@ -200,6 +235,7 @@ def _datetime_view(request, template, dt, timeslot_factory=None, items=None, par
     )
 
 
+@deprecated("Use DayView")
 def day_view(request, year, month, day, template="swingtime/daily_view.html", **params):
     """
     See documentation for function``_datetime_view``.
@@ -209,6 +245,7 @@ def day_view(request, year, month, day, template="swingtime/daily_view.html", **
     return _datetime_view(request, template, dt, **params)
 
 
+@deprecated("Use TodayView")
 def today_view(request, template="swingtime/daily_view.html", **params):
     """
     See documentation for function``_datetime_view``.
@@ -217,9 +254,9 @@ def today_view(request, template="swingtime/daily_view.html", **params):
     return _datetime_view(request, template, timezone.now(), **params)
 
 
+@deprecated("Use YearView")
 def year_view(request, year, template="swingtime/yearly_view.html", queryset=None):
     """
-
     Context parameters:
 
     ``year``
@@ -239,7 +276,11 @@ def year_view(request, year, template="swingtime/yearly_view.html", queryset=Non
 
     """
     year = int(year)
-    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
+    queryset = (
+        queryset._clone()
+        if queryset is not None
+        else utils.cached_import("swingtime.models.Occurrence").objects.select_related()
+    )
     occurrences = queryset.filter(models.Q(start_time__year=year) | models.Q(end_time__year=year))
 
     def group_key(o):
@@ -261,6 +302,7 @@ def year_view(request, year, template="swingtime/yearly_view.html", queryset=Non
     )
 
 
+@deprecated("Use MonthView")
 def month_view(request, year, month, template="swingtime/monthly_view.html", queryset=None):
     """
     Render a tradional calendar grid view with temporal navigation variables.
@@ -292,13 +334,17 @@ def month_view(request, year, month, template="swingtime/monthly_view.html", que
 
     # TODO Whether to include those occurrences that started in the previous
     # month but end in this month?
-    queryset = queryset._clone() if queryset is not None else Occurrence.objects.select_related()
-    occurrences = queryset.filter(start_time__year=year, start_time__month=month)
+    queryset = (
+        queryset._clone()
+        if queryset is not None
+        else utils.cached_import("swingtime.models.Occurrence").objects.all()
+    )
+    occurrences = queryset.filter(start_time__year=year, start_time__month=month).select_related()
 
     def start_day(o):
         return o.start_time.day
 
-    by_day = dict([(dt, list(o)) for dt, o in itertools.groupby(occurrences, start_day)])
+    by_day = {dt: list(o) for dt, o in itertools.groupby(occurrences, start_day)}
     data = {
         "today": timezone.now(),
         "calendar": [[(d, by_day.get(d, [])) for d in row] for row in cal],

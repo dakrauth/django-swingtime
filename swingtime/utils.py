@@ -6,13 +6,57 @@ import calendar
 from collections import defaultdict
 from datetime import datetime, timedelta
 import itertools
+import functools
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
 from django.utils import timezone
+from django.urls.converters import IntConverter
+from django.utils.module_loading import import_string
 
 from .conf import swingtime_settings
-from .models import EventType, Occurrence
+
+
+class YearConverter(IntConverter):
+    regex = r"[0-9]{4}"
+
+    def to_url(self, value):
+        return f"{value:04d}"
+
+
+class BaseMDConverter:
+    def to_python(self, value):
+        return int(value[1:] if value.startswith("0") else value)
+
+    def to_url(self, value):
+        return f"{value:02d}"
+
+
+class MonthConverter(BaseMDConverter):
+    regex = r"0?[1-9]|1[012]"
+
+
+class DayConverter(IntConverter):
+    regex = r"[0-3]?\d|[1-9]"
+
+
+@functools.cache
+def cached_import(path):
+    return import_string(path)
+
+
+@functools.cache
+def default_occurrence_cls():
+    from .models import Occurrence
+
+    return Occurrence
+
+
+@functools.cache
+def default_event_type_cls():
+    from .models import EventType
+
+    return EventType
 
 
 def time_delta_total_seconds(time_delta):
@@ -40,18 +84,20 @@ def default_css_class_cycler():
     return itertools.cycle(("evt-even", "evt-odd"))
 
 
-def css_class_cycler():
+def css_class_cycler(event_type_cls=None):
     """
     Return a dictionary keyed by ``EventType`` abbreviations, whose values are an
     iterable or cycle of CSS class names.
 
     """
     FMT = "evt-{0}-{1}".format
+    event_type_cls = event_type_cls or default_event_type_cls()
+
     return defaultdict(
         default_css_class_cycler,
         (
             (e.abbr, itertools.cycle((FMT(e.abbr, "even"), FMT(e.abbr, "odd"))))
-            for e in EventType.objects.all()
+            for e in event_type_cls.objects.all()
         ),
     )
 
@@ -76,7 +122,7 @@ class BaseOccurrenceProxy(object):
 
 
 class DefaultOccurrenceProxy(BaseOccurrenceProxy):
-    CONTINUATION_STRING = "^^"
+    CONTINUATION_STRING = swingtime_settings.HTML_CONTINUATION_STRING
 
     def __init__(self, *args, **kws):
         super().__init__(*args, **kws)
@@ -97,6 +143,7 @@ def create_timeslot_table(
     min_columns=swingtime_settings.TIMESLOT_MIN_COLUMNS,
     css_class_cycles=css_class_cycler,
     proxy_class=DefaultOccurrenceProxy,
+    occurrence_cls=None,
 ):
     """
     Create a grid-like object representing a sequence of times (rows) and
@@ -130,7 +177,8 @@ def create_timeslot_table(
     if isinstance(items, QuerySet):
         items = items._clone()
     elif not items:
-        items = Occurrence.objects.daily_occurrences(dt).select_related("event")
+        occurrence_cls = occurrence_cls or default_occurrence_cls()
+        items = occurrence_cls.objects.daily_occurrences(dt).select_related("event")
 
     # build a mapping of timeslot "buckets"
     timeslots = {}

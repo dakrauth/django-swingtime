@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Event Occurrence{% endblock %}
+{% block main_content %}
+     <h3>Swingtime Event Occurrence</h3>
+     <h4>
+         <a href="{{ occurrence.event.get_absolute_url }}">{{ occurrence.title }}</a>
+         &ndash;
+         {% with occurrence.start_time as st  %}
+         <a href="{% url 'swingtime-daily-view' st.year st.month st.day %}">
+            {{ st|date:"l, F jS P" }}</a>
+        </h4>
+        {% endwith %}
+     <dl>
+         <dt>Event type:</dt>
+         <dd>{{ occurrence.event.event_type }}</dd>
+         
+         <dt>Description:</dt>
+         <dd>{{ occurrence.event.description|default:"None" }}</dd>
+         
+         <dt>Note(s:)</dt>
+         <dd>
+             {% with occurrence.event.notes.all as notes %}
+             {% if notes %}
+             <ul>
+                 {% for note in notes %}
+                 <li>{{ note }}</li>
+                 {% endfor %}
+             </ul>
+             {% else %}None
+             {% endif %}
+             {% endwith %}
+         </dd>
+     </dl>
+     
+     <form action="" method="post">{% csrf_token %}
+     <table>
+         <tfoot>
+             <tr>
+                 <td colspan="2"><input type="submit" value="Update" /></td>
+             </tr>
+         </tfoot>
+         <tbody>
+             {{ form }}
+         </tbody>
+     </table>
+     </form>
+
+{% endblock %}

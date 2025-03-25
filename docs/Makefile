@@ -22,4 +22,5 @@ clean:
 
 html: clean
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	rm -rf autosummary
 	mv _build/html/* ./
