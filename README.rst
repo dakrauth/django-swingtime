@@ -7,7 +7,7 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 2.1.0
+:Version: 3.0.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime

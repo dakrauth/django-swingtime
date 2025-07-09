@@ -1,21 +1,29 @@
-from django.urls import re_path
+from django.urls import include, path, register_converter
 from swingtime import views
+from swingtime import utils
+
+register_converter(utils.YearConverter, "yyyy")
+register_converter(utils.MonthConverter, "mm")
+register_converter(utils.DayConverter, "dd")
+
+app_name = "swingtime"
+
+calendar_patterns = [
+    path("", views.CurrentMonthView.as_view(), name="calendar"),
+    path("<yyyy:year>/", views.YearView.as_view(), name="yearly-view"),
+    path("<yyyy:year>/<mm:month>/", views.MonthView.as_view(), name="monthly-view"),
+    path("<yyyy:year>/<mm:month>/<dd:day>/", views.DayView.as_view(), name="daily-view"),
+]
+
+event_patterns = [
+    path("", views.EventListView.as_view(), name="events"),
+    path("create/", views.CreateEventView.as_view(), name="add-event"),
+    path("<int:pk>/", views.EventView.as_view(), name="event"),
+    path("<int:event_pk>/<int:pk>/", views.OccurrenceView.as_view(), name="occurrence"),
+]
 
 urlpatterns = [
-    re_path(r"^(?:calendar/)?$", views.today_view, name="swingtime-today"),
-    re_path(r"^calendar/(?P<year>\d{4})/$", views.year_view, name="swingtime-yearly-view"),
-    re_path(
-        r"^calendar/(\d{4})/(0?[1-9]|1[012])/$",
-        views.month_view,
-        name="swingtime-monthly-view",
-    ),
-    re_path(
-        r"^calendar/(\d{4})/(0?[1-9]|1[012])/([0-3]?\d)/$",
-        views.day_view,
-        name="swingtime-daily-view",
-    ),
-    re_path(r"^events/$", views.event_listing, name="swingtime-events"),
-    re_path(r"^events/add/$", views.add_event, name="swingtime-add-event"),
-    re_path(r"^events/(\d+)/$", views.event_view, name="swingtime-event"),
-    re_path(r"^events/(\d+)/(\d+)/$", views.occurrence_view, name="swingtime-occurrence"),
+    path("", views.TodayView.as_view(), name="today"),
+    path("calendar/", include(calendar_patterns)),
+    path("events/", include(event_patterns)),
 ]

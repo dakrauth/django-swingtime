@@ -91,7 +91,7 @@ class EventBase(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse(f"{swingtime_settings.url_prefix}event", args=[str(self.pk)])
+        return reverse("swingtime:event", args=[str(self.pk)])
 
     def add_occurrences(self, start_time, end_time, **rrule_params):
         """
@@ -191,9 +191,7 @@ class OccurrenceBase(models.Model):
         return "{}: {}".format(self.title, self.start_time.isoformat())
 
     def get_absolute_url(self):
-        return reverse(
-            f"{swingtime_settings.url_prefix}occurrence", args=[str(self.event.pk), str(self.pk)]
-        )
+        return reverse("swingtime:occurrence", args=[str(self.event.pk), str(self.pk)])
 
     def __lt__(self, other):
         return self.start_time < other.start_time

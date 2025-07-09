@@ -4,28 +4,7 @@ from django.urls import reverse
 from django.forms.models import model_to_dict
 
 
-@pytest.fixture(autouse=True)
-def new_template_paths(settings):
-    settings.SWINGTIME = {
-        "TIMESLOT_START_TIME": datetime.time(14),
-        "TIMESLOT_END_TIME_DURATION": datetime.timedelta(hours=6.5),
-        "URL_VERSION_3": True,
-    }
-
-    settings.TEMPLATES = [
-        {
-            "BACKEND": "django.template.backends.django.DjangoTemplates",
-            "DIRS": [settings.BASE_DIR / "tests", settings.BASE_DIR / "demo/templates"],
-            "APP_DIRS": True,
-            "OPTIONS": {
-                "context_processors": ["django.template.context_processors.request"],
-            },
-        },
-    ]
-
-
 @pytest.mark.django_db
-@pytest.mark.urls("tests.urls")
 class TestCBV:
     def test_listing(self, client):
         url = reverse("swingtime:events")

@@ -16,7 +16,7 @@ def docs(request):
 karate_patterns = [
     path("", TemplateView.as_view(template_name="karate.html"), name="karate-home"),
     path("swingtime/events/type/<str:abbr>/", views.event_type, name="karate-event"),
-    path("swingtime/", include("swingtime.urls_v3")),
+    path("swingtime/", include("swingtime.urls")),
 ]
 
 urlpatterns = [
