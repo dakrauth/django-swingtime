@@ -39,14 +39,6 @@ function test {
 
 }
 
-function test_fbv {
-    "${BIN}/pytest" -s tests/test_fbv.py tests/test_swingtime.py "$@"
-}
-
-function test_cbv {
-    "${BIN}/pytest" -s tests/test_cbv.py tests/test_swingtime.py "$@"
-}
-
 function cov {
     "${BIN}/pytest" --cov-report html --cov-report term --cov=swingtime
 }

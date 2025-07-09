@@ -6,20 +6,20 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>swingtime.views &mdash; Swingtime 2.1.0 documentation</title>
+  <title>swingtime.views &mdash; Swingtime 3.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=20623aea"></script>
+      <script src="../_static/documentation_options.js?v=acc74ff5"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="swingtime.cbv_views" href="swingtime.cbv_views.html" />
+    <link rel="next" title="swingtime.utils" href="swingtime.utils.html" />
     <link rel="prev" title="swingtime.forms" href="swingtime.forms.html" /> 
 </head>
 
@@ -53,7 +53,6 @@
 <li class="toctree-l2"><a class="reference internal" href="swingtime.base_forms.html">swingtime.base_forms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="swingtime.forms.html">swingtime.forms</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">swingtime.views</a></li>
-<li class="toctree-l2"><a class="reference internal" href="swingtime.cbv_views.html">swingtime.cbv_views</a></li>
 <li class="toctree-l2"><a class="reference internal" href="swingtime.utils.html">swingtime.utils</a></li>
 </ul>
 </li>
@@ -88,39 +87,37 @@
              
   <section id="module-swingtime.views">
 <span id="swingtime-views"></span><h1>swingtime.views<a class="headerlink" href="#module-swingtime.views" title="Link to this heading"></a></h1>
-<p class="rubric">Functions</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_event</span></code>(request[, template, ...])</p></td>
-<td><p>Add a new <code class="docutils literal notranslate"><span class="pre">Event</span></code> instance and 1 or more associated <code class="docutils literal notranslate"><span class="pre">Occurrence</span></code> objects.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">day_view</span></code>(request, year, month, day[, template])</p></td>
-<td><p>See documentation for function``_datetime_view``.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">event_listing</span></code>(request[, template, events])</p></td>
-<td><p>View all <code class="docutils literal notranslate"><span class="pre">events</span></code>.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">event_view</span></code>(request, pk[, template, ...])</p></td>
-<td><p>View an <code class="docutils literal notranslate"><span class="pre">Event</span></code> instance and optionally update either the event or its occurrences.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">month_view</span></code>(request, year, month[, template, ...])</p></td>
-<td><p>Render a tradional calendar grid view with temporal navigation variables.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">occurrence_view</span></code>(request, event_pk, pk[, ...])</p></td>
-<td><p>View a specific occurrence and optionally handle any updates.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">today_view</span></code>(request[, template])</p></td>
-<td><p>See documentation for function``_datetime_view``.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">year_view</span></code>(request, year[, template, queryset])</p></td>
-<td><p>Context parameters:</p></td>
-</tr>
-</tbody>
-</table>
 <p class="rubric">Classes</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">deprecated</span></code>(message[, category, stacklevel])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CreateEventView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CurrentMonthView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DayView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventListView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EventView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MonthView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">OccurrenceView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SwingtimeImportMixin</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">TodayView</span></code>(**kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">YearView</span></code>(**kwargs)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -132,7 +129,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="swingtime.forms.html" class="btn btn-neutral float-left" title="swingtime.forms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="swingtime.cbv_views.html" class="btn btn-neutral float-right" title="swingtime.cbv_views" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="swingtime.utils.html" class="btn btn-neutral float-right" title="swingtime.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

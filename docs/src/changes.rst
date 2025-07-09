@@ -3,6 +3,12 @@
 Changes in Swingtime
 ====================
 
+Release 3.0.0 (Oct, 2025)
+-------------------------
+
+* Removed deprecated function-based views and urls
+* Support for Python 3.14 and pre-Django 6.0
+
 Release 2.1.0 (Jul, 2025)
 -------------------------
 

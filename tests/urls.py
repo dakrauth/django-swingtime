@@ -2,5 +2,5 @@ from django.urls import include, path
 
 
 urlpatterns = [
-    path("", include("swingtime.urls_v3")),
+    path("", include("swingtime.urls")),
 ]

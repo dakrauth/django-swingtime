@@ -7,7 +7,16 @@ Django Swingtime
 .. image:: https://badge.fury.io/py/django-swingtime.svg
     :target: http://badge.fury.io/py/django-swingtime
 
-:Version: 2.1.0
+.. image:: https://img.shields.io/pypi/pyversions/django-swingtime.svg
+    :target: https://pypi.org/project/django-swingtime/
+    :alt: Supported Python versions
+
+.. image:: https://img.shields.io/pypi/djversions/django-swingtime.svg
+   :target: https://pypi.org/project/picker/
+   :alt: Supported Django versions
+
+
+:Version: 3.0.0
 :Demo: https://nerdfog.com/swingtime/
 :Download: https://pypi.org/project/django-swingtime/
 :Source: https://github.com/dakrauth/django-swingtime
@@ -116,6 +125,6 @@ Requirements
 ------------
 
 * Python 3.10+
-* `Django >=4.2,<6.0 <https://www.djangoproject.com/download/>`_
+* `Django >=4.2,<6.1 <https://www.djangoproject.com/download/>`_
 * `python-dateutil <https://labix.org/python-dateutil>`_
 * `django-vanilla-view <https://github.com/encode/django-vanilla-views>`_

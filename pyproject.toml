@@ -1,12 +1,16 @@
 [build-system]
-requires = ["setuptools<=70.0.0"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-swingtime"
 dynamic = ["version"]
 description = "A Django calendaring application"
-license = {file = "LICENSE" }
+license = "MIT"
+license-files = [
+    "LICENSE",
+    "AUTHORS.txt"
+]
 keywords = ["django", "calendar", "events"]
 readme = { file = "README.rst", content-type = "text/x-rst" }
 authors = [
@@ -21,17 +25,18 @@ classifiers = [
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
     "Framework :: Django :: 5.2",
-    "License :: OSI Approved :: MIT License",
+    "Framework :: Django :: 6.0",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Office/Business :: Scheduling",
 ]
 
 dependencies = [
-    "Django>=4.2,<6.0",
+    "Django>=4.2,<6.1",
     "python-dateutil>=2.8.2",
     "django-vanilla-views"
 ]

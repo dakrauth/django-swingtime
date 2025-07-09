@@ -27,8 +27,6 @@ DEFAULT_SETTINGS = {
     "DEFAULT_OCCURRENCE_DURATION": datetime.timedelta(hours=+1),
     # If not None, passed to the calendar module's setfirstweekday function.
     "CALENDAR_FIRST_WEEKDAY": 6,
-    # Switch to new urls versions for namespace and app_name configuration
-    "URL_VERSION_3": False,
     "HTML_CONTINUATION_STRING": "^^^",
     "EVENT_LIST_VIEW_MODEL": "swingtime.models.Event",
     "DAY_VIEW_OCCURRENCE_CLS": "swingtime.models.Occurrence",
@@ -54,12 +52,8 @@ class swingtime_settings:
 
         return DEFAULT_SETTINGS[attr]
 
-    @property
-    def url_prefix(self):
-        return "swingtime:" if self.URL_VERSION_3 else "swingtime-"
-
     def reverse(self, stem, *args, **kwargs):
-        return _reverse(f"{self.url_prefix}{stem}", *args, **kwargs)
+        return _reverse(f"swingtime:{stem}", *args, **kwargs)
 
 
 swingtime_settings = swingtime_settings()
