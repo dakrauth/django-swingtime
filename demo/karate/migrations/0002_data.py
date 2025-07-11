@@ -36,6 +36,22 @@ def load_demo(apps, schema_editor):
             ]
         )
 
+    ets = {
+        abbr: EventType.objects.create(abbr=abbr, label=label) 
+        for abbr, label in [
+            ("prv", "Private Lesson"),
+            ("bgn", "Beginner Class"),
+            ("adv", "Advanced Class"),
+            ("bbc", "Black Belt Class"),
+            ("spr", "Sparring"),
+            ("open", "Open Dojo"),
+            ("spc", "Special Event"),
+        ]
+    }
+
+    types = ", ".join([f"{et.label} ({et.pk})" for et in ets.values()])
+    print(f"\nCreated event types: {types}")
+
     def create_event(title, et, descr, start, end=None, **rrule_params):
         event = Event.objects.create(title=title, description=descr, event_type=et)
         end = end or (start + swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
@@ -44,23 +60,7 @@ def load_demo(apps, schema_editor):
         return event
 
     User.objects.create_superuser("admin", "admin@example.com", "password")
-
-    ets = {
-        et.abbr: et
-        for et in EventType.objects.bulk_create(
-            [
-                EventType(abbr="prv", label="Private Lesson"),
-                EventType(abbr="bgn", label="Beginner Class"),
-                EventType(abbr="adv", label="Advanced Class"),
-                EventType(abbr="bbc", label="Black Belt Class"),
-                EventType(abbr="spr", label="Sparring"),
-                EventType(abbr="open", label="Open Dojo"),
-                EventType(abbr="spc", label="Special Event"),
-            ]
-        )
-    }
-    types = ", ".join([f"{et.label}" for et in ets.values()])
-    print(f"\nCreated event types: {types}")
+    
 
     now = datetime.now()
     # create a single occurrence event
