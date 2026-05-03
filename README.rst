@@ -44,10 +44,10 @@ A fairly simple example:
 
     >>> from datetime import *
     >>> from swingtime import models as swingtime
-    >>> et = swingtime.EventType.objects.create(abbr='work', label='Work Related Events')
+    >>> et = swingtime.EventType.objects.create(abbr="work", label="Work Related Events")
     >>> evt = swingtime.Event.objects.create(
-    ...     title='New TPS Cover Sheet',
-    ...     description='Kiss off, Lumbergh!',
+    ...     title="New TPS Cover Sheet",
+    ...     description="Kiss off, Lumbergh!",
     ...     event_type=et
     ... )
     >>> evt.add_occurrences(datetime(2018,3,18,16), datetime(2018,3,18,16,15), count=5)
@@ -66,8 +66,8 @@ A bit more elaborate example, using the the convenience function ``models.create
 
     >>> # pay day is the last Friday of the month at 5pm
     >>> evt = swingtime.create_event(
-    ...     'Pay day',
-    ...     ('pay', 'Payroll'), # alternate means to add EventType on the fly
+    ...     "Pay day",
+    ...     ("pay", "Payroll"), # alternate means to add EventType on the fly
     ...     freq=rrule.MONTHLY,
     ...     byweekday=rrule.FR(-1),
     ...     until=datetime(2013,8,1),
@@ -125,6 +125,6 @@ Requirements
 ------------
 
 * Python 3.10+
-* `Django >=4.2,<6.1 <https://www.djangoproject.com/download/>`_
+* `Django >=5.2,<6.1 <https://www.djangoproject.com/download/>`_
 * `python-dateutil <https://labix.org/python-dateutil>`_
 * `django-vanilla-view <https://github.com/encode/django-vanilla-views>`_
